@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.member.service;
 
+import com.ehours.goldenchild.member.dto.MemberDetailResDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.mapper.MemberMapper;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int idCheck(String memberId) {
-        return 0;
+    public String idCheck(String memberId) {
+        return memberMapper.idCheck(memberId);
+    }
+
+    @Override
+    public MemberDetailResDto memberDetail(String memberId) {
+        return memberMapper.memberDetail(memberId);
     }
 }

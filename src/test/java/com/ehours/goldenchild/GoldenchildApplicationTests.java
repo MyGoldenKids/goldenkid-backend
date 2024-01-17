@@ -1,5 +1,6 @@
 package com.ehours.goldenchild;
 
+import com.ehours.goldenchild.member.dto.MemberDetailResDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import org.assertj.core.api.Assertions;
@@ -45,8 +46,15 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void idCheckTest() {
-		int resValue = memberService.idCheck("test@naver.com");
-		Assertions.assertThat(resValue).isEqualTo(0);
+		String resValue = memberService.idCheck("test@naver.com");
+		Assertions.assertThat(resValue).isEqualTo("test@naver.com");
+	}
+
+	@Test
+	@Transactional
+	void memberDetailTest() {
+		MemberDetailResDto resValue = memberService.memberDetail("test@naver.com");
+		Assertions.assertThat(resValue).toString();
 	}
 
 }

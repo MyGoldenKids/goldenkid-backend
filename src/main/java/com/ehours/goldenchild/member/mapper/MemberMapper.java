@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.member.mapper;
 
+import com.ehours.goldenchild.member.dto.MemberDetailResDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,5 +13,8 @@ public interface MemberMapper {
     int signup(MemberSignUpReqDto memberSignUpReqDto);
 
     @Select("SELECT member_id from member where member_id = #{memberId}")
-    int idCheck(String memberId);
+    String idCheck(String memberId);
+
+    @Select("SELECT member_id, nickname, phone_number from member where member_id = #{memberId}")
+    MemberDetailResDto memberDetail(String memberId);
 }
