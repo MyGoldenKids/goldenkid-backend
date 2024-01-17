@@ -1,6 +1,5 @@
 package com.ehours.goldenchild;
 
-import com.ehours.goldenchild.member.dto.MemberDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import org.assertj.core.api.Assertions;
@@ -41,6 +40,13 @@ class GoldenchildApplicationTests {
 				.build();
 		int retValue = memberService.signup(memberReqDto);
 		Assertions.assertThat(retValue).isEqualTo(1);
+	}
+
+	@Test
+	@Transactional
+	void idCheckTest() {
+		int resValue = memberService.idCheck("test@naver.com");
+		Assertions.assertThat(resValue).isEqualTo(0);
 	}
 
 }
