@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.member.controller;
 
 import com.ehours.goldenchild.member.dto.MemberDetailResDto;
+import com.ehours.goldenchild.member.dto.MemberModifyReqDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,5 +38,12 @@ public class MemberController {
     public ResponseEntity<MemberDetailResDto> memberDetail(String memberId) {
         MemberDetailResDto resValue = memberService.memberDetail(memberId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(resValue);
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<String> memberModify(MemberModifyReqDto memberModifyReqDto) {
+        int resValue = memberService.memberModify(memberModifyReqDto);
+        if (resValue == 1) return ResponseEntity.status(HttpStatus.ACCEPTED).body("수정 완료");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정 실패");
     }
 }

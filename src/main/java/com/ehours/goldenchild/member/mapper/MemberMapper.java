@@ -1,10 +1,12 @@
 package com.ehours.goldenchild.member.mapper;
 
 import com.ehours.goldenchild.member.dto.MemberDetailResDto;
+import com.ehours.goldenchild.member.dto.MemberModifyReqDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface MemberMapper {
@@ -17,4 +19,7 @@ public interface MemberMapper {
 
     @Select("SELECT member_id, nickname, phone_number from member where member_id = #{memberId}")
     MemberDetailResDto memberDetail(String memberId);
+
+    @Update("UPDATE member set password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber} where member_id = #{memberId}")
+    int memberModify(MemberModifyReqDto memberModifyReqDto);
 }
