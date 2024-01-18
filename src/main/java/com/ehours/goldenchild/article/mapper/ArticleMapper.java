@@ -15,7 +15,8 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface ArticleMapper {
 
-//    @Select("select * from article where ")
+    @Select("select * from article where article_id = #{articleId}")
+    ArticleDto getArticleById(int articleId);
     @Insert("insert into article (member_id, file_list_id, article_title, article_content)"
     + "values(#{memberId},#{fileListId},#{articleTitle},#{articleContent})")
     @Options(useGeneratedKeys = true, keyProperty = "articleId")

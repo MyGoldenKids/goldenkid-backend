@@ -8,4 +8,5 @@ public interface ArticleService {
     int writeArticle(ArticleReqDto articleReqDto);
     List<ArticleDto> getAllArticles();
     int articleDeleteRequest(int articleId);
+    ArticleDto getArticleById(int articleId);
 }

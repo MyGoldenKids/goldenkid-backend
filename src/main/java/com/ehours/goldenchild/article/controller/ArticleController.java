@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +45,13 @@ public class ArticleController {
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 요청 실패..");
     }
 
+    @GetMapping("/detail")
+    public ResponseEntity<Map<String, Object>> getArticleById(int articleId) {
+        ArticleDto articleDto = articleService.getArticleById(articleId);
+        if (articleDto != null) return handleSuccess(articleDto, "회원정보 조회 성공");
+        else return handleError("회원정보 조회 실패..");
+    }
+
     public ResponseEntity<Map<String, Object>> handleSuccess(Object data, String message) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", data);
@@ -56,6 +62,6 @@ public class ArticleController {
     public ResponseEntity<Map<String, Object>> handleError(String message) {
         Map<String, Object> map = new HashMap<>();
         map.put("message", message);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(map);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
     }
 }
