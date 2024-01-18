@@ -78,4 +78,18 @@ public class ArticleTests {
         int retValue = articleService.articleDeleteRequest(articleReqDto.getArticleId());
         Assertions.assertThat(retValue).isEqualTo(1);
     }
+
+    @Test
+    @Transactional
+    void modifyTest() {
+        ArticleReqDto articleReqDto = ArticleReqDto.builder()
+                .memberId(4)
+                .fileListId(1)
+                .articleTitle("테스트용 게시글 제목")
+                .articleContent("테스트용 게시글 내용")
+                .build();
+        articleService.writeArticle(articleReqDto);
+        ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleReqDto.getArticleId());
+
+    }
 }
