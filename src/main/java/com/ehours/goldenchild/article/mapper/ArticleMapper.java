@@ -40,10 +40,6 @@ public interface ArticleMapper {
     @Update("update article set article_status=0 where article_id=#{articleId}")
     int articleDeleteRequest(int articleId);
 
-//    private int articleId;
-//    private int fileListId;
-//    private String articleTitle;
-//    private String articleContent;
     @Update("update article set (file_list_id=#{fileListId}, article_title=#{articleTitle}, article_content=#{articleContent}, modified_at=CURRENT_TIMESTAMP) where article_id=#{articleId}")
     int updateArticle(ArticleUpdateDto articleUpdateDto);
 }
