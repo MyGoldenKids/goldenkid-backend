@@ -3,3 +3,6 @@ spring:
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+logging:
+  level:
+    root: info
