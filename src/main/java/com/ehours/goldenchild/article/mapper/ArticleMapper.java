@@ -3,6 +3,7 @@ package com.ehours.goldenchild.article.mapper;
 import com.ehours.goldenchild.article.dto.ArticleDetailDto;
 import com.ehours.goldenchild.article.dto.ArticleDto;
 import com.ehours.goldenchild.article.dto.ArticleReqDto;
+import com.ehours.goldenchild.article.dto.ArticleUpdateDto;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,4 +39,11 @@ public interface ArticleMapper {
     List<ArticleDetailDto> getAllArticles();
     @Update("update article set article_status=0 where article_id=#{articleId}")
     int articleDeleteRequest(int articleId);
+
+//    private int articleId;
+//    private int fileListId;
+//    private String articleTitle;
+//    private String articleContent;
+    @Update("update article set (file_list_id=#{fileListId}, article_title=#{articleTitle}, article_content=#{articleContent}, modified_at=CURRENT_TIMESTAMP) where article_id=#{articleId}")
+    int updateArticle(ArticleUpdateDto articleUpdateDto);
 }

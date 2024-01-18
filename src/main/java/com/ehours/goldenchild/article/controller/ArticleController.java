@@ -3,6 +3,7 @@ package com.ehours.goldenchild.article.controller;
 import com.ehours.goldenchild.article.dto.ArticleDetailDto;
 import com.ehours.goldenchild.article.dto.ArticleDto;
 import com.ehours.goldenchild.article.dto.ArticleReqDto;
+import com.ehours.goldenchild.article.dto.ArticleUpdateDto;
 import com.ehours.goldenchild.article.service.ArticleService;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -47,10 +49,17 @@ public class ArticleController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<Map<String, Object>> getArticleById(int articleId) {
+    public ResponseEntity<Map<String, Object>> getArticleById(@RequestParam int articleId) {
         ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleId);
-        if (articleDetailDto != null) return handleSuccess(articleDetailDto, "회원정보 조회 성공");
+        if (articleDetailDto != null) return handleSuccess(articleDetailDto, "게시글 조회 성공");
         else return handleError("회원정보 조회 실패..");
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Map<String, Object>> updateArticle(ArticleUpdateDto articleUpdateDto) {
+        int retValue = articleService.updateArticle(articleUpdateDto);
+        if (retValue == 1) return handleSuccess(retValue, "게시글 수정 성공");
+        else return handleError("게시글 수정 실패..");
     }
 
     public ResponseEntity<Map<String, Object>> handleSuccess(Object data, String message) {
