@@ -50,6 +50,20 @@ public class ArticleTests {
     }
 
     @Test
+    void getArticleByIdTest() {
+        ArticleReqDto articleReqDto = ArticleReqDto.builder()
+                .memberId(4)
+                .fileListId(1)
+                .articleTitle("테스트용 게시글 제목")
+                .articleContent("테스트용 게시글 내용")
+                .build();
+        articleService.writeArticle(articleReqDto);
+        int retValue = articleService.articleDeleteRequest(articleReqDto.getArticleId());
+        ArticleDto articleDto = articleService.getArticleById(articleReqDto.getArticleId());
+        Assertions.assertThat(articleDto).isNotNull();
+    }
+
+    @Test
     @Transactional
     void deleteReqTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
