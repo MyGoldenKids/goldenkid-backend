@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.article;
 
+import com.ehours.goldenchild.article.dto.ArticleDetailDto;
 import com.ehours.goldenchild.article.dto.ArticleDto;
 import com.ehours.goldenchild.article.dto.ArticleReqDto;
 import com.ehours.goldenchild.article.service.ArticleService;
@@ -44,7 +45,7 @@ public class ArticleTests {
                 .articleContent("테스트용 게시글 내용")
                 .build();
         articleService.writeArticle(articleReqDto);
-        List<ArticleDto> list = articleService.getAllArticles();
+        List<ArticleDetailDto> list = articleService.getAllArticles();
         log.debug(list.toString());
         Assertions.assertThat(list).isNotNull();
     }
@@ -58,9 +59,10 @@ public class ArticleTests {
                 .articleContent("테스트용 게시글 내용")
                 .build();
         articleService.writeArticle(articleReqDto);
+        Assertions.assertThat(articleService.getArticleDetailById(articleReqDto.getArticleId())).isNotNull();
         int retValue = articleService.articleDeleteRequest(articleReqDto.getArticleId());
-        ArticleDto articleDto = articleService.getArticleById(articleReqDto.getArticleId());
-        Assertions.assertThat(articleDto).isNotNull();
+        ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleReqDto.getArticleId());
+        Assertions.assertThat(articleDetailDto).isNull();
     }
 
     @Test
