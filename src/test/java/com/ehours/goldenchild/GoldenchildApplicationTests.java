@@ -47,8 +47,8 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void idCheckTest() {
-		String resValue = memberService.idCheck("test@naver.com");
-		Assertions.assertThat(resValue).isEqualTo("test@naver.com");
+		int resValue = memberService.idCheck("test@naver.com");
+		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
 	@Test

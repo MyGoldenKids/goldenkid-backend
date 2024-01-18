@@ -14,8 +14,8 @@ public interface MemberMapper {
             + "values (#{memberId}, #{password}, #{nickname}, #{phoneNumber})")
     int signup(MemberSignUpReqDto memberSignUpReqDto);
 
-    @Select("SELECT member_id from member where member_id = #{memberId}")
-    String idCheck(String memberId);
+    @Select("SELECT count(member_id) from member where member_id = #{memberId}")
+    int idCheck(String memberId);
 
     @Select("SELECT member_id, nickname, phone_number from member where member_id = #{memberId}")
     MemberDetailResDto memberDetail(String memberId);

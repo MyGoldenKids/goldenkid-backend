@@ -29,8 +29,8 @@ public class MemberController {
 
     @PostMapping("/idcheck")
     public ResponseEntity<String> idCheck(String memberId) {
-        String retValue = memberService.idCheck(memberId);
-        if (retValue.equals(memberId)) return ResponseEntity.status(HttpStatus.ACCEPTED).body("회원가입 가능");
+        int retValue = memberService.idCheck(memberId);
+        if (retValue == 1) return ResponseEntity.status(HttpStatus.ACCEPTED).body("회원가입 가능");
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이디 중복");
     }
 
