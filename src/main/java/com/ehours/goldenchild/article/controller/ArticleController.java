@@ -25,11 +25,11 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/write")
-    public ResponseEntity<String> writeArticle(ArticleReqDto articleReqDto) {
+    public ResponseEntity<Map<String, Object>> writeArticle(ArticleReqDto articleReqDto) {
         int retValue = articleService.writeArticle(articleReqDto);
         if (retValue == 1) {
-            return ResponseEntity.ok("게시판 글 등록 성공!");
-        } else return ResponseEntity.internalServerError().body("게시판 글 등록 실패..");
+            return handleSuccess(retValue, "게시판 글 등록 성공!");
+        } else return handleError("게시판 글 등록 실패..");
     }
 
     @GetMapping("/list")
@@ -37,15 +37,15 @@ public class ArticleController {
         List<ArticleDetailDto> articleList = articleService.getAllArticles();
         Map<String, Object> result = new HashMap<>();
         result.put("data", articleList);
-        if (articleList != null) return ResponseEntity.ok(result);
-        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+        if (articleList != null) return handleSuccess(result, "게시판 리스트 조회 성공!");
+        else return handleError("게시판 리스트 조회 실패..");
     }
 
     @PutMapping("/delete")
-    public ResponseEntity<String> articleDeleteRequest(int articleId) {
+    public ResponseEntity<Map<String, Object>> articleDeleteRequest(int articleId) {
         int retValue = articleService.articleDeleteRequest(articleId);
-        if (retValue == 1) return ResponseEntity.ok("삭제 요청 성공");
-        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 요청 실패..");
+        if (retValue == 1) return handleSuccess(retValue, "삭제 요청 성공!");
+        else return handleError("삭제 요청 실패..");
     }
 
     @GetMapping("/detail")
