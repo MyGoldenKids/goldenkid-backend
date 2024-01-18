@@ -22,4 +22,7 @@ public interface MemberMapper {
 
     @Update("UPDATE member set password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber} where member_id = #{memberId}")
     int memberModify(MemberModifyReqDto memberModifyReqDto);
+
+    @Update("UPDATE member set member_status = 0  where member_id = #{memberId}")
+    int memberSignOut(String memberId);
 }

@@ -9,4 +9,5 @@ public interface MemberService {
     String idCheck(String memberId);
     MemberDetailResDto memberDetail(String memberId);
     int memberModify(MemberModifyReqDto memberModifyReqDto);
+    int memberSignOut(String memberId);
 }

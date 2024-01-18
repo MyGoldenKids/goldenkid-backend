@@ -46,4 +46,12 @@ public class MemberController {
         if (resValue == 1) return ResponseEntity.status(HttpStatus.ACCEPTED).body("수정 완료");
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정 실패");
     }
+
+    @PutMapping("signout")
+    public ResponseEntity<String> memberSignOut(String memberId) {
+        int resValue = memberService.memberSignOut(memberId);
+        if (resValue == 1) return ResponseEntity.status(HttpStatus.ACCEPTED).body("삭제 완료");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제 실패");
+    }
+
 }

@@ -71,4 +71,11 @@ class GoldenchildApplicationTests {
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
+	@Test
+	@Transactional
+	void memberSignOutTest() {
+		int resValue = memberService.memberSignOut("test@naver.com");
+		Assertions.assertThat(resValue).isEqualTo(1);
+	}
+
 }

@@ -31,4 +31,9 @@ public class MemberServiceImpl implements MemberService{
     public int memberModify(MemberModifyReqDto memberModifyReqDto) {
         return memberMapper.memberModify(memberModifyReqDto);
     }
+
+    @Override
+    public int memberSignOut(String memberId) {
+        return memberMapper.memberSignOut(memberId);
+    }
 }
