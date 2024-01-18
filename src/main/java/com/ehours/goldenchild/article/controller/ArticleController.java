@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.article.controller;
 
+import com.ehours.goldenchild.article.dto.ArticleDetailDto;
 import com.ehours.goldenchild.article.dto.ArticleDto;
 import com.ehours.goldenchild.article.dto.ArticleReqDto;
 import com.ehours.goldenchild.article.service.ArticleService;
@@ -31,7 +32,7 @@ public class ArticleController {
 
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> getAllArticles() {
-        List<ArticleDto> articleList = articleService.getAllArticles();
+        List<ArticleDetailDto> articleList = articleService.getAllArticles();
         Map<String, Object> result = new HashMap<>();
         result.put("data", articleList);
         if (articleList != null) return ResponseEntity.ok(result);
@@ -47,8 +48,8 @@ public class ArticleController {
 
     @GetMapping("/detail")
     public ResponseEntity<Map<String, Object>> getArticleById(int articleId) {
-        ArticleDto articleDto = articleService.getArticleById(articleId);
-        if (articleDto != null) return handleSuccess(articleDto, "회원정보 조회 성공");
+        ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleId);
+        if (articleDetailDto != null) return handleSuccess(articleDetailDto, "회원정보 조회 성공");
         else return handleError("회원정보 조회 실패..");
     }
 

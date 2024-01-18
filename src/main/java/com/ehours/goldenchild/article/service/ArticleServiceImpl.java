@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.article.service;
 
+import com.ehours.goldenchild.article.dto.ArticleDetailDto;
 import com.ehours.goldenchild.article.dto.ArticleDto;
 import com.ehours.goldenchild.article.dto.ArticleReqDto;
 import com.ehours.goldenchild.article.mapper.ArticleMapper;
@@ -18,7 +19,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<ArticleDto> getAllArticles() {
+    public List<ArticleDetailDto> getAllArticles() {
         return articleMapper.getAllArticles();
     }
 
@@ -28,7 +29,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public ArticleDto getArticleById(int articleId) {
-        return articleMapper.getArticleById(articleId);
+    public ArticleDetailDto getArticleDetailById(int articleId) {
+        return articleMapper.getArticleDetailById(articleId);
     }
 }
