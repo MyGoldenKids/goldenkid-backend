@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class ArticleReqDto {
+    private int articleId;
     private int memberId;
     private int fileListId;
     private String articleTitle;
