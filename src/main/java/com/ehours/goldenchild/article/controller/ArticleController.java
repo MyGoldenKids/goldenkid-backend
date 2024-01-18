@@ -45,4 +45,17 @@ public class ArticleController {
         if (retValue == 1) return ResponseEntity.ok("삭제 요청 성공");
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 요청 실패..");
     }
+
+    public ResponseEntity<Map<String, Object>> handleSuccess(Object data, String message) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", data);
+        map.put("message", message);
+        return ResponseEntity.status(HttpStatus.OK).body(map);
+    }
+
+    public ResponseEntity<Map<String, Object>> handleError(String message) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", message);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(map);
+    }
 }
