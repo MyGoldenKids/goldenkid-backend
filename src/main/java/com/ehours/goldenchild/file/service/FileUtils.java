@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,8 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileUtils {
-//    @Value("#{app.uploadPath}")
-    private String uploadPath = "C:/develop/upload-files";
+
+    @Value("${app.uploadPath}")
+    private String uploadPath;
 
     public List<FileRequestDto> uploadFiles(List<MultipartFile> multipartFiles) {
         List<FileRequestDto> files = new ArrayList<>();
