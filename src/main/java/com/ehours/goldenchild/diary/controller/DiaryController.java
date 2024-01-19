@@ -2,6 +2,7 @@ package com.ehours.goldenchild.diary.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.service.DiaryService;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,11 @@ public class DiaryController {
         else return ResponseResource.handleError("일기 등록 실패");
     }
 
+    @PutMapping("/submit")
+    public ResponseEntity<Map<String, Object>> submitDiary(DiarySubmitReqDto diarySubmitReqDto) {
+        int retValue = diaryService.submitDiary(diarySubmitReqDto);
+        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "일기 제출 성공");
+        else return ResponseResource.handleError("일기 제출 실패");
+    }
 
 }
