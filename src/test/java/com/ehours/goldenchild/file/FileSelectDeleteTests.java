@@ -1,6 +1,8 @@
 package com.ehours.goldenchild.file;
 
 import com.ehours.goldenchild.file.dto.FileListIdDto;
+import com.ehours.goldenchild.file.dto.FileResponseDto;
+import com.ehours.goldenchild.file.mapper.FileMapper;
 import com.ehours.goldenchild.file.service.FileService;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,16 +12,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @SpringBootTest
-public class FileUploadTests {
+@Slf4j
+public class FileSelectDeleteTests {
+    @Autowired
+    FileMapper fileMapper;
     @Autowired
     FileService fileService;
 
@@ -35,8 +42,8 @@ public class FileUploadTests {
     }
 
     @Test
-    void fileUploadTest() throws IOException {
-        FileListIdDto fileListIdDto;
+    @Transactional
+    void multiFileGetTest() throws IOException {
         MultipartFile multipartFile1 = new MockMultipartFile(
                 "file",
                 "test.txt",
@@ -55,6 +62,17 @@ public class FileUploadTests {
         list.add(multipartFile2);
         list.add(multipartFile3);
         int fileListId = fileService.saveAllFiles(list, 4);
-        Assertions.assertThat(fileService.findFilesByFileListId(fileListId).size()).isEqualTo(3);
+        List<FileResponseDto> fileResponseDtoList = fileMapper.findFilesByFileListId(fileListId);
+        log.info(fileResponseDtoList.toString());
+        Assertions.assertThat(fileResponseDtoList.size()).isEqualTo(3);
+    }
+
+    @Test
+    void fileListIdMakingTest() {
+        FileListIdDto fileListIdDto = new FileListIdDto();
+        fileMapper.makeFileList(fileListIdDto);
+
+        Integer num = fileMapper.findFileListByFileListId(fileListIdDto.getFileListId());
+        Assertions.assertThat(fileListIdDto.getFileListId()).isEqualTo(num.intValue());
     }
 }
