@@ -3,6 +3,7 @@ package com.ehours.goldenchild.file.controller;
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
 import com.ehours.goldenchild.file.service.FileService;
+import com.ehours.goldenchild.file.service.FileUtils;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,4 @@ public class FileController {
         if (retValue != 0) return ResponseResource.handleSuccess(retValue, "파일 전체 삭제 완료!");
         else return ResponseResource.handleError("파일 전체 삭제 실패..");
     }
-
-
 }

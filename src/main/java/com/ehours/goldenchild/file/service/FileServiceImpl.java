@@ -4,6 +4,7 @@ import com.ehours.goldenchild.file.dto.FileListIdDto;
 import com.ehours.goldenchild.file.dto.FileRequestDto;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
 import com.ehours.goldenchild.file.mapper.FileMapper;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,11 @@ public class FileServiceImpl implements FileService{
 
     @Override
     public int deleteFilesByFileListId(int fileListId) {
-        return fileMapper.deleteFilesByFileListId(fileListId);
+        int localRetValue = fileUtils.deleteFiles(fileMapper.findFilesByFileListId(fileListId));
+        int dbRetValue = fileMapper.deleteFilesByFileListId(fileListId);
+        fileMapper.deleteFileListByFileListId(fileListId);
+        if (localRetValue == dbRetValue) return dbRetValue;
+        else return 0;
     }
 
     @Override
@@ -49,6 +54,12 @@ public class FileServiceImpl implements FileService{
 
     @Override
     public int deleteFileByFileId(int fileId) {
-        return fileMapper.deleteFileByFileId(fileId);
+        List<FileResponseDto> fileResponseDtoList = new ArrayList<>();
+        FileResponseDto fileResponseDto = fileMapper.findFileByFileId(fileId);
+        fileResponseDtoList.add(fileResponseDto);
+        int localRetValue = fileUtils.deleteFiles(fileResponseDtoList);
+        int dbRetValue = fileMapper.deleteFileByFileId(fileId);
+        if (localRetValue == dbRetValue) return dbRetValue;
+        else return 0;
     }
 }

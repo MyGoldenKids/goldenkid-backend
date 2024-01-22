@@ -1,8 +1,10 @@
 package com.ehours.goldenchild.file.service;
 
 import com.ehours.goldenchild.file.dto.FileRequestDto;
+import com.ehours.goldenchild.file.dto.FileResponseDto;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -53,6 +55,33 @@ public class FileUtils {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         String extension = StringUtils.getFilenameExtension(fileName);
         return uuid + "." + extension;
+    }
+
+    public int deleteFiles(final List<FileResponseDto> files) {
+        if (files.isEmpty()) {
+            return 0;
+        }
+        int retValue = 0;
+        for (FileResponseDto file : files) {
+            String uploadedDate = file.getFileCreatedDate()
+                    .toLocalDate()
+                    .format(DateTimeFormatter.ofPattern("yyMMdd"));
+            deleteFile(uploadedDate, file.getFileSaveName());
+            retValue++;
+        }
+        return retValue;
+    }
+
+    private void deleteFile(final String addPath, final String filename) {
+        String filePath = Paths.get(uploadPath, addPath, filename).toString();
+        deleteFile(filePath);
+    }
+
+    private void deleteFile(final String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
     private String getUploadPath(String today) {
