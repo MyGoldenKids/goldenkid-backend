@@ -33,7 +33,7 @@ public class ChildController {
     public ResponseEntity<Map<String, Object>> detailChild(int childId) {
         ChildDetailResDto childDetailResDto = childService.detailChild(childId);
         if (childDetailResDto != null) return ResponseResource.handleSuccess(childDetailResDto, "아이 조회 성공");
-        else return ResponseResource.handleError("아이 등록 실패");
+        else return ResponseResource.handleError("아이 조회 실패");
     }
 
     @PutMapping("/modify")
