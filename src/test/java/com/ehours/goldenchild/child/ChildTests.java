@@ -4,6 +4,7 @@ import com.ehours.goldenchild.child.dto.ChildDetailResDto;
 import com.ehours.goldenchild.child.dto.ChildModifyReqDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.service.ChildService;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -50,5 +51,13 @@ public class ChildTests {
         int retValue = childService.modifyChild(childModifyReqDto);
         Assertions.assertThat(retValue).isEqualTo(1);
         log.info(childModifyReqDto.toString());
+    }
+
+    @Test
+    @Transactional
+    void deleteChild() {
+        int retValue = childService.deleteChild(2);
+        Assertions.assertThat(retValue).isEqualTo(1);
+
     }
 }

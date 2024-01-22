@@ -26,4 +26,10 @@ public class ChildServiceImpl implements ChildService{
         return childMapper.modifyChild(childModifyReqDto);
     }
 
+    @Override
+    public int deleteChild(int childId) {
+        return childMapper.deleteChild(childId);
+    }
+
+
 }

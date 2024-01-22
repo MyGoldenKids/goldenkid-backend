@@ -7,6 +7,7 @@ import com.ehours.goldenchild.child.service.ChildService;
 import com.ehours.goldenchild.common.ResponseResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,5 +41,12 @@ public class ChildController {
         int retValue = childService.modifyChild(childModifyReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "수정 성공");
         else return ResponseResource.handleError("수정 실패");
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Map<String, Object>> deleteChild(int childId) {
+        int retValue = childService.deleteChild(childId);
+        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 성공");
+        else return ResponseResource.handleError("삭제 실패");
     }
 }

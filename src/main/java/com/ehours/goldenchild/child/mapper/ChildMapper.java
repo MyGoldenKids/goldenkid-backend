@@ -3,6 +3,7 @@ package com.ehours.goldenchild.child.mapper;
 import com.ehours.goldenchild.child.dto.ChildDetailResDto;
 import com.ehours.goldenchild.child.dto.ChildModifyReqDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -22,4 +23,7 @@ public interface ChildMapper {
     + "where child_id = #{childId}"
     )
     int modifyChild(ChildModifyReqDto childModifyReqDto);
+
+    @Delete("DELETE from child where child_id = #{childId}")
+    int deleteChild(int childId);
 }

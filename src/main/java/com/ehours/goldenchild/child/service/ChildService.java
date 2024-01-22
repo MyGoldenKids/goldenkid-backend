@@ -8,4 +8,5 @@ public interface ChildService {
     int registerChild(ChildRegisterReqDto childRegisterReqDto);
     ChildDetailResDto detailChild(int childId);
     int modifyChild(ChildModifyReqDto childModifyReqDto);
+    int deleteChild(int childId);
 }
