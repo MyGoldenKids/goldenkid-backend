@@ -31,9 +31,9 @@ public class ChildController {
 
     @GetMapping("/detail")
     public ResponseEntity<Map<String, Object>> detailChild(int childId) {
-        ChildDetailResDto retValue = childService.detailChild(childId);
-        if (retValue == null) return ResponseResource.handleError("아이 등록 실패");
-        else return ResponseResource.handleSuccess(retValue, "아이 조회 성공");
+        ChildDetailResDto childDetailResDto = childService.detailChild(childId);
+        if (childDetailResDto != null) return ResponseResource.handleSuccess(childDetailResDto, "아이 조회 성공");
+        else return ResponseResource.handleError("아이 등록 실패");
     }
 
     @PutMapping("/modify")
