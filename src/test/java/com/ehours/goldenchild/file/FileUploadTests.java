@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.file;
 
+import com.ehours.goldenchild.file.dto.FileListIdDto;
 import com.ehours.goldenchild.file.service.FileService;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @SpringBootTest
-public class FileTests {
+public class FileUploadTests {
     @Autowired
     FileService fileService;
 
@@ -35,6 +36,7 @@ public class FileTests {
 
     @Test
     void fileUploadTest() throws IOException {
+        FileListIdDto fileListIdDto;
         MultipartFile multipartFile1 = new MockMultipartFile(
                 "file",
                 "test.txt",

@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileUtils {
-
     @Value("${app.uploadPath}")
     private String uploadPath;
 

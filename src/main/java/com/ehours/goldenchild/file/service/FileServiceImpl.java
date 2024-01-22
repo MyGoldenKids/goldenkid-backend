@@ -2,6 +2,7 @@ package com.ehours.goldenchild.file.service;
 
 import com.ehours.goldenchild.file.dto.FileListIdDto;
 import com.ehours.goldenchild.file.dto.FileRequestDto;
+import com.ehours.goldenchild.file.dto.FileResponseDto;
 import com.ehours.goldenchild.file.mapper.FileMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,34 @@ public class FileServiceImpl implements FileService{
         if (files.isEmpty()) return 0;
         FileListIdDto fileListIdDto = new FileListIdDto();
         fileMapper.makeFileList(fileListIdDto);
-        System.out.println(fileListIdDto.getFileListId());
+
         List<FileRequestDto> fileRequestDtoList = fileUtils.uploadFiles(files);
         for (FileRequestDto fileRequestDto : fileRequestDtoList) {
-            fileRequestDto.setFileListId(fileListIdDto.getFileListId());
             fileRequestDto.setMemberId(memberId);
+            fileRequestDto.setFileListId(fileListIdDto.getFileListId());
         }
-        return fileMapper.saveAllFiles(fileRequestDtoList);
+        int retValue = fileMapper.saveAllFiles(fileRequestDtoList);
+        if (files.size() == retValue) return fileListIdDto.getFileListId();
+        else return 0;
+    }
+
+    @Override
+    public List<FileResponseDto> findFilesByFileListId(int fileListId) {
+        return fileMapper.findFilesByFileListId(fileListId);
+    }
+
+    @Override
+    public int deleteFilesByFileListId(int fileListId) {
+        return fileMapper.deleteFilesByFileListId(fileListId);
+    }
+
+    @Override
+    public FileResponseDto findFileByFileId(int fileId) {
+        return fileMapper.findFileByFileId(fileId);
+    }
+
+    @Override
+    public int deleteFileByFileId(int fileId) {
+        return fileMapper.deleteFileByFileId(fileId);
     }
 }
