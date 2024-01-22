@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.child.service;
 
+import com.ehours.goldenchild.child.dto.ChildDetailResDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.mapper.ChildMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,4 +14,10 @@ public class ChildServiceImpl implements ChildService{
     public int registerChild(ChildRegisterReqDto childRegisterReqDto) {
         return childMapper.registerChild(childRegisterReqDto);
     }
+
+    @Override
+    public ChildDetailResDto detailChild(int childId) {
+        return childMapper.detailChild(childId);
+    }
+
 }

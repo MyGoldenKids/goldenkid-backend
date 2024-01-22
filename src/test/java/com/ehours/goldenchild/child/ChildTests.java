@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.child;
 
+import com.ehours.goldenchild.child.dto.ChildDetailResDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.service.ChildService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,5 +28,12 @@ public class ChildTests {
         int retValue = childService.registerChild(childRegisterReqDto);
         Assertions.assertThat(retValue).isEqualTo(1);
         log.info(childRegisterReqDto.toString());
+    }
+
+    @Test
+    @Transactional
+    void detailChild() {
+        ChildDetailResDto retValue = childService.detailChild(1);
+        log.info(retValue.toString());
     }
 }

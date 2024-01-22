@@ -1,10 +1,12 @@
 package com.ehours.goldenchild.child.controller;
 
+import com.ehours.goldenchild.child.dto.ChildDetailResDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.service.ChildService;
 import com.ehours.goldenchild.common.ResponseResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +24,12 @@ public class ChildController {
         int retValue = childService.registerChild(childRegisterReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "아이 등록 성공");
         else return ResponseResource.handleError("아이 등록 실패");
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<Map<String, Object>> detailChild(int childId) {
+        ChildDetailResDto retValue = childService.detailChild(childId);
+        if (retValue == null) return ResponseResource.handleError("아이 등록 실패");
+        else return ResponseResource.handleSuccess(retValue, "아이 조회 성공");
     }
 }
