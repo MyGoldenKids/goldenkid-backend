@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,15 +42,15 @@ public class ArticleController {
         else return handleError("게시판 리스트 조회 실패..");
     }
 
-    @PutMapping("/delete")
-    public ResponseEntity<Map<String, Object>> articleDeleteRequest(int articleId) {
+    @PutMapping("/delete/{articleId}")
+    public ResponseEntity<Map<String, Object>> articleDeleteRequest(@PathVariable int articleId) {
         int retValue = articleService.articleDeleteRequest(articleId);
         if (retValue == 1) return handleSuccess(retValue, "삭제 요청 성공!");
         else return handleError("삭제 요청 실패..");
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<Map<String, Object>> getArticleById(@RequestParam int articleId) {
+    @GetMapping("/detail/{articleId}")
+    public ResponseEntity<Map<String, Object>> getArticleById(@PathVariable int articleId) {
         ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleId);
         if (articleDetailDto != null) return handleSuccess(articleDetailDto, "게시글 조회 성공");
         else return handleError("회원정보 조회 실패..");
