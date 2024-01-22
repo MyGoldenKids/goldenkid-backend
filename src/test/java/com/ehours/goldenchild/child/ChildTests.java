@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.child;
 
 import com.ehours.goldenchild.child.dto.ChildDetailResDto;
+import com.ehours.goldenchild.child.dto.ChildModifyReqDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.service.ChildService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +36,19 @@ public class ChildTests {
     void detailChild() {
         ChildDetailResDto retValue = childService.detailChild(1);
         log.info(retValue.toString());
+    }
+
+    @Test
+    @Transactional
+    void modifyChild() {
+        ChildModifyReqDto childModifyReqDto = ChildModifyReqDto.builder()
+                .childId(1)
+                .childName("난가?")
+                .childGender(true)
+                .childBirth("2024-01-01")
+                .build();
+        int retValue = childService.modifyChild(childModifyReqDto);
+        Assertions.assertThat(retValue).isEqualTo(1);
+        log.info(childModifyReqDto.toString());
     }
 }

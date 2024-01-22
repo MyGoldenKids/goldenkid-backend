@@ -1,10 +1,12 @@
 package com.ehours.goldenchild.child.mapper;
 
 import com.ehours.goldenchild.child.dto.ChildDetailResDto;
+import com.ehours.goldenchild.child.dto.ChildModifyReqDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface ChildMapper {
@@ -15,4 +17,9 @@ public interface ChildMapper {
 
     @Select("SELECT child_name, child_birth, child_gender, file_id from child where child_id = #{childId}")
     ChildDetailResDto detailChild(int childId);
+
+    @Update("UPDATE child set child_name = #{childName}, child_birth = #{childBirth}, child_gender = #{childGender}, file_id = #{fileId} "
+    + "where child_id = #{childId}"
+    )
+    int modifyChild(ChildModifyReqDto childModifyReqDto);
 }
