@@ -2,6 +2,7 @@ package com.ehours.goldenchild.diary.mapper;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
@@ -18,4 +19,7 @@ public interface DiaryMapper {
             + "where diary_id = #{diaryId}"
     )
     int submitDiary(DiarySubmitReqDto diarySubmitReqDto);
+
+    @Delete("DELETE from diary where diary_id = #{diaryId}")
+    int deleteDiary(int diaryId);
 }

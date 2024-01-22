@@ -20,4 +20,12 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryMapper.submitDiary(diarySubmitReqDto);
     }
 
+    @Override
+    public int deleteDiary(int diaryId) {
+        // 1. 다이어리의 주인이 맞는지 확인
+
+        //2. 다이어리 삭제
+        return diaryMapper.deleteDiary(diaryId);
+    }
+
 }

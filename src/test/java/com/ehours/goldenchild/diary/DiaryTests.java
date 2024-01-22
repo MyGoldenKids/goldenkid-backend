@@ -42,5 +42,12 @@ public class DiaryTests {
         Assertions.assertThat(retValue).isEqualTo(1);
         log.info(diarySubmitReqDto.toString());
     }
+
+    @Test
+    @Transactional
+    void deleteDiary() {
+        int retValue = diaryService.deleteDiary(0);
+        Assertions.assertThat(retValue).isEqualTo(1);
+    }
 }
 

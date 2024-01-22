@@ -7,4 +7,5 @@ public interface DiaryService {
 
     int createDiary(DiaryCreateReqDto diaryCreateReqDto);
     int submitDiary(DiarySubmitReqDto diarySubmitReqDto);
+    int deleteDiary(int diaryId);
 }

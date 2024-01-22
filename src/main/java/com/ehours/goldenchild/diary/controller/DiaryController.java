@@ -7,6 +7,8 @@ import com.ehours.goldenchild.diary.service.DiaryService;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +33,13 @@ public class DiaryController {
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "일기 제출 성공");
         else return ResponseResource.handleError("일기 제출 실패");
     }
+
+    @DeleteMapping("/delete/{diaryId}")
+    public ResponseEntity<Map<String, Object>> deleteDiary(@PathVariable int diaryId, int memberId) {
+        int retValue = diaryService.deleteDiary(diaryId);
+        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 성공");
+        else return ResponseResource.handleError("삭제 실패");
+    }
+
 
 }
