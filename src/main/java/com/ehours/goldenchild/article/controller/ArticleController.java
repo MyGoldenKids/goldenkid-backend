@@ -53,7 +53,7 @@ public class ArticleController {
     public ResponseEntity<Map<String, Object>> getArticleById(@PathVariable int articleId) {
         ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleId);
         if (articleDetailDto != null) return handleSuccess(articleDetailDto, "게시글 조회 성공");
-        else return handleError("회원정보 조회 실패..");
+        else return handleError("게시글 조회 실패..");
     }
 
     @PutMapping("/modify")
