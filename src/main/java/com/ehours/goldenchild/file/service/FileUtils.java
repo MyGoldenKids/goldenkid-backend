@@ -4,6 +4,8 @@ import com.ehours.goldenchild.file.dto.FileRequestDto;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,12 +55,6 @@ public class FileUtils {
                 .build(); // fileType은 Util 호출 한 곳에서 따로 넣어줘야 함.
     }
 
-    private String generateSaveFileName(String fileName) {
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        String extension = StringUtils.getFilenameExtension(fileName);
-        return uuid + "." + extension;
-    }
-
     public int deleteFiles(final List<FileResponseDto> files) {
         if (files.isEmpty()) {
             return 0;
@@ -84,8 +82,28 @@ public class FileUtils {
         }
     }
 
+    public Resource readFileAsResource(FileResponseDto file) {
+        String uploadDate = file.getFileCreatedDate().toLocalDate().format(DateTimeFormatter.ofPattern("yyMMdd"));
+        String fileName = file.getFileSaveName();
+        Path filePath = Paths.get(uploadPath, uploadDate, fileName);
+        try {
+            Resource resource = new UrlResource(filePath.toUri());
+            if (!resource.exists() || !resource.isFile()) {
+                throw new RuntimeException("file not found : " + filePath.toString());
+            }
+            return resource;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("file not found : " + filePath.toString());
+        }
+    }
+    private String generateSaveFileName(String fileName) {
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        String extension = StringUtils.getFilenameExtension(fileName);
+        return uuid + "." + extension;
+    }
+
     private String getUploadPath(String today) {
-        return makeDirectory(uploadPath + today);
+        return makeDirectory(uploadPath + File.separator + today);
     }
     private String makeDirectory(String path) {
         File dir = new File(path);
@@ -94,4 +112,5 @@ public class FileUtils {
         }
         return dir.getPath();
     }
+
 }

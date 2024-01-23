@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface FileMapper {
@@ -45,7 +46,7 @@ public interface FileMapper {
     @Select("select " +
             "file_id, member_id, file_list_id, file_original_name, file_save_name, file_size, file_type, file_created_date " +
             "from file " +
-            "where file_list_id = #{fileListId} " +
+            "where file_list_id = #{fileListId} and file_status=1 " +
             "order by file_id")
     List<FileResponseDto> findFilesByFileListId(int fileListId);
 
@@ -55,13 +56,13 @@ public interface FileMapper {
     // 파일 아이디 기반 조회 및 삭제
     @ResultMap("fileMap")
     @Select("select " +
-            "(file_id, member_id, file_list_id, file_original_name, file_save_name, file_size, file_type, file_created_date) " +
+            "file_id, member_id, file_list_id, file_original_name, file_save_name, file_size, file_type, file_created_date " +
             "from file " +
             "where file_id = #{fileId} " +
             "order by file_id")
     FileResponseDto findFileByFileId(int fileId);
 
-    @Delete("delete from file where file_id=#{fileId}")
+    @Update("update file_status=0 from file where file_id=#{fileId}")
     int deleteFileByFileId(int fileId);
 
     @Insert({

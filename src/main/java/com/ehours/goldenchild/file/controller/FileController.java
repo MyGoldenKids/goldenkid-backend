@@ -2,11 +2,15 @@ package com.ehours.goldenchild.file.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
+import com.ehours.goldenchild.file.mapper.FileMapper;
 import com.ehours.goldenchild.file.service.FileService;
 import com.ehours.goldenchild.file.service.FileUtils;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class FileController {
     private final FileService fileService;
+    private final FileMapper fileMapper;
+
     @PostMapping("/upload/{memberId}")
     public ResponseEntity<Map<String, Object>> saveAllFiles(List<MultipartFile> files, @PathVariable int memberId) {
         int retValue = fileService.saveAllFiles(files, memberId);
@@ -55,5 +61,19 @@ public class FileController {
         int retValue = fileService.deleteFileByFileId(fileId);
         if (retValue != 0) return ResponseResource.handleSuccess(retValue, "파일 전체 삭제 완료!");
         else return ResponseResource.handleError("파일 전체 삭제 실패..");
+    }
+
+    @GetMapping("/download/{fileId}")
+    public ResponseEntity<Resource> downloadFileByFileId(@PathVariable int fileId) {
+        FileResponseDto fileResponseDto = fileMapper.findFileByFileId(fileId);
+        Resource resource = fileService.downloadFileByFileId(fileId);
+        if (resource.isFile()) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=\"" + fileResponseDto.getFileOriginalName() + "\";")
+                    .header(HttpHeaders.CONTENT_LENGTH, fileResponseDto.getFileSize() + "")
+                    .body(resource);
+        }
+        else return ResponseEntity.badRequest().body(null);
     }
 }

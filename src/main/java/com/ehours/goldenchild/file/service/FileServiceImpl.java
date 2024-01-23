@@ -4,9 +4,12 @@ import com.ehours.goldenchild.file.dto.FileListIdDto;
 import com.ehours.goldenchild.file.dto.FileRequestDto;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
 import com.ehours.goldenchild.file.mapper.FileMapper;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileServiceImpl implements FileService{
     private final FileMapper fileMapper;
     private final FileUtils fileUtils;
+
     @Transactional
     @Override
     public int saveAllFiles(List<MultipartFile> files, int memberId) { // All or Nothing
@@ -61,5 +65,17 @@ public class FileServiceImpl implements FileService{
         int dbRetValue = fileMapper.deleteFileByFileId(fileId);
         if (localRetValue == dbRetValue) return dbRetValue;
         else return 0;
+    }
+
+    @Override
+    public Resource downloadFileByFileId(int fileId) {
+        FileResponseDto file = fileMapper.findFileByFileId(fileId);
+        Resource resource = fileUtils.readFileAsResource(file);
+        try {
+            String fileName = URLEncoder.encode(file.getFileOriginalName(), "UTF-8");
+            return resource;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("fileName encoding 실패.." + file.getFileOriginalName());
+        }
     }
 }
