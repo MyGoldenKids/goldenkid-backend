@@ -57,7 +57,7 @@ class GoldenchildApplicationTests {
 				.build();
 		MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
 		log.info(memberLoginResDto.toString());
-		Assertions.assertThat(memberLoginResDto).isNotNull();
+		Assertions.assertThat(memberLoginResDto.getMemberId()).isEqualTo(memberLoginReqDto.getMemberId());
 	}
 
 	@Test
