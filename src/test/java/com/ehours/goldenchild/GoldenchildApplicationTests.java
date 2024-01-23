@@ -1,9 +1,12 @@
 package com.ehours.goldenchild;
 
 import com.ehours.goldenchild.member.dto.MemberDetailResDto;
+import com.ehours.goldenchild.member.dto.MemberLoginReqDto;
+import com.ehours.goldenchild.member.dto.MemberLoginResDto;
 import com.ehours.goldenchild.member.dto.MemberModifyReqDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ public class MemberDto {
 }
  */
 @SpringBootTest
+@Slf4j
 class GoldenchildApplicationTests {
 
 	@Autowired
@@ -42,6 +46,18 @@ class GoldenchildApplicationTests {
 				.build();
 		int retValue = memberService.signup(memberReqDto);
 		Assertions.assertThat(retValue).isEqualTo(1);
+	}
+
+	@Test
+	@Transactional
+	void login() {
+		MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
+				.memberId("test@naver.com")
+				.password("1234")
+				.build();
+		MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
+		log.info(memberLoginResDto.toString());
+		Assertions.assertThat(memberLoginResDto).isNotNull();
 	}
 
 	@Test

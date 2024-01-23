@@ -1,6 +1,8 @@
 package com.ehours.goldenchild.member.service;
 
 import com.ehours.goldenchild.member.dto.MemberDetailResDto;
+import com.ehours.goldenchild.member.dto.MemberLoginReqDto;
+import com.ehours.goldenchild.member.dto.MemberLoginResDto;
 import com.ehours.goldenchild.member.dto.MemberModifyReqDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.mapper.MemberMapper;
@@ -15,6 +17,11 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public int signup(MemberSignUpReqDto memberSignUpReqDto) {
         return memberMapper.signup(memberSignUpReqDto);
+    }
+
+    @Override
+    public MemberLoginResDto login(MemberLoginReqDto memberLoginReqDto) {
+        return memberMapper.login(memberLoginReqDto);
     }
 
     @Override
