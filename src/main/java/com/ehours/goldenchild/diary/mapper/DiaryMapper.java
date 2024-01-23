@@ -1,11 +1,15 @@
 package com.ehours.goldenchild.diary.mapper;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
+import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
+import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 @Mapper
@@ -29,4 +33,14 @@ public interface DiaryMapper {
             + "where diary_id = #{diaryId} and member_id = #{memberId}"
     )
     int updateDiary(DiaryUpdateReqDto diaryUpdateReqDto);
+
+    @Select("SELECT diary_id, diary_title, created_at from diary "
+            + "where member_id = #{memberId} and diary_status = 1"
+    )
+    List<DiaryResDto> listDiary(int memberId);
+
+    @Select("SELECT diary_title, diary_content, diary_review, file_list_id, created_at from diary "
+        + "where diary_id = #{diaryId}"
+    )
+    DiaryDetailResDto detailDiary(int diary_id);
 }
