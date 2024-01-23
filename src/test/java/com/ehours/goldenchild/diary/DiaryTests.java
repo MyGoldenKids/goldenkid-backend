@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.diary;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
 import com.ehours.goldenchild.diary.dto.DiaryListResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
@@ -74,8 +75,15 @@ public class DiaryTests {
     void listDiary() {
         List<DiaryListResDto> diaryListResDto = diaryService.listDiary(3);
         log.info(diaryListResDto.toString());
-        Assertions.assertThat(diaryListResDto).isEqualTo(null);
+        Assertions.assertThat(diaryListResDto).isNotNull();
+    }
 
+    @Test
+    @Transactional
+    void detailDiary() {
+        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(4);
+        log.info(diaryDetailResDto.toString());
+        Assertions.assertThat(diaryDetailResDto).isNotNull();
     }
 }
 

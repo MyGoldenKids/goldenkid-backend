@@ -2,6 +2,7 @@ package com.ehours.goldenchild.diary.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
 import com.ehours.goldenchild.diary.dto.DiaryListResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
@@ -57,6 +58,13 @@ public class DiaryController {
         List<DiaryListResDto> diaryListResDtos = diaryService.listDiary(memberId);
         if (diaryListResDtos != null) return ResponseResource.handleSuccess(diaryListResDtos, "조회 성공");
         else return ResponseResource.handleError("조회 실패");
+    }
+
+    @GetMapping("/detail/{diaryId}")
+    public ResponseEntity<Map<String, Object>> detailDiary(@PathVariable int diaryId) {
+        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(diaryId);
+        if (diaryDetailResDto != null) return ResponseResource.handleSuccess(diaryDetailResDto, "상세정보 조회 성공");
+        else return ResponseResource.handleError("상세정보 조회 실패");
     }
 
 

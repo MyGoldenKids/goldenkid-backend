@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.diary.service;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
 import com.ehours.goldenchild.diary.dto.DiaryListResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
@@ -14,4 +15,5 @@ public interface DiaryService {
 
     int updateDiary(int diaryId, DiaryUpdateReqDto diaryUpdateReqDto);
     List<DiaryListResDto> listDiary(int memberId);
+    DiaryDetailResDto detailDiary(int diaryId);
 }
