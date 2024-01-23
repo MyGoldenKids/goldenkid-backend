@@ -37,7 +37,7 @@ public class DiaryController {
     }
 
     @DeleteMapping("/delete/{diaryId}")
-    public ResponseEntity<Map<String, Object>> deleteDiary(@PathVariable int diaryId, int memberId) {
+    public ResponseEntity<Map<String, Object>> deleteDiary(@PathVariable int diaryId) {
         int retValue = diaryService.deleteDiary(diaryId);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 성공");
         else return ResponseResource.handleError("삭제 실패");
