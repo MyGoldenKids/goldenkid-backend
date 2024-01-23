@@ -2,6 +2,7 @@ package com.ehours.goldenchild.diary;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
 import com.ehours.goldenchild.diary.service.DiaryService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -48,6 +49,22 @@ public class DiaryTests {
     void deleteDiary() {
         int retValue = diaryService.deleteDiary(0);
         Assertions.assertThat(retValue).isEqualTo(1);
+    }
+
+    @Test
+    @Transactional
+    void updateDiary() {
+        DiaryUpdateReqDto diaryUpdateReqDto = DiaryUpdateReqDto.builder()
+                .diaryTitle("우리 아이")
+                .diaryContent("이게 맞나여?")
+                .diaryReview("")
+                .memberId(3)
+                .childId(1)
+                .build();
+        log.info(diaryUpdateReqDto.toString());
+        int retValue = diaryService.updateDiary(4, diaryUpdateReqDto);
+        Assertions.assertThat(retValue).isEqualTo(1);
+        log.info(diaryUpdateReqDto.toString());
     }
 }
 

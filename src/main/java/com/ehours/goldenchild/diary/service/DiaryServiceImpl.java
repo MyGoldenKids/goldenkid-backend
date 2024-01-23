@@ -2,6 +2,7 @@ package com.ehours.goldenchild.diary.service;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
 import com.ehours.goldenchild.diary.mapper.DiaryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,12 @@ public class DiaryServiceImpl implements DiaryService {
 
         //2. 다이어리 삭제
         return diaryMapper.deleteDiary(diaryId);
+    }
+
+    @Override
+    public int updateDiary(int diaryId, DiaryUpdateReqDto diaryUpdateReqDto) {
+        diaryUpdateReqDto.setDiaryId(diaryId);
+        return diaryMapper.updateDiary(diaryUpdateReqDto);
     }
 
 }
