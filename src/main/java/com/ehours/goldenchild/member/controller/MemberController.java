@@ -2,6 +2,8 @@ package com.ehours.goldenchild.member.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.member.dto.MemberDetailResDto;
+import com.ehours.goldenchild.member.dto.MemberLoginReqDto;
+import com.ehours.goldenchild.member.dto.MemberLoginResDto;
 import com.ehours.goldenchild.member.dto.MemberModifyReqDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
@@ -27,6 +29,13 @@ public class MemberController {
         int retValue = memberService.signup(memberSignUpReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "회원가입 완료");
         else return ResponseResource.handleError("회원가입 실패");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(MemberLoginReqDto memberLoginReqDto) {
+        MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
+        if (memberLoginResDto != null) return ResponseResource.handleSuccess(memberLoginResDto, "로그인 성공");
+        else return ResponseResource.handleError("로그인 실패");
     }
 
     @PostMapping("/idcheck/{memberId}")
