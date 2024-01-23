@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class DiaryListResDto {
+public class DiaryResDto {
     private int diaryId;
     private String diaryTitle;
     private String createdAt;

@@ -2,7 +2,7 @@ package com.ehours.goldenchild.diary;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
-import com.ehours.goldenchild.diary.dto.DiaryListResDto;
+import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
 import com.ehours.goldenchild.diary.service.DiaryService;
@@ -73,7 +73,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void listDiary() {
-        List<DiaryListResDto> diaryListResDto = diaryService.listDiary(3);
+        List<DiaryResDto> diaryListResDto = diaryService.listDiary(3);
         log.info(diaryListResDto.toString());
         Assertions.assertThat(diaryListResDto).isNotNull();
     }

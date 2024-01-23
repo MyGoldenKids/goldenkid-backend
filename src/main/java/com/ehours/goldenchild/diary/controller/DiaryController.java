@@ -3,14 +3,13 @@ package com.ehours.goldenchild.diary.controller;
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
-import com.ehours.goldenchild.diary.dto.DiaryListResDto;
+import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
 import com.ehours.goldenchild.diary.service.DiaryService;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,7 +54,7 @@ public class DiaryController {
     }
     @GetMapping("/list/{memberId}")
     public ResponseEntity<Map<String, Object>> listDiary(@PathVariable int memberId) {
-        List<DiaryListResDto> diaryListResDtos = diaryService.listDiary(memberId);
+        List<DiaryResDto> diaryListResDtos = diaryService.listDiary(memberId);
         if (diaryListResDtos != null) return ResponseResource.handleSuccess(diaryListResDtos, "조회 성공");
         else return ResponseResource.handleError("조회 실패");
     }
