@@ -8,23 +8,12 @@ import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-/*
-public class MemberDto {
-    private int no;
-    private int fileId;
-    private String memberId;
-    private String password;
-    private String nickname;
-    private boolean memberStatus;
-    private String phoneNumber;
-    private String joinedAt;
-}
- */
 @SpringBootTest
 @Slf4j
 class GoldenchildApplicationTests {
@@ -52,8 +41,8 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void login() {
 		MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
-				.memberId("test@naver.com")
-				.password("1234")
+				.memberId("test@gmail.com")
+				.password("test")
 				.build();
 		MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
 		log.info(memberLoginResDto.toString());
@@ -63,14 +52,14 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void idCheckTest() {
-		int resValue = memberService.idCheck("test@naver.com");
+		int resValue = memberService.idCheck("test@gmail.com");
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
 	@Test
 	@Transactional
 	void memberDetailTest() {
-		MemberDetailResDto resValue = memberService.memberDetail("test@naver.com");
+		MemberDetailResDto resValue = memberService.memberDetail("test@gmail.com");
 		Assertions.assertThat(resValue).toString();
 	}
 
@@ -78,7 +67,7 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void memberModifyTest() {
 		MemberModifyReqDto memberModifyReqDto = MemberModifyReqDto.builder()
-				.memberId("test@naver.com")
+				.memberId("test@gmail.com")
 				.password("1234")
 				.nickname("닉네임")
 				.phoneNumber("111122222")
@@ -90,7 +79,7 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void memberSignOutTest() {
-		int resValue = memberService.memberSignOut("test@naver.com");
+		int resValue = memberService.memberSignOut("test@gmail.com");
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 

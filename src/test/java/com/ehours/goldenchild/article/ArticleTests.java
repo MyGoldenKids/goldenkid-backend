@@ -27,7 +27,7 @@ public class ArticleTests {
     @Transactional
     void articleInsertTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
@@ -40,7 +40,7 @@ public class ArticleTests {
     @Transactional
     void getAllArticlesTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
@@ -52,9 +52,10 @@ public class ArticleTests {
     }
 
     @Test
+    @Transactional
     void getArticleByIdTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
@@ -70,7 +71,7 @@ public class ArticleTests {
     @Transactional
     void deleteReqTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
@@ -84,7 +85,7 @@ public class ArticleTests {
     @Transactional
     void modifyTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")

@@ -61,13 +61,14 @@ public class FileSelectDeleteTests {
         list.add(multipartFile1);
         list.add(multipartFile2);
         list.add(multipartFile3);
-        int fileListId = fileService.saveAllFiles(list, 4);
+        int fileListId = fileService.saveAllFiles(list, 1);
         List<FileResponseDto> fileResponseDtoList = fileMapper.findFilesByFileListId(fileListId);
         log.info(fileResponseDtoList.toString());
         Assertions.assertThat(fileResponseDtoList.size()).isEqualTo(3);
     }
 
     @Test
+    @Transactional
     void fileListIdMakingTest() {
         FileListIdDto fileListIdDto = new FileListIdDto();
         fileMapper.makeFileList(fileListIdDto);
