@@ -4,7 +4,6 @@ import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
 import com.ehours.goldenchild.file.mapper.FileMapper;
 import com.ehours.goldenchild.file.service.FileService;
-import com.ehours.goldenchild.file.service.FileUtils;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
