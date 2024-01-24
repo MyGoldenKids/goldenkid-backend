@@ -25,7 +25,7 @@ public class ChildTests {
                 .childName("금쪽이")
                 .childBirth("2022-10-01")
                 .childGender(false)
-                .memberId(6)
+                .memberId(1)
                 .build();
         int retValue = childService.registerChild(childRegisterReqDto);
         Assertions.assertThat(retValue).isEqualTo(1);
@@ -56,8 +56,7 @@ public class ChildTests {
     @Test
     @Transactional
     void deleteChild() {
-        int retValue = childService.deleteChild(2);
+        int retValue = childService.deleteChild(1);
         Assertions.assertThat(retValue).isEqualTo(1);
-
     }
 }
