@@ -8,6 +8,7 @@ import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,19 +32,27 @@ class GoldenchildApplicationTests {
 
 	@Autowired
 	MemberService memberService;
+
+	private static String testMemberId = "test@naver.com";
+	private static String testPassword = "1234";
+	private static String testNickname = "테스트";
+	private static String testPhoneNumber = "010-1234-5678";
+
 	@Test
 	void contextLoads() {
 	}
 
+
 	@Test
 	@Transactional
-	void signupTest() {
+	void signup(){
 		MemberSignUpReqDto memberReqDto = MemberSignUpReqDto.builder()
-				.memberId("test@gmail.com1")
-				.password("test")
-				.nickname("테스트")
-				.phoneNumber("010-1234-5678")
+				.memberId(testMemberId)
+				.password(testPassword)
+				.nickname(testNickname)
+				.phoneNumber(testPhoneNumber)
 				.build();
+
 		int retValue = memberService.signup(memberReqDto);
 		Assertions.assertThat(retValue).isEqualTo(1);
 	}
@@ -51,9 +60,18 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void login() {
+		MemberSignUpReqDto memberReqDto = MemberSignUpReqDto.builder()
+			.memberId(testMemberId)
+			.password(testPassword)
+			.nickname(testNickname)
+			.phoneNumber(testPhoneNumber)
+			.build();
+
+		int retValue = memberService.signup(memberReqDto);
+
 		MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
-				.memberId("test@naver.com")
-				.password("1234")
+				.memberId(testMemberId)
+				.password(testPassword)
 				.build();
 		MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
 		log.info(memberLoginResDto.toString());
@@ -63,23 +81,41 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void idCheckTest() {
-		int resValue = memberService.idCheck("test@naver.com");
+		int resValue = memberService.idCheck("test@gmail.com");
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
 	@Test
 	@Transactional
 	void memberDetailTest() {
-		MemberDetailResDto resValue = memberService.memberDetail("test@naver.com");
+		MemberSignUpReqDto memberReqDto = MemberSignUpReqDto.builder()
+				.memberId(testMemberId)
+				.password(testPassword)
+				.nickname(testNickname)
+				.phoneNumber(testPhoneNumber)
+				.build();
+
+		int retValue = memberService.signup(memberReqDto);
+
+		MemberDetailResDto resValue = memberService.memberDetail(testMemberId);
 		Assertions.assertThat(resValue).toString();
 	}
 
 	@Test
 	@Transactional
 	void memberModifyTest() {
+		MemberSignUpReqDto memberReqDto = MemberSignUpReqDto.builder()
+				.memberId(testMemberId)
+				.password(testPassword)
+				.nickname(testNickname)
+				.phoneNumber(testPhoneNumber)
+				.build();
+
+		int retValue = memberService.signup(memberReqDto);
+
 		MemberModifyReqDto memberModifyReqDto = MemberModifyReqDto.builder()
-				.memberId("test@naver.com")
-				.password("1234")
+				.memberId(testMemberId)
+				.password(testPassword)
 				.nickname("닉네임")
 				.phoneNumber("111122222")
 				.build();
@@ -90,7 +126,16 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void memberSignOutTest() {
-		int resValue = memberService.memberSignOut("test@naver.com");
+		MemberSignUpReqDto memberReqDto = MemberSignUpReqDto.builder()
+				.memberId(testMemberId)
+				.password(testPassword)
+				.nickname(testNickname)
+				.phoneNumber(testPhoneNumber)
+				.build();
+
+		int retValue = memberService.signup(memberReqDto);
+
+		int resValue = memberService.memberSignOut(testMemberId);
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
