@@ -9,11 +9,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class DiaryUpdateReqDto {
     private int diaryId;
-    private String diaryTitle;
-    private Integer fileListId;
     private int memberId;
-    private int childId;
+    private String diaryTitle;
     private String diaryContent;
     private String diaryReview;
-
+    private Integer fileListId;
 }
