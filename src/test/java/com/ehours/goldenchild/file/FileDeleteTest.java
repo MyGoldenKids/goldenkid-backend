@@ -1,6 +1,5 @@
 package com.ehours.goldenchild.file;
 
-import com.ehours.goldenchild.file.dto.FileListIdDto;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
 import com.ehours.goldenchild.file.mapper.FileMapper;
 import com.ehours.goldenchild.file.service.FileService;
@@ -50,7 +49,7 @@ public class FileDeleteTest {
         list.add(multipartFile1);
         list.add(multipartFile2);
         list.add(multipartFile3);
-        int fileListId = fileService.saveAllFiles(list, 4);
+        int fileListId = fileService.saveAllFiles(list, 1);
         List<FileResponseDto> fileResponseDtoList = fileMapper.findFilesByFileListId(fileListId);
         log.info(fileResponseDtoList.toString());
 
