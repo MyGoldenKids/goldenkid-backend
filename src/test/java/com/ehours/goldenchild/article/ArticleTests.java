@@ -52,6 +52,7 @@ public class ArticleTests {
     }
 
     @Test
+    @Transactional
     void getArticleByIdTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
                 .memberId(1)
