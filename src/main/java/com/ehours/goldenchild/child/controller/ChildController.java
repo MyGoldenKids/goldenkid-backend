@@ -27,7 +27,7 @@ public class ChildController {
     private final ChildService childService;
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> registerChild(ChildRegisterReqDto childRegisterReqDto) {
+    public ResponseEntity<Map<String, Object>> registerChild(@RequestBody ChildRegisterReqDto childRegisterReqDto) {
         int retValue = childService.registerChild(childRegisterReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "아이 등록 성공");
         else return ResponseResource.handleError("아이 등록 실패");
@@ -41,7 +41,7 @@ public class ChildController {
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<Map<String, Object>> modifyChild(ChildModifyReqDto childModifyReqDto) {
+    public ResponseEntity<Map<String, Object>> modifyChild(@RequestBody ChildModifyReqDto childModifyReqDto) {
         int retValue = childService.modifyChild(childModifyReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "수정 성공");
         else return ResponseResource.handleError("수정 실패");

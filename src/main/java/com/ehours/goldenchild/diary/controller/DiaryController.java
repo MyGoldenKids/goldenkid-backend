@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,14 +27,14 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createDiary(DiaryCreateReqDto diaryCreateReqDto) {
+    public ResponseEntity<Map<String, Object>> createDiary(@RequestBody DiaryCreateReqDto diaryCreateReqDto) {
         int retValue = diaryService.createDiary(diaryCreateReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "일기 등록 성공");
         else return ResponseResource.handleError("일기 등록 실패");
     }
 
     @PutMapping("/submit")
-    public ResponseEntity<Map<String, Object>> submitDiary(DiarySubmitReqDto diarySubmitReqDto) {
+    public ResponseEntity<Map<String, Object>> submitDiary(@RequestBody DiarySubmitReqDto diarySubmitReqDto) {
         int retValue = diaryService.submitDiary(diarySubmitReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "일기 제출 성공");
         else return ResponseResource.handleError("일기 제출 실패");
@@ -65,6 +66,4 @@ public class DiaryController {
         if (diaryDetailResDto != null) return ResponseResource.handleSuccess(diaryDetailResDto, "상세정보 조회 성공");
         else return ResponseResource.handleError("상세정보 조회 실패");
     }
-
-
 }
