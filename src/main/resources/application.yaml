@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: root1423
-    url: jdbc:mysql://localhost:3306/goldenkids?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://138.2.127.212:3306/goldenkids?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
 logging:
   level:
     root: info
