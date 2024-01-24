@@ -25,7 +25,7 @@ public class DiaryTests {
     @Transactional
     void createDiary() {
         DiaryCreateReqDto diaryCreateReqDto = DiaryCreateReqDto.builder()
-                .memberId(3)
+                .memberId(1)
                 .childId(1)
                 .build();
         int retValue = diaryService.createDiary(diaryCreateReqDto);
@@ -37,7 +37,8 @@ public class DiaryTests {
     @Transactional
     void submitDiary() {
         DiarySubmitReqDto diarySubmitReqDto = DiarySubmitReqDto.builder()
-                .diaryId(4)
+                .memberId(1)
+                .diaryId(1)
                 .diaryTitle("우리애기")
                 .diaryContent("내용5")
                 .diaryReview("???")
@@ -50,7 +51,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void deleteDiary() {
-        int retValue = diaryService.deleteDiary(0);
+        int retValue = diaryService.deleteDiary(1);
         Assertions.assertThat(retValue).isEqualTo(1);
     }
 
@@ -61,10 +62,10 @@ public class DiaryTests {
                 .diaryTitle("우리 아이")
                 .diaryContent("이게 맞나여?")
                 .diaryReview("")
-                .memberId(3)
+                .memberId(1)
                 .build();
         log.info(diaryUpdateReqDto.toString());
-        int retValue = diaryService.updateDiary(4, diaryUpdateReqDto);
+        int retValue = diaryService.updateDiary(1, diaryUpdateReqDto);
         Assertions.assertThat(retValue).isEqualTo(1);
         log.info(diaryUpdateReqDto.toString());
     }
@@ -72,7 +73,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void listDiary() {
-        List<DiaryResDto> diaryListResDto = diaryService.listDiary(3);
+        List<DiaryResDto> diaryListResDto = diaryService.listDiary(1);
         log.info(diaryListResDto.toString());
         Assertions.assertThat(diaryListResDto).isNotNull();
     }
@@ -80,7 +81,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void detailDiary() {
-        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(5);
+        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(1);
         log.info(diaryDetailResDto.toString());
         Assertions.assertThat(diaryDetailResDto).isNotNull();
     }

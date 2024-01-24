@@ -20,7 +20,7 @@ public interface DiaryMapper {
     int createDiary(DiaryCreateReqDto diaryCreateReqDto);
 
     @Update("UPDATE diary SET diary_title = #{diaryTitle}, diary_content = #{diaryContent}, "
-            + "diary_review = #{diaryReview}, diary_status = 1 file_list_id = #{fileListId} "
+            + "diary_review = #{diaryReview}, diary_status = 1, file_list_id = #{fileListId} "
             + "where diary_id = #{diaryId} and member_id = #{memberId}"
     )
     int submitDiary(DiarySubmitReqDto diarySubmitReqDto);
