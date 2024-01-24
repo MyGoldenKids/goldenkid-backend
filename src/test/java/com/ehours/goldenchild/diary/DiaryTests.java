@@ -62,7 +62,6 @@ public class DiaryTests {
                 .diaryContent("이게 맞나여?")
                 .diaryReview("")
                 .memberId(3)
-                .childId(1)
                 .build();
         log.info(diaryUpdateReqDto.toString());
         int retValue = diaryService.updateDiary(4, diaryUpdateReqDto);
@@ -81,7 +80,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void detailDiary() {
-        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(4);
+        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(5);
         log.info(diaryDetailResDto.toString());
         Assertions.assertThat(diaryDetailResDto).isNotNull();
     }

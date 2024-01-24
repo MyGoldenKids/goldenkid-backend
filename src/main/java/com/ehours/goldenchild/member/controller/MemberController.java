@@ -42,8 +42,8 @@ public class MemberController {
     @PostMapping("/idcheck/{memberId}")
     public ResponseEntity<Map<String, Object>> idCheck(@PathVariable String memberId) {
         int retValue = memberService.idCheck(memberId);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "일치하는 아이디 있음");
-        else return ResponseResource.handleError("일치하는 아이디 없음");
+        if (retValue != 1) return ResponseResource.handleSuccess(1, "회원가입 가능");
+        else return ResponseResource.handleSuccess(0, "회원가입 불가능");
     }
 
     @GetMapping("/detail/{memberId}")
