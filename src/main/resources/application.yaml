@@ -12,4 +12,4 @@ servlet:
     max-file-size: 10MB
     max-request-size: 50MB
 app:
-  uploadPath: C:\\develop\\upload-files
+  uploadPath: /home/ubuntu/filestorage
