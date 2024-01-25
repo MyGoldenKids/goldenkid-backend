@@ -16,7 +16,7 @@ public interface MemberMapper {
             + "values (#{memberId}, #{password}, #{nickname}, #{phoneNumber})")
     int signup(MemberSignUpReqDto memberSignUpReqDto);
 
-    @Select("SELECT member_id, nickname from member "
+    @Select("SELECT no, nickname from member "
             + "WHERE member_id = #{memberId} and password = #{password}"
     )
     MemberLoginResDto login(MemberLoginReqDto memberLoginReqDto);

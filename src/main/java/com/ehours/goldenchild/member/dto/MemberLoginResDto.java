@@ -8,6 +8,6 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class MemberLoginResDto {
-    private String memberId;
+    private int memberId;
     private String nickname;
 }
