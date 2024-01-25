@@ -21,6 +21,8 @@ public class MemberServiceImpl implements MemberService{
         String pwd = memberSignUpReqDto.getPassword();
         String hashPwd = passwordEncoder.encode(pwd);
         memberSignUpReqDto.setPassword(hashPwd);
+
+        return memberMapper.signup(memberSignUpReqDto);
     }
 
     @Override
