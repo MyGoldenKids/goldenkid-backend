@@ -20,6 +20,12 @@ class GoldenchildApplicationTests {
 
 	@Autowired
 	MemberService memberService;
+
+	private static final String testMemberId = "test@naver.com";
+	private static final String testPassword = "1234";
+	private static final String testNickname = "테스트";
+	private static final String testPhoneNumber = "010-1234-5678";
+
 	@Test
 	void contextLoads() {
 	}
@@ -41,25 +47,25 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void login() {
 		MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
-				.memberId("test@gmail.com")
-				.password("test")
+				.memberId(testMemberId)
+				.password(testPassword)
 				.build();
 		MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
 		log.info(memberLoginResDto.toString());
-		Assertions.assertThat(memberLoginResDto.getMemberId()).isEqualTo(memberLoginReqDto.getMemberId());
+		Assertions.assertThat(memberLoginResDto.getMemberId()).isEqualTo(29);
 	}
 
 	@Test
 	@Transactional
 	void idCheckTest() {
-		int resValue = memberService.idCheck("test@gmail.com");
+		int resValue = memberService.idCheck(testMemberId);
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
 	@Test
 	@Transactional
 	void memberDetailTest() {
-		MemberDetailResDto resValue = memberService.memberDetail("test@gmail.com");
+		MemberDetailResDto resValue = memberService.memberDetail(testMemberId);
 		Assertions.assertThat(resValue).toString();
 	}
 
@@ -67,8 +73,8 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void memberModifyTest() {
 		MemberModifyReqDto memberModifyReqDto = MemberModifyReqDto.builder()
-				.memberId("test@gmail.com")
-				.password("1234")
+				.memberId(testMemberId)
+				.password(testPassword)
 				.nickname("닉네임")
 				.phoneNumber("111122222")
 				.build();
@@ -79,7 +85,7 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void memberSignOutTest() {
-		int resValue = memberService.memberSignOut("test@gmail.com");
+		int resValue = memberService.memberSignOut(testMemberId);
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
