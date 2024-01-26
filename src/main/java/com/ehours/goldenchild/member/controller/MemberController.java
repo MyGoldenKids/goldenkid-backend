@@ -46,9 +46,9 @@ public class MemberController {
         else return ResponseResource.handleSuccess(0, "회원가입 불가능");
     }
 
-    @GetMapping("/detail/{memberId}")
-    public ResponseEntity<Map<String, Object>> memberDetail(@PathVariable String memberId) {
-        MemberDetailResDto memberDetailResDto = memberService.memberDetail(memberId);
+    @GetMapping("/detail/{memberNo}")
+    public ResponseEntity<Map<String, Object>> memberDetail(@PathVariable int memberNo) {
+        MemberDetailResDto memberDetailResDto = memberService.memberDetail(memberNo);
         if (memberDetailResDto != null) return ResponseResource.handleSuccess(memberDetailResDto, "조회 성공");
         else return ResponseResource.handleError("조회 실패");
     }
@@ -61,8 +61,8 @@ public class MemberController {
     }
 
     @PutMapping("signout/{memberId}")
-    public ResponseEntity<Map<String, Object>> memberSignOut(@PathVariable String memberId) {
-        int resValue = memberService.memberSignOut(memberId);
+    public ResponseEntity<Map<String, Object>> memberSignOut(@PathVariable int memberNo) {
+        int resValue = memberService.memberSignOut(memberNo);
         if (resValue == 1) return ResponseResource.handleSuccess(resValue, "삭제 완료");
         else return ResponseResource.handleError("삭제 실패");
     }

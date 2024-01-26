@@ -20,7 +20,7 @@ class GoldenchildApplicationTests {
 
 	@Autowired
 	MemberService memberService;
-
+	private static final int testMemberNo = 29;
 	private static final String testMemberId = "test@naver.com";
 	private static final String testPassword = "1234";
 	private static final String testNickname = "테스트";
@@ -52,7 +52,7 @@ class GoldenchildApplicationTests {
 				.build();
 		MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
 		log.info(memberLoginResDto.toString());
-		Assertions.assertThat(memberLoginResDto.getMemberId()).isEqualTo(29);
+		Assertions.assertThat(memberLoginResDto.getMemberNo()).isEqualTo(testMemberNo);
 	}
 
 	@Test
@@ -65,7 +65,7 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void memberDetailTest() {
-		MemberDetailResDto resValue = memberService.memberDetail(testMemberId);
+		MemberDetailResDto resValue = memberService.memberDetail(testMemberNo);
 		Assertions.assertThat(resValue).toString();
 	}
 
@@ -73,7 +73,7 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void memberModifyTest() {
 		MemberModifyReqDto memberModifyReqDto = MemberModifyReqDto.builder()
-				.memberId(testMemberId)
+				.memberNo(testMemberNo)
 				.password(testPassword)
 				.nickname("닉네임")
 				.phoneNumber("111122222")
@@ -85,7 +85,7 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void memberSignOutTest() {
-		int resValue = memberService.memberSignOut(testMemberId);
+		int resValue = memberService.memberSignOut(testMemberNo);
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 

@@ -41,8 +41,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDetailResDto memberDetail(String memberId) {
-        return memberMapper.memberDetail(memberId);
+    public MemberDetailResDto memberDetail(int memberNo) {
+        return memberMapper.memberDetail(memberNo);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int memberSignOut(String memberId) {
-        return memberMapper.memberSignOut(memberId);
+    public int memberSignOut(int memberNo) {
+        return memberMapper.memberSignOut(memberNo);
     }
 }
