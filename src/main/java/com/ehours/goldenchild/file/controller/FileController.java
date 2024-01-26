@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class FileController {
     private final FileMapper fileMapper;
 
     @PostMapping("/upload/{memberId}")
-    public ResponseEntity<Map<String, Object>> saveAllFiles(List<MultipartFile> files, @PathVariable int memberId) {
+    public ResponseEntity<Map<String, Object>> saveAllFiles(@RequestBody List<MultipartFile> files, @PathVariable int memberId) {
         int retValue = fileService.saveAllFiles(files, memberId);
         if (retValue != 0) return ResponseResource.handleSuccess(retValue, "파일 업로드 성공!");
         else return ResponseResource.handleError("파일 업로드 실패..");

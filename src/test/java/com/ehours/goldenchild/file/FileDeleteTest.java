@@ -44,27 +44,14 @@ public class FileDeleteTest {
                 "text/plain",
                 "test file".getBytes(StandardCharsets.UTF_8)
         );
-        MultipartFile multipartFile3 = createMockMultipartFile("SampleVideo_1280x720_1mb.mp4");
         List<MultipartFile> list = new ArrayList<>();
         list.add(multipartFile1);
         list.add(multipartFile2);
-        list.add(multipartFile3);
         int fileListId = fileService.saveAllFiles(list, 1);
         List<FileResponseDto> fileResponseDtoList = fileMapper.findFilesByFileListId(fileListId);
         log.info(fileResponseDtoList.toString());
 
         int retValue = fileService.deleteFilesByFileListId(fileListId);
-        Assertions.assertThat(retValue).isEqualTo(3);
-    }
-
-    private String getTestFilePath(String fileName) throws IOException, FileNotFoundException {
-        Path resourcePath = Paths.get(ResourceUtils.getURL("file:C:/Users/SSAFY/Downloads/").getPath());
-        return resourcePath.resolve(fileName).toString();
-    }
-
-    private MultipartFile createMockMultipartFile(String fileName) throws IOException {
-        String filePath = getTestFilePath(fileName);
-        byte[] content = Files.readAllBytes(Paths.get(filePath));
-        return new MockMultipartFile("file", fileName, "video/mp4", content);
+        Assertions.assertThat(retValue).isEqualTo(2);
     }
 }
