@@ -10,7 +10,7 @@ public interface MemberService {
     int signup(MemberSignUpReqDto memberSignUpReqDto);
     MemberLoginResDto login(MemberLoginReqDto memberLoginReqDto);
     int idCheck(String memberId);
-    MemberDetailResDto memberDetail(String memberId);
+    MemberDetailResDto memberDetail(int memberNo);
     int memberModify(MemberModifyReqDto memberModifyReqDto);
-    int memberSignOut(String memberId);
+    int memberSignOut(int memberNo);
 }

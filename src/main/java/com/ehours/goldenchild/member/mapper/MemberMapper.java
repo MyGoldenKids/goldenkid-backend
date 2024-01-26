@@ -30,12 +30,12 @@ public interface MemberMapper {
     @Select("SELECT count(member_id) from member where member_id = #{memberId}")
     int idCheck(String memberId);
 
-    @Select("SELECT member_id, nickname, phone_number from member where member_id = #{memberId}")
-    MemberDetailResDto memberDetail(String memberId);
+    @Select("SELECT member_id, nickname, phone_number from member where no = #{memberNo}")
+    MemberDetailResDto memberDetail(int memberNo);
 
-    @Update("UPDATE member set password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber} where member_id = #{memberId}")
+    @Update("UPDATE member set password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber} where no = #{memberNo}")
     int memberModify(MemberModifyReqDto memberModifyReqDto);
 
-    @Update("UPDATE member set member_status = 0  where member_id = #{memberId}")
-    int memberSignOut(String memberId);
+    @Update("UPDATE member set member_status = 0  where no = #{memberNo}")
+    int memberSignOut(int memberNo);
 }

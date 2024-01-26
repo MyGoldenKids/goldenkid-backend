@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class MemberModifyReqDto {
-    private String memberId;
+    private int memberNo;
     private String password;
     private String nickname;
     private String phoneNumber;
