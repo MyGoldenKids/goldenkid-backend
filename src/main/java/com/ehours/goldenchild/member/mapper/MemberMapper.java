@@ -17,9 +17,15 @@ public interface MemberMapper {
     int signup(MemberSignUpReqDto memberSignUpReqDto);
 
     @Select("SELECT no, nickname from member "
-            + "WHERE member_id = #{memberId} and password = #{password}"
+            + "WHERE member_id = #{memberId}"
     )
     MemberLoginResDto login(MemberLoginReqDto memberLoginReqDto);
+
+    // 해싱된 패스워드를 반환해 비교하기 위한 sql문
+    @Select("SELECT password from member "
+            + "WHERE member_id = #{memberId}"
+    )
+    String pwdCheck(MemberLoginReqDto memberLoginReqDto);
 
     @Select("SELECT count(member_id) from member where member_id = #{memberId}")
     int idCheck(String memberId);
