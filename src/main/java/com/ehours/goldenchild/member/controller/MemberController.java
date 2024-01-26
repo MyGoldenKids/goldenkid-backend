@@ -9,7 +9,6 @@ import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +59,7 @@ public class MemberController {
         else return ResponseResource.handleError("수정 실패");
     }
 
-    @PutMapping("signout/{memberId}")
+    @PutMapping("/signout/{memberNo}")
     public ResponseEntity<Map<String, Object>> memberSignOut(@PathVariable int memberNo) {
         int resValue = memberService.memberSignOut(memberNo);
         if (resValue == 1) return ResponseResource.handleSuccess(resValue, "삭제 완료");
