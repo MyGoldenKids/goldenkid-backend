@@ -47,6 +47,10 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public int memberModify(MemberModifyReqDto memberModifyReqDto) {
+        String pwd = memberModifyReqDto.getPassword();
+        String hashPwd = passwordEncoder.encode(pwd);
+        memberModifyReqDto.setPassword(hashPwd);
+
         return memberMapper.memberModify(memberModifyReqDto);
     }
 

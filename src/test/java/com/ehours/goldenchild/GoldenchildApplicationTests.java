@@ -17,14 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Slf4j
 class GoldenchildApplicationTests {
-
 	@Autowired
 	MemberService memberService;
-	private static final int testMemberNo = 29;
-	private static final String testMemberId = "test@naver.com";
+	private static final int testMemberNo = 50;
+	private static final String testMemberId = "test@daum.net";
 	private static final String testPassword = "1234";
-	private static final String testNickname = "테스트";
-	private static final String testPhoneNumber = "010-1234-5678";
 
 	@Test
 	void contextLoads() {
@@ -34,8 +31,8 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void signupTest() {
 		MemberSignUpReqDto memberReqDto = MemberSignUpReqDto.builder()
-				.memberId("test@gmail.com1")
-				.password("test")
+				.memberId("test@yahoo.net")
+				.password("1234")
 				.nickname("테스트")
 				.phoneNumber("010-1234-5678")
 				.build();
@@ -66,7 +63,7 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void memberDetailTest() {
 		MemberDetailResDto resValue = memberService.memberDetail(testMemberNo);
-		Assertions.assertThat(resValue).toString();
+		Assertions.assertThat(resValue.getMemberId()).isEqualTo(testMemberId);
 	}
 
 	@Test
@@ -74,7 +71,7 @@ class GoldenchildApplicationTests {
 	void memberModifyTest() {
 		MemberModifyReqDto memberModifyReqDto = MemberModifyReqDto.builder()
 				.memberNo(testMemberNo)
-				.password(testPassword)
+				.password("1357")
 				.nickname("닉네임")
 				.phoneNumber("111122222")
 				.build();
@@ -88,5 +85,4 @@ class GoldenchildApplicationTests {
 		int resValue = memberService.memberSignOut(testMemberNo);
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
-
 }
