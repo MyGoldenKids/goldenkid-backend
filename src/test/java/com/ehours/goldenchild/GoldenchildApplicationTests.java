@@ -63,7 +63,7 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void memberDetailTest() {
 		MemberDetailResDto resValue = memberService.memberDetail(testMemberNo);
-		Assertions.assertThat(resValue).toString();
+		Assertions.assertThat(resValue.getMemberId()).isEqualTo(testMemberId);
 	}
 
 	@Test
@@ -85,5 +85,4 @@ class GoldenchildApplicationTests {
 		int resValue = memberService.memberSignOut(testMemberNo);
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
-
 }
