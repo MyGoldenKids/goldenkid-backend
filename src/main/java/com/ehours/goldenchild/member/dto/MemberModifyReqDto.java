@@ -8,6 +8,7 @@ import lombok.Data;
 public class MemberModifyReqDto {
     private int memberNo;
     private String password;
+    private String newPassword;
     private String nickname;
     private String phoneNumber;
 

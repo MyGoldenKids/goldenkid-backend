@@ -56,6 +56,7 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> memberModify(@RequestBody MemberModifyReqDto memberModifyReqDto) {
         int resValue = memberService.memberModify(memberModifyReqDto);
         if (resValue == 1) return ResponseResource.handleSuccess(resValue, "수정 완료");
+        else if(resValue == -1) return ResponseResource.handleError("비밀번호 오류");
         else return ResponseResource.handleError("수정 실패");
     }
 
