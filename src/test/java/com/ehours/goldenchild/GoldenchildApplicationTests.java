@@ -71,7 +71,8 @@ class GoldenchildApplicationTests {
 	void memberModifyTest() {
 		MemberModifyReqDto memberModifyReqDto = MemberModifyReqDto.builder()
 				.memberNo(testMemberNo)
-				.password("1357")
+				.password(testPassword)
+				.newPassword("13232413")
 				.nickname("닉네임")
 				.phoneNumber("111122222")
 				.build();
