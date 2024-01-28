@@ -25,7 +25,13 @@ public interface MemberMapper {
     @Select("SELECT password from member "
             + "WHERE member_id = #{memberId}"
     )
-    String pwdCheck(MemberLoginReqDto memberLoginReqDto);
+    String LoginPwdCheck(MemberLoginReqDto memberLoginReqDto);
+
+    // 해싱된 패스워드를 반환해 비교하기 위한 sql문
+    @Select("SELECT password from member "
+            + "WHERE no = #{memberNo}"
+    )
+    String ModifyPwdCheck(MemberModifyReqDto memberModifyReqDto);
 
     @Select("SELECT count(member_id) from member where member_id = #{memberId}")
     int idCheck(String memberId);

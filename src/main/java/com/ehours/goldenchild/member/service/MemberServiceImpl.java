@@ -7,6 +7,7 @@ import com.ehours.goldenchild.member.dto.MemberModifyReqDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public MemberLoginResDto login(MemberLoginReqDto memberLoginReqDto) {
-        String checkPwd = memberMapper.pwdCheck(memberLoginReqDto);
+        String checkPwd = memberMapper.LoginPwdCheck(memberLoginReqDto);
         if (passwordEncoder.matches(memberLoginReqDto.getPassword(), checkPwd)){
             return memberMapper.login(memberLoginReqDto);  // 로그인 성공
         } else{
@@ -47,11 +48,16 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public int memberModify(MemberModifyReqDto memberModifyReqDto) {
-        String pwd = memberModifyReqDto.getPassword();
+        String pwd = memberModifyReqDto.getNewPassword();
         String hashPwd = passwordEncoder.encode(pwd);
-        memberModifyReqDto.setPassword(hashPwd);
+        String storedPwd = memberMapper.ModifyPwdCheck(memberModifyReqDto);
 
-        return memberMapper.memberModify(memberModifyReqDto);
+        if(passwordEncoder.matches(memberModifyReqDto.getPassword(), storedPwd)){
+            memberModifyReqDto.setPassword(hashPwd);
+            return memberMapper.memberModify(memberModifyReqDto);
+        } else{  // 비밀번호 인증을 통과하지 못하였을 경우
+            return -1;
+        }
     }
 
     @Override
