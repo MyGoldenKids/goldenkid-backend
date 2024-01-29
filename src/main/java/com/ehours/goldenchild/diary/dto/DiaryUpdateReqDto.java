@@ -8,8 +8,8 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class DiaryUpdateReqDto {
-    private int diaryId;
     private int memberId;
+    private Integer diaryId;
     private String diaryTitle;
     private String diaryContent;
     private String diaryReview;
