@@ -29,7 +29,6 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/write")
-    @Transactional
     public ResponseEntity<Map<String, Object>> writeArticle(@RequestBody ArticleReqDto articleReqDto) {
         int retValue = articleService.writeArticle(articleReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "게시판 글 등록 성공!");
