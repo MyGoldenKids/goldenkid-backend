@@ -12,6 +12,6 @@ spring:
       max-request-size: 50MB
 logging:
   level:
-    root: info
+    root: dev
 app:
   uploadPath: /home/ubuntu/filestorage
