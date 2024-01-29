@@ -48,8 +48,9 @@ public class DiaryController {
     }
 
     @PutMapping("/update/{diaryId}")
-    public ResponseEntity<Map<String, Object>> updateDiary(@PathVariable int diaryId, DiaryUpdateReqDto diaryUpdateReqDto) {
-        int retValue = diaryService.updateDiary(diaryId, diaryUpdateReqDto);
+    public ResponseEntity<Map<String, Object>> updateDiary(@PathVariable int diaryId, @RequestBody DiaryUpdateReqDto diaryUpdateReqDto) {
+        diaryUpdateReqDto.setDiaryId(diaryId);
+        int retValue = diaryService.updateDiary(diaryUpdateReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "수정 성공");
         else return ResponseResource.handleError("수정 실패");
     }

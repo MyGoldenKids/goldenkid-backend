@@ -62,10 +62,11 @@ public class DiaryTests {
                 .diaryTitle("우리 아이")
                 .diaryContent("이게 맞나여?")
                 .diaryReview("")
-                .memberId(1)
+                .memberId(57)
                 .build();
+        diaryUpdateReqDto.setDiaryId(19);
         log.info(diaryUpdateReqDto.toString());
-        int retValue = diaryService.updateDiary(1, diaryUpdateReqDto);
+        int retValue = diaryService.updateDiary(diaryUpdateReqDto);
         Assertions.assertThat(retValue).isEqualTo(1);
         log.info(diaryUpdateReqDto.toString());
     }
