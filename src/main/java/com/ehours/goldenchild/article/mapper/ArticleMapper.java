@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 @Mapper
 public interface ArticleMapper {
@@ -43,6 +44,6 @@ public interface ArticleMapper {
     @Update("update article set article_status=0 where article_id=#{articleId}")
     int articleDeleteRequest(int articleId);
 
-    @Update("update article set file_list_id=#{fileListId}, article_title=#{articleTitle}, article_content=#{articleContent}, modified_at=CURRENT_TIMESTAMP where article_id=#{articleId}")
+    @UpdateProvider(type = ArticleUpdateProvider.class, method = "updateArticle")
     int updateArticle(ArticleUpdateDto articleUpdateDto);
 }

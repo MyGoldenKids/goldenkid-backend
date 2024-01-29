@@ -12,6 +12,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/write")
+    @Transactional
     public ResponseEntity<Map<String, Object>> writeArticle(@RequestBody ArticleReqDto articleReqDto) {
         int retValue = articleService.writeArticle(articleReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "게시판 글 등록 성공!");
