@@ -20,7 +20,6 @@ import org.apache.ibatis.annotations.UpdateProvider;
 @Mapper
 public interface ArticleMapper {
 
-    @Select("select * from article where article_id = #{articleId} and article_status = 1")
     @Results(id = "articleMap", value = {
             @Result(column = "article_id", property = "articleId"),
             @Result(column = "member_id", property = "memberId"),
@@ -30,16 +29,17 @@ public interface ArticleMapper {
             @Result(column = "created_at", property = "createdAt"),
             @Result(column = "modified_at", property = "modifiedAt"),
             @Result(column = "hit", property = "hit"),
-            @Result(column = "recommend_count", property = "recommendCount")
+            @Result(column = "recommend_count", property = "recommendCount"),
+            @Result(column = "nickname", property = "nickname")
     })
+    @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_id = #{articleId} and a.article_status = 1")
     ArticleDetailDto getArticleDetailById(int articleId);
     @InsertProvider(type = ArticleWriteProvider.class, method = "writeArticle")
     @Options(useGeneratedKeys = true, keyProperty = "articleId")
     int writeArticle(ArticleReqDto articleReqDto);
 
     @ResultMap("articleMap")
-    @Select("select * from article where article_status = 1")
-
+    @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_status = 1")
     List<ArticleDetailDto> getAllArticles();
     @Update("update article set article_status=0 where article_id=#{articleId}")
     int articleDeleteRequest(int articleId);
