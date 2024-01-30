@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class MemberDetailResDto {
     private String memberId;
-    private String nickName;
+    private String nickname;
     private String phoneNumber;
 }
