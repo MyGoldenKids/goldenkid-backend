@@ -39,7 +39,7 @@ public interface ArticleMapper {
     int writeArticle(ArticleReqDto articleReqDto);
 
     @ResultMap("articleMap")
-    @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_status = 1")
+    @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_status = 1 order by a.article_id desc")
     List<ArticleDetailDto> getAllArticles();
     @Update("update article set article_status=0 where article_id=#{articleId}")
     int articleDeleteRequest(int articleId);
