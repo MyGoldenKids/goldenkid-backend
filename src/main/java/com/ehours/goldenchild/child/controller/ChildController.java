@@ -5,7 +5,9 @@ import com.ehours.goldenchild.child.dto.ChildModifyReqDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.service.ChildService;
 import com.ehours.goldenchild.common.ResponseResource;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,10 +49,16 @@ public class ChildController {
         else return ResponseResource.handleError("수정 실패");
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{childId}")
     public ResponseEntity<Map<String, Object>> deleteChild(@PathVariable int childId) {
         int retValue = childService.deleteChild(childId);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 성공");
         else return ResponseResource.handleError("삭제 실패");
+    }
+
+    @GetMapping("/list/{memberId}")
+    public ResponseEntity<Map<String, Object>> getMyChild(@PathVariable int memberId) {
+        List<ChildDetailResDto> childDetailResDtoList = childService.getMyChild(memberId);
+        return ResponseResource.handleSuccess(childDetailResDtoList, "조회 성공");
     }
 }

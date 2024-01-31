@@ -4,6 +4,7 @@ import com.ehours.goldenchild.child.dto.ChildDetailResDto;
 import com.ehours.goldenchild.child.dto.ChildModifyReqDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.mapper.ChildMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,11 @@ public class ChildServiceImpl implements ChildService{
     @Override
     public int deleteChild(int childId) {
         return childMapper.deleteChild(childId);
+    }
+
+    @Override
+    public List<ChildDetailResDto> getMyChild(int memberId) {
+        return childMapper.getMyChild(memberId);
     }
 
 
