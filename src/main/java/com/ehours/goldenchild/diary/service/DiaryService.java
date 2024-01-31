@@ -13,7 +13,7 @@ public interface DiaryService {
     int submitDiary(DiarySubmitReqDto diarySubmitReqDto);
     int deleteDiary(int diaryId);
 
-    int updateDiary(int diaryId, DiaryUpdateReqDto diaryUpdateReqDto);
+    int updateDiary(DiaryUpdateReqDto diaryUpdateReqDto);
     List<DiaryResDto> listDiary(int memberId);
     DiaryDetailResDto detailDiary(int diaryId);
 }

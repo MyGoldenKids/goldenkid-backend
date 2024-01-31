@@ -1,12 +1,13 @@
 package com.ehours.goldenchild.member.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class MemberDetailResDto {
+@AllArgsConstructor
+public class MemberLoginReqDto {
     private String memberId;
-    private String nickname;
-    private String phoneNumber;
+    private String password;
 }

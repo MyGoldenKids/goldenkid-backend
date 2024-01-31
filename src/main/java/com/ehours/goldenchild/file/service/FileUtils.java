@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
+@Slf4j
 public class FileUtils {
     @Value("${app.uploadPath}")
     private String uploadPath;
@@ -40,7 +42,7 @@ public class FileUtils {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
         String uploadPath = getUploadPath(today) + File.separator + saveFileName;
         File uploadFile = new File(uploadPath);
-
+        log.info(uploadPath);
         try {
             multipartFile.transferTo(uploadFile);
         } catch (IOException e) {

@@ -27,8 +27,20 @@ public class ArticleTests {
     @Transactional
     void articleInsertTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
+                .articleTitle("테스트용 게시글 제목")
+                .articleContent("테스트용 게시글 내용")
+                .build();
+        int retValue = articleService.writeArticle(articleReqDto);
+        Assertions.assertThat(retValue).isEqualTo(1);
+    }
+
+    @Test
+    @Transactional
+    void articleInsertWithoutFileListIdTest() {
+        ArticleReqDto articleReqDto = ArticleReqDto.builder()
+                .memberId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
@@ -40,7 +52,7 @@ public class ArticleTests {
     @Transactional
     void getAllArticlesTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
@@ -52,9 +64,10 @@ public class ArticleTests {
     }
 
     @Test
+    @Transactional
     void getArticleByIdTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
@@ -70,7 +83,7 @@ public class ArticleTests {
     @Transactional
     void deleteReqTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
@@ -84,8 +97,29 @@ public class ArticleTests {
     @Transactional
     void modifyTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(4)
+                .memberId(1)
                 .fileListId(1)
+                .articleTitle("테스트용 게시글 제목")
+                .articleContent("테스트용 게시글 내용")
+                .build();
+        articleService.writeArticle(articleReqDto);
+        ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleReqDto.getArticleId());
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto(articleDetailDto.getArticleId(),
+                articleDetailDto.getFileListId(),
+                "바뀐 제목",
+                "바뀐 내용");
+        articleService.updateArticle(articleUpdateDto);
+        ArticleDetailDto articleDetailDto1 = articleService.getArticleDetailById(articleDetailDto.getArticleId());
+        Assertions.assertThat(articleUpdateDto.getArticleTitle()).isEqualTo("바뀐 제목");
+        Assertions.assertThat(articleUpdateDto.getArticleContent()).isEqualTo("바뀐 내용");
+        log.info(articleUpdateDto.toString());
+    }
+
+    @Test
+    @Transactional
+    void modifyWithoutFileListIdTest() {
+        ArticleReqDto articleReqDto = ArticleReqDto.builder()
+                .memberId(1)
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();

@@ -1,15 +1,17 @@
+server:
+  port: 8081
 spring:
   datasource:
     username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    password: root1423
+    url: jdbc:mysql://138.2.127.212:3306/goldenkids?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
 logging:
   level:
-    root: info
-servlet:
-  multipart:
-    enabled: true
-    max-file-size: 10MB
-    max-request-size: 50MB
+    root: debug
 app:
-  uploadPath: C:\\develop\\upload-files
+  uploadPath: /home/ubuntu/filestorage

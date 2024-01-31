@@ -33,8 +33,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public int updateDiary(int diaryId, DiaryUpdateReqDto diaryUpdateReqDto) {
-        diaryUpdateReqDto.setDiaryId(diaryId);
+    public int updateDiary(DiaryUpdateReqDto diaryUpdateReqDto) {
         return diaryMapper.updateDiary(diaryUpdateReqDto);
     }
 

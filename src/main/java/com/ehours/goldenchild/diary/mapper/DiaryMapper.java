@@ -20,8 +20,8 @@ public interface DiaryMapper {
     int createDiary(DiaryCreateReqDto diaryCreateReqDto);
 
     @Update("UPDATE diary SET diary_title = #{diaryTitle}, diary_content = #{diaryContent}, "
-            + "diary_review = #{diaryReview}, diary_status = 1 "
-            + "where diary_id = #{diaryId}"
+            + "diary_review = #{diaryReview}, diary_status = 1, file_list_id = #{fileListId} "
+            + "where diary_id = #{diaryId} and member_id = #{memberId}"
     )
     int submitDiary(DiarySubmitReqDto diarySubmitReqDto);
 
@@ -39,8 +39,9 @@ public interface DiaryMapper {
     )
     List<DiaryResDto> listDiary(int memberId);
 
-    @Select("SELECT diary_title, diary_content, diary_review, file_list_id, created_at from diary "
-        + "where diary_id = #{diaryId}"
+    @Select("SELECT d.diary_title, d.diary_content, d.diary_review, d.file_list_id, d.created_at, c.child_name "
+            + "from diary d join child c on  d.child_id = c.child_id "
+            + "where d.diary_id = #{diaryId}"
     )
     DiaryDetailResDto detailDiary(int diary_id);
 }

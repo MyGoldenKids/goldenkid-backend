@@ -5,7 +5,9 @@ import com.ehours.goldenchild.child.dto.ChildModifyReqDto;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.service.ChildService;
 import com.ehours.goldenchild.common.ResponseResource;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +29,7 @@ public class ChildController {
     private final ChildService childService;
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> registerChild(ChildRegisterReqDto childRegisterReqDto) {
+    public ResponseEntity<Map<String, Object>> registerChild(@RequestBody ChildRegisterReqDto childRegisterReqDto) {
         int retValue = childService.registerChild(childRegisterReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "아이 등록 성공");
         else return ResponseResource.handleError("아이 등록 실패");
@@ -41,16 +43,22 @@ public class ChildController {
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<Map<String, Object>> modifyChild(ChildModifyReqDto childModifyReqDto) {
+    public ResponseEntity<Map<String, Object>> modifyChild(@RequestBody ChildModifyReqDto childModifyReqDto) {
         int retValue = childService.modifyChild(childModifyReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "수정 성공");
         else return ResponseResource.handleError("수정 실패");
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{childId}")
     public ResponseEntity<Map<String, Object>> deleteChild(@PathVariable int childId) {
         int retValue = childService.deleteChild(childId);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 성공");
         else return ResponseResource.handleError("삭제 실패");
+    }
+
+    @GetMapping("/list/{memberId}")
+    public ResponseEntity<Map<String, Object>> getMyChild(@PathVariable int memberId) {
+        List<ChildDetailResDto> childDetailResDtoList = childService.getMyChild(memberId);
+        return ResponseResource.handleSuccess(childDetailResDtoList, "조회 성공");
     }
 }

@@ -9,8 +9,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class DiarySubmitReqDto {
     private int diaryId;
-    private int fileListId;
+    private int memberId;
     private String diaryTitle;
     private String diaryContent;
     private String diaryReview;
+    private Integer fileListId;
 }
