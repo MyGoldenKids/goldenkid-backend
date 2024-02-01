@@ -1,7 +1,9 @@
 package com.ehours.goldenchild.sprint.service;
 
 import com.ehours.goldenchild.sprint.dto.SprintCreateReqDto;
+import com.ehours.goldenchild.sprint.dto.SprintResponseDto;
 import com.ehours.goldenchild.sprint.mapper.SprintMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,5 +14,10 @@ public class SprintServiceImpl implements SprintService{
     @Override
     public int createSprint(SprintCreateReqDto sprintCreateReqDto) {
         return sprintMapper.createSprint(sprintCreateReqDto);
+    }
+
+    @Override
+    public List<SprintResponseDto> getSprintList(int memberId) {
+        return sprintMapper.getSprintList(memberId);
     }
 }
