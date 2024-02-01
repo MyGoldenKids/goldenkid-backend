@@ -13,4 +13,5 @@ public interface SprintService {
     List<SprintResponseDto> getSprintList(int memberId);
     int updateSprintStatus(int sprintId, SprintStatusReqDto sprintStatusReqDto);
     int updateSprint(int sprintId, SprintModifyReqDto sprintModifyReqDto);
+    int deleteSprint(int sprintId, int memberId);
 }

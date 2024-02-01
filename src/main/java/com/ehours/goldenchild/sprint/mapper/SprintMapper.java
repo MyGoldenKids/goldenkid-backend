@@ -5,6 +5,7 @@ import com.ehours.goldenchild.sprint.dto.SprintModifyReqDto;
 import com.ehours.goldenchild.sprint.dto.SprintResponseDto;
 import com.ehours.goldenchild.sprint.dto.SprintStatusReqDto;
 import java.util.List;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -37,4 +38,7 @@ public interface SprintMapper {
         "where sprint_id = #{sprintId} and member_id = #{sprintModifyReqDto.memberId}"
     )
     int updateSprint(@Param("sprintId") int sprintId, SprintModifyReqDto sprintModifyReqDto);
+
+    @Delete("DELETE from sprint where sprint_id = #{sprintId} and member_id = #{memberId}")
+    int deleteSprint(@Param("sprintId") int sprintId, @Param("memberId") int memberId);
 }

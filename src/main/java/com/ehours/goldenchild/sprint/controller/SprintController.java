@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,5 +51,12 @@ public class SprintController {
         int retValue = sprintService.updateSprint(sprintId, sprintModifyReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "스프린트 수정 성공");
         else return ResponseResource.handleError("스프린트 수정 실패");
+    }
+
+    @DeleteMapping("/delete/{sprintId}/member/{memberId}")
+    public ResponseEntity<Map<String, Object>> deleteSprint(@PathVariable int sprintId, @PathVariable int memberId) {
+        int retValue = sprintService.deleteSprint(sprintId, memberId);
+        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "스프린트 삭제 성공");
+        else return ResponseResource.handleError("스프린트 삭제 실패");
     }
 }

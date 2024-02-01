@@ -32,4 +32,9 @@ public class SprintServiceImpl implements SprintService{
     public int updateSprint(int sprintId, SprintModifyReqDto sprintModifyReqDto) {
         return sprintMapper.updateSprint(sprintId, sprintModifyReqDto);
     }
+
+    @Override
+    public int deleteSprint(int sprintId, int memberId) {
+        return sprintMapper.deleteSprint(sprintId, memberId);
+    }
 }
