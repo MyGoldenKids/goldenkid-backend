@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.sprint.service;
 
 import com.ehours.goldenchild.sprint.dto.SprintCreateReqDto;
+import com.ehours.goldenchild.sprint.dto.SprintModifyReqDto;
 import com.ehours.goldenchild.sprint.dto.SprintResponseDto;
 import com.ehours.goldenchild.sprint.dto.SprintStatusReqDto;
 import java.util.List;
@@ -11,4 +12,5 @@ public interface SprintService {
     int createSprint(SprintCreateReqDto sprintCreateReqDto);
     List<SprintResponseDto> getSprintList(int memberId);
     int updateSprintStatus(int sprintId, SprintStatusReqDto sprintStatusReqDto);
+    int updateSprint(int sprintId, SprintModifyReqDto sprintModifyReqDto);
 }

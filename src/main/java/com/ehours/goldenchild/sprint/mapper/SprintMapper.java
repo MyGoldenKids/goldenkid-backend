@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.sprint.mapper;
 
 import com.ehours.goldenchild.sprint.dto.SprintCreateReqDto;
+import com.ehours.goldenchild.sprint.dto.SprintModifyReqDto;
 import com.ehours.goldenchild.sprint.dto.SprintResponseDto;
 import com.ehours.goldenchild.sprint.dto.SprintStatusReqDto;
 import java.util.List;
@@ -32,4 +33,8 @@ public interface SprintMapper {
     @Update("UPDATE sprint set sprint_status = #{sprintStatusReqDto.sprintStatus} where sprint_id = #{sprintId} and member_id = #{sprintStatusReqDto.memberId}")
     int updateSprintStatus(@Param("sprintId") int sprintId, SprintStatusReqDto sprintStatusReqDto);
 
+    @Update("UPDATE sprint set sprint_title = #{sprintModifyReqDto.sprintTitle}, start_date = #{sprintModifyReqDto.startDate}, end_date = #{sprintModifyReqDto.endDate} " +
+        "where sprint_id = #{sprintId} and member_id = #{sprintModifyReqDto.memberId}"
+    )
+    int updateSprint(@Param("sprintId") int sprintId, SprintModifyReqDto sprintModifyReqDto);
 }

@@ -2,6 +2,7 @@ package com.ehours.goldenchild.sprint.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.sprint.dto.SprintCreateReqDto;
+import com.ehours.goldenchild.sprint.dto.SprintModifyReqDto;
 import com.ehours.goldenchild.sprint.dto.SprintResponseDto;
 import com.ehours.goldenchild.sprint.dto.SprintStatusReqDto;
 import com.ehours.goldenchild.sprint.service.SprintService;
@@ -42,5 +43,12 @@ public class SprintController {
         int retValue = sprintService.updateSprintStatus(sprintId, sprintStatusReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "상태 수정 성공");
         else return ResponseResource.handleError("상태 수정 실패");
+    }
+
+    @PutMapping("/modify/{sprintId}")
+    public ResponseEntity<Map<String, Object>> updateSprint(@PathVariable int sprintId, @RequestBody SprintModifyReqDto sprintModifyReqDto) {
+        int retValue = sprintService.updateSprint(sprintId, sprintModifyReqDto);
+        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "스프린트 수정 성공");
+        else return ResponseResource.handleError("스프린트 수정 실패");
     }
 }
