@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     username: root
-    password: root1423
-    url: jdbc:mysql://138.2.127.212:3306/goldenkids?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    password: root
+    url: jdbc:mysql://localhost:3306/goldenkids?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
   servlet:
     multipart:
       enabled: true
@@ -15,3 +15,8 @@ logging:
     root: debug
 app:
   uploadPath: /home/ubuntu/filestorage
+  JWT_HEADER_A: "Authorization"
+  JWT_HEADER_R: "Refresh"
+  JWT_KEY : "d1f33e03-f067-4315-af91-b03f91f4cb19"
+  JWT_PREFIX : "BEARER"
+  JWT_REFRESH_EXPIRATION : "604800000"
