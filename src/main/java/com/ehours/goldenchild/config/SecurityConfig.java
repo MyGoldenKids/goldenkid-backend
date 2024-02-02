@@ -1,10 +1,16 @@
 package com.ehours.goldenchild.config;
 
+import com.ehours.goldenchild.authentication.UserAuthenticationProvider;
 import com.ehours.goldenchild.filter.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -33,14 +39,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                         .requestMatchers("/member/login", "/member/signup", "/member/idcheck/**",
-                                "/article/list", "/aritcle/detail/**", "comment/list/**",
+                                "/article/list", "/article/detail/**", "comment/list/**",
                                 "/file/detail/**",
                                 ("/auth/silent-refresh"))
                         .permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        ;
 
         return http.build();
     }
