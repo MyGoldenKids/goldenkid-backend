@@ -6,7 +6,7 @@ spring:
   datasource:
     username: root
     password: root1423
-    url: jdbc:mysql://138.2.127.212:3306/goldenkids?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://i10a608.p.ssafy.io:3306/goldenkids?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
   servlet:
     multipart:
       enabled: true
