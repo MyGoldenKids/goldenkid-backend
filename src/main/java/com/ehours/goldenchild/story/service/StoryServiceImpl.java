@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.story.service;
 
 import com.ehours.goldenchild.story.dto.StoryCreateReqDto;
+import com.ehours.goldenchild.story.dto.StoryStatusReqDto;
 import com.ehours.goldenchild.story.mapper.StoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,5 +15,10 @@ public class StoryServiceImpl implements StoryService{
     @Override
     public int createStory(StoryCreateReqDto storyCreateReqDto) {
         return storyMapper.createStory(storyCreateReqDto);
+    }
+
+    @Override
+    public int updateStoryStatus(int storyId, StoryStatusReqDto storyStatusReqDto) {
+        return storyMapper.updateStoryStatus(storyId, storyStatusReqDto);
     }
 }
