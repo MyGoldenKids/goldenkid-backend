@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService {
+    @Transactional
+    int saveFilesByFileListId(List<MultipartFile> files, int fileListId, int memberId);
+
     public int saveAllFiles(List<MultipartFile> files, int memberId);
 
     public List<FileResponseDto> findFilesByFileListId(int fileListId);
