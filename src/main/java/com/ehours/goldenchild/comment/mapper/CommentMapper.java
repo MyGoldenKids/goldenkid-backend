@@ -18,7 +18,7 @@ public interface CommentMapper {
             @Result(column = "created_at", property = "createdAt"),
             @Result(column = "modified_at", property = "modifiedAt")
     })
-    @Select("select c.*, m.nickname from comment c join member m on c.member_id = m.no")
+    @Select("select c.*, m.nickname from comment c join member m on c.member_id = m.no where article_id = #{articleId}")
     List<CommentDetailResDto> getCommentByArticleId(int articleId);
 
     @Insert("INSERT INTO comment(article_id, member_id, content) " +
