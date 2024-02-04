@@ -5,6 +5,8 @@ import com.ehours.goldenchild.story.dto.StoryCreateReqDto;
 import com.ehours.goldenchild.story.dto.StoryDetailResDto;
 import com.ehours.goldenchild.story.dto.StoryStatusReqDto;
 import com.ehours.goldenchild.story.service.StoryService;
+
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,5 +45,11 @@ public class StoryController {
         StoryDetailResDto storyDetailResDto = storyService.getStoryById(storyId, memberId);
         if (storyDetailResDto != null) return ResponseResource.handleSuccess(storyDetailResDto, "조회 성공");
         else return ResponseResource.handleError("조회 실패");
+    }
+
+    @GetMapping("/list/{sprintId}/member/{memberId}")
+    public ResponseEntity<Map<String, Object>> getStoryBySprintId(@PathVariable int sprintId, @PathVariable int memberId) {
+        List<StoryDetailResDto> storyDetailResDtoList = storyService.getStoryBySprintId(sprintId, memberId);
+        return ResponseResource.handleSuccess(storyDetailResDtoList, "조회 성공");
     }
 }

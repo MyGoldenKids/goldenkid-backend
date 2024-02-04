@@ -5,6 +5,8 @@ import com.ehours.goldenchild.story.dto.StoryDetailResDto;
 import com.ehours.goldenchild.story.dto.StoryStatusReqDto;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface StoryMapper {
 
@@ -30,4 +32,8 @@ public interface StoryMapper {
     })
     @Select("SELECT * from story where story_id = #{storyId} and member_id = #{memberId}")
     StoryDetailResDto getStoryById(@Param("storyId") int storyId, @Param("memberId") int memberId);
+
+    @ResultMap("storyMap")
+    @Select("SELECT * from story where sprint_id = #{sprintId} and member_id = #{memberId}")
+    List<StoryDetailResDto> getStoryBySprintId(@Param("sprintId") int sprintId, @Param("memberId") int memberId);
 }

@@ -7,6 +7,8 @@ import com.ehours.goldenchild.story.mapper.StoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StoryServiceImpl implements StoryService{
@@ -26,5 +28,10 @@ public class StoryServiceImpl implements StoryService{
     @Override
     public StoryDetailResDto getStoryById(int storyId, int memberId) {
         return storyMapper.getStoryById(storyId, memberId);
+    }
+
+    @Override
+    public List<StoryDetailResDto> getStoryBySprintId(int sprintId, int memberId) {
+        return storyMapper.getStoryBySprintId(sprintId, memberId);
     }
 }
