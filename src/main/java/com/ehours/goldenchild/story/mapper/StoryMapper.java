@@ -36,4 +36,7 @@ public interface StoryMapper {
     @ResultMap("storyMap")
     @Select("SELECT * from story where sprint_id = #{sprintId} and member_id = #{memberId}")
     List<StoryDetailResDto> getStoryBySprintId(@Param("sprintId") int sprintId, @Param("memberId") int memberId);
+
+    @Delete("DELETE from story where story_id = #{storyId} and member_id = #{memberId}")
+    int deleteStory(@Param("storyId") int storyId, @Param("memberId") int memberId);
 }

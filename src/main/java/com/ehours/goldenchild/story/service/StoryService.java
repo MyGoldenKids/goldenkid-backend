@@ -11,4 +11,5 @@ public interface StoryService {
     int updateStoryStatus(int storyId, StoryStatusReqDto storyStatusReqDto);
     StoryDetailResDto getStoryById(int storyId, int memberId);
     List<StoryDetailResDto> getStoryBySprintId(int sprintId, int memberId);
+    int deleteStory(int storyId, int memberId);
 }

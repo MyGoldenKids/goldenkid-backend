@@ -14,7 +14,6 @@ import java.util.List;
 public class StoryServiceImpl implements StoryService{
     private final StoryMapper storyMapper;
 
-
     @Override
     public int createStory(StoryCreateReqDto storyCreateReqDto) {
         return storyMapper.createStory(storyCreateReqDto);
@@ -33,5 +32,10 @@ public class StoryServiceImpl implements StoryService{
     @Override
     public List<StoryDetailResDto> getStoryBySprintId(int sprintId, int memberId) {
         return storyMapper.getStoryBySprintId(sprintId, memberId);
+    }
+
+    @Override
+    public int deleteStory(int storyId, int memberId) {
+        return storyMapper.deleteStory(storyId, memberId);
     }
 }
