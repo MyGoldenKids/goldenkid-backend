@@ -29,4 +29,11 @@ public class CommentController {
         if (retValue == 1) return ResponseResource.handleSuccess(commentRequestDto.getCommentId(), "입력 성공");
         else return ResponseResource.handleError("입력 실패");
     }
+
+    @PatchMapping("/modify/{commentId}")
+    public ResponseEntity<Map<String, Object>> updateComment(@PathVariable int commentId, @RequestBody CommentRequestDto commentRequestDto) {
+        int retValue = commentService.updateComment(commentId, commentRequestDto);
+        if (retValue == 1) return ResponseResource.handleSuccess(commentRequestDto.getCommentId(), "댓글 수정 성공");
+        else return ResponseResource.handleError("댓글 수정 실패");
+    }
 }

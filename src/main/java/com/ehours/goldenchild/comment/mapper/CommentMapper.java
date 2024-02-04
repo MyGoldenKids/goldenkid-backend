@@ -25,4 +25,8 @@ public interface CommentMapper {
             "values(#{articleId}, #{commentRequestDto.memberId}, #{commentRequestDto.content})")
     @Options(useGeneratedKeys = true, keyProperty = "commentRequestDto.commentId")
     int writeComment(@Param("articleId") int articleId, CommentRequestDto commentRequestDto);
+
+    @Update("UPDATE comment set content = #{commentRequestDto.content}, modified_at = CURRENT_TIMESTAMP " +
+            "where comment_id = #{commentId} and member_id = #{commentRequestDto.memberId}")
+    int updateComment(@Param("commentId") int commentId, CommentRequestDto commentRequestDto);
 }

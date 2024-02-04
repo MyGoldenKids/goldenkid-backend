@@ -22,4 +22,9 @@ public class CommentServiceImpl implements CommentService {
     public int writeComment(int articleId, CommentRequestDto commentRequestDto) {
         return commentMapper.writeComment(articleId, commentRequestDto);
     }
+
+    @Override
+    public int updateComment(int commentId, CommentRequestDto commentRequestDto) {
+        return commentMapper.updateComment(commentId, commentRequestDto);
+    }
 }
