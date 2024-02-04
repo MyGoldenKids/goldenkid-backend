@@ -1,14 +1,12 @@
 package com.ehours.goldenchild.comment.controller;
 
 import com.ehours.goldenchild.comment.dto.CommentDetailResDto;
+import com.ehours.goldenchild.comment.dto.CommentRequestDto;
 import com.ehours.goldenchild.comment.service.CommentService;
 import com.ehours.goldenchild.common.ResponseResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -23,5 +21,12 @@ public class CommentController {
     public ResponseEntity<Map<String, Object>> getCommentByArticleId(@PathVariable int articleId) {
         List<CommentDetailResDto> commentDetailResDtoList = commentService.getCommentByArticleId(articleId);
         return ResponseResource.handleSuccess(commentDetailResDtoList, "댓글 조회 성공");
+    }
+
+    @PostMapping("/write/{articleId}")
+    public ResponseEntity<Map<String, Object>> writeComment(@PathVariable int articleId, @RequestBody CommentRequestDto commentRequestDto) {
+        int retValue = commentService.writeComment(articleId, commentRequestDto);
+        if (retValue == 1) return ResponseResource.handleSuccess(commentRequestDto.getCommentId(), "입력 성공");
+        else return ResponseResource.handleError("입력 실패");
     }
 }

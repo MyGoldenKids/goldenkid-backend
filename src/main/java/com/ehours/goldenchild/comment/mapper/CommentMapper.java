@@ -1,11 +1,8 @@
 package com.ehours.goldenchild.comment.mapper;
 
-import com.ehours.goldenchild.article.dto.ArticleDetailDto;
 import com.ehours.goldenchild.comment.dto.CommentDetailResDto;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.ehours.goldenchild.comment.dto.CommentRequestDto;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -23,4 +20,9 @@ public interface CommentMapper {
     })
     @Select("select c.*, m.nickname from comment c join member m on c.member_id = m.no")
     List<CommentDetailResDto> getCommentByArticleId(int articleId);
+
+    @Insert("INSERT INTO comment(article_id, member_id, content) " +
+            "values(#{articleId}, #{commentRequestDto.memberId}, #{commentRequestDto.content})")
+    @Options(useGeneratedKeys = true, keyProperty = "commentRequestDto.commentId")
+    int writeComment(@Param("articleId") int articleId, CommentRequestDto commentRequestDto);
 }
