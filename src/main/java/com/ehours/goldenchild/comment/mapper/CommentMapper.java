@@ -29,4 +29,7 @@ public interface CommentMapper {
     @Update("UPDATE comment set content = #{commentRequestDto.content}, modified_at = CURRENT_TIMESTAMP " +
             "where comment_id = #{commentId} and member_id = #{commentRequestDto.memberId}")
     int updateComment(@Param("commentId") int commentId, CommentRequestDto commentRequestDto);
+
+    @Delete("DELETE from comment where comment_id = #{commentId} and member_id = #{memberId}")
+    int deleteComment(@Param("commentId") int commentId, @Param("memberId") int memberId);
 }

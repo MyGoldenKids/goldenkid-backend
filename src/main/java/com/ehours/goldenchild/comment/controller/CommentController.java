@@ -26,8 +26,8 @@ public class CommentController {
     @PostMapping("/write/{articleId}")
     public ResponseEntity<Map<String, Object>> writeComment(@PathVariable int articleId, @RequestBody CommentRequestDto commentRequestDto) {
         int retValue = commentService.writeComment(articleId, commentRequestDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(commentRequestDto.getCommentId(), "입력 성공");
-        else return ResponseResource.handleError("입력 실패");
+        if (retValue == 1) return ResponseResource.handleSuccess(commentRequestDto.getCommentId(), "댓글 작성 성공");
+        else return ResponseResource.handleError("댓글 작성 실패");
     }
 
     @PatchMapping("/modify/{commentId}")
@@ -35,5 +35,12 @@ public class CommentController {
         int retValue = commentService.updateComment(commentId, commentRequestDto);
         if (retValue == 1) return ResponseResource.handleSuccess(commentRequestDto.getCommentId(), "댓글 수정 성공");
         else return ResponseResource.handleError("댓글 수정 실패");
+    }
+
+    @DeleteMapping("/delete/{commentId}/member/{memberId}")
+    public ResponseEntity<Map<String, Object>> deleteComment(@PathVariable int commentId, @PathVariable int memberId) {
+        int retValue = commentService.deleteComment(commentId, memberId);
+        if (retValue == 1) return ResponseResource.handleSuccess(commentId, "댓글 삭제 성공");
+        else return ResponseResource.handleError("댓글 삭제 실패");
     }
 }

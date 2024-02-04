@@ -27,4 +27,9 @@ public class CommentServiceImpl implements CommentService {
     public int updateComment(int commentId, CommentRequestDto commentRequestDto) {
         return commentMapper.updateComment(commentId, commentRequestDto);
     }
+
+    @Override
+    public int deleteComment(int commentId, int memberId) {
+        return commentMapper.deleteComment(commentId, memberId);
+    }
 }
