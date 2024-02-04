@@ -2,6 +2,7 @@ package com.ehours.goldenchild.story.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.story.dto.StoryCreateReqDto;
+import com.ehours.goldenchild.story.dto.StoryDetailResDto;
 import com.ehours.goldenchild.story.dto.StoryStatusReqDto;
 import com.ehours.goldenchild.story.service.StoryService;
 import java.util.Map;
@@ -35,5 +36,12 @@ public class StoryController {
         int retValue = storyService.updateStoryStatus(storyId, storyStatusReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "상태 수정 성공");
         else return ResponseResource.handleError("상태 수정 실패");
+    }
+
+    @GetMapping("/detail/{storyId}/member/{memberId}")
+    public ResponseEntity<Map<String, Object>> getStoryById(@PathVariable int storyId, @PathVariable int memberId) {
+        StoryDetailResDto storyDetailResDto = storyService.getStoryById(storyId, memberId);
+        if (storyDetailResDto != null) return ResponseResource.handleSuccess(storyDetailResDto, "조회 성공");
+        else return ResponseResource.handleError("조회 실패");
     }
 }
