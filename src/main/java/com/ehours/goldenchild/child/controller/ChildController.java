@@ -31,7 +31,7 @@ public class ChildController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerChild(@RequestBody ChildRegisterReqDto childRegisterReqDto) {
         int retValue = childService.registerChild(childRegisterReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "아이 등록 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(childRegisterReqDto.getChildId(), "아이 등록 성공");
         else return ResponseResource.handleError("아이 등록 실패");
     }
 
@@ -45,14 +45,14 @@ public class ChildController {
     @PutMapping("/modify")
     public ResponseEntity<Map<String, Object>> modifyChild(@RequestBody ChildModifyReqDto childModifyReqDto) {
         int retValue = childService.modifyChild(childModifyReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "수정 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(childModifyReqDto.getChildId(), "수정 성공");
         else return ResponseResource.handleError("수정 실패");
     }
 
     @DeleteMapping("/delete/{childId}")
     public ResponseEntity<Map<String, Object>> deleteChild(@PathVariable int childId) {
         int retValue = childService.deleteChild(childId);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(childId, "삭제 성공");
         else return ResponseResource.handleError("삭제 실패");
     }
 

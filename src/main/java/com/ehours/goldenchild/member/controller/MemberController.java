@@ -84,7 +84,7 @@ public class MemberController {
     @PutMapping("/modify")
     public ResponseEntity<Map<String, Object>> memberModify(@RequestBody MemberModifyReqDto memberModifyReqDto) {
         int resValue = memberService.memberModify(memberModifyReqDto);
-        if (resValue == 1) return ResponseResource.handleSuccess(resValue, "수정 완료");
+        if (resValue == 1) return ResponseResource.handleSuccess(memberModifyReqDto.getMemberNo(), "수정 완료");
         else if (resValue == -1) return ResponseResource.handleError("비밀번호 오류");
         else return ResponseResource.handleError("수정 실패");
     }
@@ -92,7 +92,7 @@ public class MemberController {
     @PutMapping("/signout/{memberNo}")
     public ResponseEntity<Map<String, Object>> memberSignOut(@PathVariable int memberNo) {
         int resValue = memberService.memberSignOut(memberNo);
-        if (resValue == 1) return ResponseResource.handleSuccess(resValue, "삭제 완료");
+        if (resValue == 1) return ResponseResource.handleSuccess(memberNo, "삭제 완료");
         else return ResponseResource.handleError("삭제 실패");
     }
 
