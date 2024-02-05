@@ -1,19 +1,22 @@
-package com.ehours.goldenchild.authentication;
+package com.ehours.goldenchild.jwt.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.crypto.SecretKey;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-@Slf4j
-public class JwtGenerator {
+@Service
+public class JwtServiceImpl implements JwtService{
     @Value("${app.JWT_KEY}")
     public String JWT_KEY;
     @Value("${app.JWT_HEADER_A}")
@@ -22,21 +25,40 @@ public class JwtGenerator {
     public String JWT_HEADER_R;
     @Value("${app.JWT_PREFIX}")
     public String JWT_PREFIX;
-    @Value("${app.JWT_REFRESH_EXPIRATION}")
-    public String JWT_REFRESH_EXPIRATION;
 
-    public String generateToken(HttpServletResponse response, int no){
+    public List<String> generateToken(int no){
         String accessToken = createAccessToken(no);
         String refreshToken = createRefreshToken(no);
 
-        Cookie cookie = new Cookie(JWT_PREFIX, refreshToken);
-        cookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
+        List<String> tokenList = new ArrayList<>();
+        tokenList.add(accessToken);
+        tokenList.add(refreshToken);
 
-        response.addCookie(cookie);
+        return tokenList;
+    }
 
-        return accessToken;
+    public boolean validateToken(String token){
+        SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token);
+
+            return !claims.getPayload().getExpiration().before(new Date());
+        } catch (JwtException e){
+            return false;
+        }
+    }
+
+    public int userCheck(String token){
+        SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
+        Jws<Claims> claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token);
+
+        return claims.getPayload().get("id", Integer.class);
     }
 
     private String createAccessToken(int memberNo) {

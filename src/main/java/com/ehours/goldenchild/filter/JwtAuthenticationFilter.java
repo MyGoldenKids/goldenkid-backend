@@ -1,6 +1,6 @@
 package com.ehours.goldenchild.filter;
 
-import com.ehours.goldenchild.authentication.JwtValidator;
+import com.ehours.goldenchild.jwt.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -29,18 +29,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public String JWT_PREFIX;
 
     private final AuthenticationManager authenticationManager;
-    private final JwtValidator jwtValidator;
+    private final JwtService jwtService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = extractAccessToken(request);
         String refreshToken = extractRefreshToken(request);
 
-        if (null != accessToken && jwtValidator.validateToken(accessToken)) {  // access token이 유효함
+        if (null != accessToken && jwtService.validateToken(accessToken)) {  // access token이 유효함
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtValidator.userCheck(accessToken), null, Collections.singletonList(authority)));
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtService.userCheck(accessToken), null, Collections.singletonList(authority)));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else if (null != extractRefreshToken(request) && jwtValidator.validateToken(refreshToken)) {
+        } else if (null != extractRefreshToken(request) && jwtService.validateToken(refreshToken)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());  // Refreshtoken이 유효함
         } else {
             authenticationFailureHandler(response);

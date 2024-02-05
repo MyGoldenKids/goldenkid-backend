@@ -1,7 +1,7 @@
 package com.ehours.goldenchild.member.controller;
 
-import com.ehours.goldenchild.authentication.JwtGenerator;
 import com.ehours.goldenchild.common.ResponseResource;
+import com.ehours.goldenchild.jwt.service.JwtService;
 import com.ehours.goldenchild.member.dto.MemberDetailResDto;
 import com.ehours.goldenchild.member.dto.MemberLoginReqDto;
 import com.ehours.goldenchild.member.dto.MemberLoginResDto;
@@ -10,8 +10,11 @@ import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
-    private final JwtGenerator jwtGenerator;
+    @Value("${app.JWT_PREFIX}")
+    public String JWT_PREFIX;
+    @Value("${app.JWT_REFRESH_EXPIRATION}")
+    public String JWT_REFRESH_EXPIRATION;
+
+    private final JwtService jwtService;
     private final MemberService memberService;
 
     @PostMapping("/signup")
@@ -40,10 +48,19 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberLoginReqDto memberLoginReqDto, HttpServletResponse response) {
         MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
         if (memberLoginResDto != null) {
-            String token = jwtGenerator.generateToken(response, memberLoginResDto.getMemberNo());
+            List<String> tokens = jwtService.generateToken(memberLoginResDto.getMemberNo());
+
+            Cookie cookie = new Cookie(JWT_PREFIX, tokens.get(1));
+            cookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+
+            response.addCookie(cookie);
+
+
             Map<String, Object> map = new HashMap<>();
             map.put("data", memberLoginResDto);
-            map.put("token", token);
+            map.put("token", tokens.get(0));
             map.put("message", "로그인 성공!");
             return ResponseEntity.status(HttpStatus.OK).body(map);
         } else return ResponseResource.handleError("로그인 실패");
