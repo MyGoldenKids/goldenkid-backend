@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,11 +40,15 @@ public class JwtController {
             }
         }
 
-        int no = jwtValidator.userCheck(refreshToken);
-        String token = jwtGenerator.generateToken(response, no);
+        if (refreshToken != null && jwtValidator.validateToken(refreshToken)){
+            int no = jwtValidator.userCheck(refreshToken);
+            String token = jwtGenerator.generateToken(response, no);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("token", token);
-        return ResponseEntity.status(HttpStatus.OK).body(map);
+            Map<String, Object> map = new HashMap<>();
+            map.put("token", token);
+            return ResponseEntity.status(HttpStatus.OK).body(map);
+        } else { // 쿠키가 만료되었거나 refreshToken이 만료되었을 경우
+            throw new PreAuthenticatedCredentialsNotFoundException("no refresh token exist");
+        }
     }
 }
