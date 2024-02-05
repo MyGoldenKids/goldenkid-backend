@@ -30,7 +30,7 @@ public class StoryController {
     @PatchMapping("/status/{storyId}")
     public ResponseEntity<Map<String, Object>> updateStoryStatus(@PathVariable int storyId, StoryStatusReqDto storyStatusReqDto) {
         int retValue = storyService.updateStoryStatus(storyId, storyStatusReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "상태 수정 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(storyId, "상태 수정 성공");
         else return ResponseResource.handleError("상태 수정 실패");
     }
 
@@ -54,7 +54,7 @@ public class StoryController {
         return ResponseResource.handleSuccess(storyDetailResDtoList, "조회 성공");
     }
 
-    @DeleteMapping("/delete/{storyId}/member/{memberid}")
+    @DeleteMapping("/delete/{storyId}/member/{memberId}")
     public ResponseEntity<Map<String, Object>> deleteStory(@PathVariable int storyId, @PathVariable int memberId) {
         int retValue = storyService.deleteStory(storyId, memberId);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "스토리 삭제 성공");

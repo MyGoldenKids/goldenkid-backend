@@ -29,7 +29,7 @@ public class SprintController {
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createSprint(@RequestBody SprintCreateReqDto sprintCreateReqDto) {
         int retValue = sprintService.createSprint(sprintCreateReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "생성 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(sprintCreateReqDto.getSprintId(), "생성 성공");
         else return ResponseResource.handleError("생성 실패");
     }
 
@@ -42,21 +42,21 @@ public class SprintController {
     @PatchMapping("/status/{sprintId}")
     public ResponseEntity<Map<String, Object>> updateSprintStatus(@PathVariable int sprintId, @RequestBody SprintStatusReqDto sprintStatusReqDto) {
         int retValue = sprintService.updateSprintStatus(sprintId, sprintStatusReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "상태 수정 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(sprintId, "상태 수정 성공");
         else return ResponseResource.handleError("상태 수정 실패");
     }
 
     @PutMapping("/modify/{sprintId}")
     public ResponseEntity<Map<String, Object>> updateSprint(@PathVariable int sprintId, @RequestBody SprintModifyReqDto sprintModifyReqDto) {
         int retValue = sprintService.updateSprint(sprintId, sprintModifyReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "스프린트 수정 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(sprintId, "스프린트 수정 성공");
         else return ResponseResource.handleError("스프린트 수정 실패");
     }
 
     @DeleteMapping("/delete/{sprintId}/member/{memberId}")
     public ResponseEntity<Map<String, Object>> deleteSprint(@PathVariable int sprintId, @PathVariable int memberId) {
         int retValue = sprintService.deleteSprint(sprintId, memberId);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "스프린트 삭제 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(sprintId, "스프린트 삭제 성공");
         else return ResponseResource.handleError("스프린트 삭제 실패");
     }
 }

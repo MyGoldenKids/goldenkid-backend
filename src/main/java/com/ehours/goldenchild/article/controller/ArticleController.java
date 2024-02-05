@@ -31,7 +31,7 @@ public class ArticleController {
     @PostMapping("/write")
     public ResponseEntity<Map<String, Object>> writeArticle(@RequestBody ArticleReqDto articleReqDto) {
         int retValue = articleService.writeArticle(articleReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "게시판 글 등록 성공!");
+        if (retValue == 1) return ResponseResource.handleSuccess(articleReqDto.getArticleId(), "게시판 글 등록 성공!");
         else return ResponseResource.handleError("게시판 글 등록 실패..");
     }
 
@@ -45,7 +45,7 @@ public class ArticleController {
     @PutMapping("/delete/{articleId}")
     public ResponseEntity<Map<String, Object>> articleDeleteRequest(@PathVariable int articleId) {
         int retValue = articleService.articleDeleteRequest(articleId);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 요청 성공!");
+        if (retValue == 1) return ResponseResource.handleSuccess(articleId, "삭제 요청 성공!");
         else return ResponseResource.handleError("삭제 요청 실패..");
     }
 
@@ -59,7 +59,7 @@ public class ArticleController {
     @PutMapping("/modify")
     public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleUpdateDto articleUpdateDto) {
         int retValue = articleService.updateArticle(articleUpdateDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "게시글 수정 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(articleUpdateDto.getArticleId(), "게시글 수정 성공");
         else return ResponseResource.handleError("게시글 수정 실패..");
     }
 }
