@@ -29,6 +29,9 @@ public class JwtController {
 
     private final JwtService jwtService;
 
+    /*
+        refresh token이 유효하다면 access token과 refresh token 재발급
+     */
     @PostMapping("/silent-refresh")
     public ResponseEntity<Map<String, Object>> regenerate(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = null;
@@ -45,25 +48,31 @@ public class JwtController {
             }
         }
 
-        if (refreshToken != null && jwtService.validateToken(refreshToken)){
-            refreshTokenCookie.setMaxAge(0);  // 원래 가지고 있던 쿠키는 삭제해주어야합니다.
-            response.addCookie(refreshTokenCookie);
-
-            // 새로운 refresh token 발급 과정
+        if (refreshToken != null && jwtService.validateToken(refreshToken)){  // refresh token이 존재하고 우리가 발행한 토큰이라면
             int no = jwtService.userCheck(refreshToken);
-            List<String> tokens = jwtService.generateToken(no);
 
-            Cookie cookie = new Cookie(JWT_PREFIX, tokens.get(1));
-            cookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
+            if(jwtService.isRefreshTrue(no, refreshToken)) {
+                refreshTokenCookie.setMaxAge(0);  // 원래 가지고 있던 쿠키는 삭제해주어야합니다.
+                response.addCookie(refreshTokenCookie);
 
-            response.addCookie(cookie);
+                // 새로운 refresh token 발급 과정
+                List<String> tokens = jwtService.generateToken(no);
 
-            // access token 추가
-            Map<String, Object> map = new HashMap<>();
-            map.put("token", tokens.get(0));
-            return ResponseEntity.status(HttpStatus.OK).body(map);
+                Cookie cookie = new Cookie(JWT_PREFIX, tokens.get(1));
+                cookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
+                cookie.setHttpOnly(true);
+                cookie.setPath("/");
+
+                response.addCookie(cookie);
+
+                // access token 추가
+                Map<String, Object> map = new HashMap<>();
+                map.put("token", tokens.get(0));
+                return ResponseEntity.status(HttpStatus.OK).body(map);
+            } else{
+                log.info("modulated Token");
+                throw new PreAuthenticatedCredentialsNotFoundException("modulated token");
+            }
         } else { // 쿠키가 만료되었거나 refreshToken이 만료되었을 경우
             throw new PreAuthenticatedCredentialsNotFoundException("no refresh token exist");
         }

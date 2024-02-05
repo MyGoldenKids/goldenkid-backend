@@ -6,5 +6,6 @@ import java.util.List;
 public interface JwtService {
     List<String> generateToken(int no);
     boolean validateToken(String token);
+    boolean isRefreshTrue(int no, String token);
     int userCheck(String token);
 }
