@@ -91,11 +91,13 @@ public class CommentTests {
     @Test
     @Transactional
     void writeComment() {
+        int count = commentService.getCommentByArticleId(articleReqDto.getArticleId()).size();
         CommentRequestDto commentRequestDto = CommentRequestDto.builder()
                 .memberId(login.getMemberNo())
                 .content("드가자")
                 .build();
         int retValue = commentService.writeComment(articleReqDto.getArticleId(), commentRequestDto);
+        Assertions.assertThat(commentService.getCommentByArticleId(articleReqDto.getArticleId()).size()).isEqualTo(count + 1);
         log.info(commentService.getCommentByArticleId(articleReqDto.getArticleId()).toString());
     }
 
