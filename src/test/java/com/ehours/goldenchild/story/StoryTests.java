@@ -6,7 +6,7 @@ import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
 import com.ehours.goldenchild.sprint.dto.SprintCreateReqDto;
 import com.ehours.goldenchild.sprint.service.SprintService;
-import com.ehours.goldenchild.story.dto.StoryCreateReqDto;
+import com.ehours.goldenchild.story.dto.StoryRequestDto;
 import com.ehours.goldenchild.story.dto.StoryDetailResDto;
 import com.ehours.goldenchild.story.dto.StoryStatusReqDto;
 import com.ehours.goldenchild.story.service.StoryService;
@@ -41,7 +41,7 @@ public class StoryTests {
     private MemberSignUpReqDto memberSignUpReqDto;
     private MemberLoginResDto login;
     private SprintCreateReqDto sprintCreateReqDto;
-    private StoryCreateReqDto storyCreateReqDto, storyCreateReqDto2, storyCreateReqDto3;
+    private StoryRequestDto storyRequestDto, storyRequestDto2, storyRequestDto3;
 
     @BeforeAll
     public void setUp() {
@@ -70,16 +70,15 @@ public class StoryTests {
         System.out.println(retValue);
         Assertions.assertThat(retValue).isEqualTo(1);
 
-        storyCreateReqDto = StoryCreateReqDto.builder()
+        storyRequestDto = StoryRequestDto.builder()
                 .memberId(login.getMemberNo())
                 .storyContent("스토리")
                 .sprintId(sprintCreateReqDto.getSprintId())
                 .storyPoint(5)
                 .build();
-        storyService.createStory(storyCreateReqDto);
+        storyService.createStory(storyRequestDto);
 
-//        System.out.println(retValue);
-        log.info(storyCreateReqDto.toString());
+        log.info(storyRequestDto.toString());
 
     }
 
@@ -89,19 +88,20 @@ public class StoryTests {
     }
 
 
-//    @Test
-//    @Transactional
-//    void createStory() {
-//        StoryCreateReqDto create = StoryCreateReqDto.builder()
-//                .memberId(login.getMemberNo())
-//                .storyContent("스토리")
-//                .sprintId(sprintCreateReqDto.getSprintId())
-//                .storyPoint(5)
-//                .build();
-//        int retValue = storyService.createStory(create);
-//        System.out.println(retValue);
-////        log.info(create.toString());
-//    }
+    @Test
+    @Transactional
+    void createStory() {
+        StoryRequestDto create = StoryRequestDto.builder()
+                .memberId(login.getMemberNo())
+                .storyContent("생성 테스트")
+                .sprintId(sprintCreateReqDto.getSprintId())
+                .storyPoint(10)
+                .build();
+        int retValue = storyService.createStory(create);
+        System.out.println(retValue);
+        Assertions.assertThat(storyService.getStoryById(create.getStoryId(), login.getMemberNo())).isNotNull();
+//        log.info(create.toString());
+    }
 
     @Test
     @Transactional
@@ -110,23 +110,45 @@ public class StoryTests {
                 .storyStatus(1)
                 .memberId(login.getMemberNo())
                 .build();
-        log.info(storyService.getStoryById(storyCreateReqDto.getStoryId(), login.getMemberNo()).toString());
-        int retVal = storyService.updateStoryStatus(storyCreateReqDto.getStoryId(), storyStatusReqDto);
-        log.info(storyService.getStoryById(storyCreateReqDto.getStoryId(), login.getMemberNo()).toString());
-        log.info(storyCreateReqDto.toString());
+        log.info(storyService.getStoryById(storyRequestDto.getStoryId(), login.getMemberNo()).toString());
+        int retVal = storyService.updateStoryStatus(storyRequestDto.getStoryId(), storyStatusReqDto);
+        log.info(storyService.getStoryById(storyRequestDto.getStoryId(), login.getMemberNo()).toString());
+        log.info(storyRequestDto.toString());
         Assertions.assertThat(retVal).isEqualTo(1);
     }
 
     @Test
     @Transactional
+    void updateStory() {
+        StoryRequestDto create = StoryRequestDto.builder()
+                .memberId(login.getMemberNo())
+                .storyContent("수정 테스트")
+                .sprintId(sprintCreateReqDto.getSprintId())
+                .storyPoint(5)
+                .build();
+        storyService.createStory(create);
+
+        StoryRequestDto update = StoryRequestDto.builder()
+                .memberId(login.getMemberNo())
+                .storyContent("수정 되었다")
+                .sprintId(create.getSprintId())
+                .storyId(create.getStoryId())
+                .storyPoint(5)
+                .build();
+        storyService.updateStory(update.getStoryId(), update);
+        Assertions.assertThat(storyService.getStoryById(update.getStoryId(), login.getMemberNo()).getStoryContent()).isEqualTo("수정 되었다");
+    }
+
+    @Test
+    @Transactional
     void getStoryBySprintId() {
-        storyCreateReqDto3 = StoryCreateReqDto.builder()
+        storyRequestDto3 = StoryRequestDto.builder()
                 .memberId(login.getMemberNo())
                 .storyContent("스토리3")
                 .sprintId(sprintCreateReqDto.getSprintId())
                 .storyPoint(5)
                 .build();
-        storyService.createStory(storyCreateReqDto3);
+        storyService.createStory(storyRequestDto3);
         List<StoryDetailResDto> storyDetailResDtoList = storyService.getStoryBySprintId(sprintCreateReqDto.getSprintId(), login.getMemberNo());
         log.info(storyDetailResDtoList.toString());
     }
@@ -134,19 +156,19 @@ public class StoryTests {
     @Test
     @Transactional
     void deleteStory() {
-        storyCreateReqDto2 = StoryCreateReqDto.builder()
+        storyRequestDto2 = StoryRequestDto.builder()
                 .memberId(login.getMemberNo())
                 .storyContent("스토리2")
                 .sprintId(sprintCreateReqDto.getSprintId())
                 .storyPoint(5)
                 .build();
-        storyService.createStory(storyCreateReqDto2);
-        int count = storyService.getStoryBySprintId(storyCreateReqDto.getSprintId(), login.getMemberNo()).size();
-        log.info(storyService.getStoryBySprintId(storyCreateReqDto2.getStoryId(), login.getMemberNo()).toString());
-        storyService.deleteStory(storyCreateReqDto2.getStoryId(), login.getMemberNo());
+        storyService.createStory(storyRequestDto2);
+        int count = storyService.getStoryBySprintId(storyRequestDto.getSprintId(), login.getMemberNo()).size();
+        log.info(storyService.getStoryBySprintId(storyRequestDto2.getStoryId(), login.getMemberNo()).toString());
+        storyService.deleteStory(storyRequestDto2.getStoryId(), login.getMemberNo());
 //        log.info(storyService.getStoryBySprintId(storyCreateReqDto2.getStoryId(), login.getMemberNo()).toString());
 
-        Assertions.assertThat(storyService.getStoryBySprintId(storyCreateReqDto.getSprintId(), login.getMemberNo()).size()).isEqualTo(count - 1);
+        Assertions.assertThat(storyService.getStoryBySprintId(storyRequestDto.getSprintId(), login.getMemberNo()).size()).isEqualTo(count - 1);
     }
 
 
