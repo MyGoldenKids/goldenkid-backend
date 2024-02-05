@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class ChildRegisterReqDto {
+    private int childId;
     private String childName;
     private String childBirth;
     private boolean childGender;
