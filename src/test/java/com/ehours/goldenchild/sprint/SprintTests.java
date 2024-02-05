@@ -41,7 +41,6 @@ public class SprintTests {
 
     @BeforeAll
     public void setUp() {
-//        memberService = context.getBean(MemberService.class);
         String id = "test54321@kakao.com";
         String pw = "password1234";
         MemberSignUpReqDto memberSignUpReqDto = MemberSignUpReqDto.builder()
