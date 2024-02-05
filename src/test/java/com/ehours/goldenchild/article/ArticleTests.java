@@ -5,30 +5,72 @@ import com.ehours.goldenchild.article.dto.ArticleDto;
 import com.ehours.goldenchild.article.dto.ArticleReqDto;
 import com.ehours.goldenchild.article.dto.ArticleUpdateDto;
 import com.ehours.goldenchild.article.service.ArticleService;
+import com.ehours.goldenchild.file.dto.FileListIdDto;
+import com.ehours.goldenchild.file.mapper.FileMapper;
+import com.ehours.goldenchild.file.service.FileService;
+import com.ehours.goldenchild.member.dto.MemberLoginReqDto;
+import com.ehours.goldenchild.member.dto.MemberLoginResDto;
+import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
+import com.ehours.goldenchild.member.service.MemberService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ArticleTests {
     @Autowired
     ArticleService articleService;
 
-//    private String member_id;
-//    private int file_list_id;
-//    private String article_title;
-//    private String article_content;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    FileMapper fileMapper;
+    private MemberLoginResDto login;
+    private FileListIdDto fileListIdDto;
+
+    @BeforeAll
+    public void setUp() {
+        String id = "test54321@kakao.com";
+        String pw = "password1234";
+        MemberSignUpReqDto memberSignUpReqDto = MemberSignUpReqDto.builder()
+                .memberId(id)
+                .password(pw)
+                .nickname("카카오")
+                .phoneNumber("010-1234-5678")
+                .build();
+        memberService.signup(memberSignUpReqDto);
+        MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
+                .memberId(id)
+                .password(pw)
+                .build();
+        login = memberService.login(memberLoginReqDto);
+        fileListIdDto = new FileListIdDto();
+        fileMapper.makeFileList(fileListIdDto);
+    }
+
+    @AfterAll
+    public void deleteSetup() {
+        jdbcTemplate.update("DELETE FROM member WHERE no = ?", login.getMemberNo());
+        jdbcTemplate.update("DELETE FROM file_list WHERE file_list_id = ?", fileListIdDto.getFileListId());
+    }
     @Test
     @Transactional
     void articleInsertTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(1)
-                .fileListId(1)
+                .memberId(login.getMemberNo())
+                .fileListId(fileListIdDto.getFileListId())
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
@@ -40,7 +82,7 @@ public class ArticleTests {
     @Transactional
     void articleInsertWithoutFileListIdTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(1)
+                .memberId(login.getMemberNo())
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
@@ -52,8 +94,8 @@ public class ArticleTests {
     @Transactional
     void getAllArticlesTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(1)
-                .fileListId(1)
+                .memberId(login.getMemberNo())
+                .fileListId(fileListIdDto.getFileListId())
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
@@ -67,8 +109,8 @@ public class ArticleTests {
     @Transactional
     void getArticleByIdTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(1)
-                .fileListId(1)
+                .memberId(login.getMemberNo())
+                .fileListId(fileListIdDto.getFileListId())
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
@@ -83,8 +125,8 @@ public class ArticleTests {
     @Transactional
     void deleteReqTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(1)
-                .fileListId(1)
+                .memberId(login.getMemberNo())
+                .fileListId(fileListIdDto.getFileListId())
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
@@ -97,8 +139,8 @@ public class ArticleTests {
     @Transactional
     void modifyTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(1)
-                .fileListId(1)
+                .memberId(login.getMemberNo())
+                .fileListId(fileListIdDto.getFileListId())
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
@@ -119,7 +161,7 @@ public class ArticleTests {
     @Transactional
     void modifyWithoutFileListIdTest() {
         ArticleReqDto articleReqDto = ArticleReqDto.builder()
-                .memberId(1)
+                .memberId(login.getMemberNo())
                 .articleTitle("테스트용 게시글 제목")
                 .articleContent("테스트용 게시글 내용")
                 .build();
