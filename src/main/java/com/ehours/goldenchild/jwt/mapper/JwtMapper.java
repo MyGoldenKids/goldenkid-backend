@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface JwtMapper {
@@ -16,7 +17,7 @@ public interface JwtMapper {
             "where token_id = #{tokenId}")
     String validateRefreshToken(String tokenId);
 
-    @Delete("DELETE FROM refresh_token " +
+    @Update("UPDATE refresh_token SET refresh_token = #{refreshToken} " +
             "where token_id = #{tokenId}")
-    int deleteToken(String tokenId);
+    int UpdateToken(RefreshTokenDto refreshTokenDto);
 }

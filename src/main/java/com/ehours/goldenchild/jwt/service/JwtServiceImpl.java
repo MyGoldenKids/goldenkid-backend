@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class JwtServiceImpl implements JwtService{
+public class JwtServiceImpl implements JwtService {
     @Value("${app.JWT_KEY}")
     public String JWT_KEY;
     @Value("${app.JWT_HEADER_A}")
@@ -32,19 +32,20 @@ public class JwtServiceImpl implements JwtService{
 
     private final JwtMapper jwtMapper;
 
-    public List<String> generateToken(int no){
+    public List<String> generateToken(int no) {
         String accessToken = createAccessToken(no);
         String refreshToken = createRefreshToken(no);
 
         String tokenId = JWT_HEADER_R + no;
 
-        // 이미 refreshToken이 저장되어있다면 지워줌
-        if (jwtMapper.validateRefreshToken(tokenId) != null){
-            jwtMapper.deleteToken(tokenId);
-        }
 
         RefreshTokenDto refreshTokenDto = new RefreshTokenDto(tokenId, refreshToken);
-        jwtMapper.createRefreshToken(refreshTokenDto);
+        // 이미 refreshToken이 저장되어있다면 업데이트
+        if (jwtMapper.validateRefreshToken(tokenId) != null) {
+            jwtMapper.UpdateToken(refreshTokenDto);
+        } else {
+            jwtMapper.createRefreshToken(refreshTokenDto);
+        }
 
         List<String> tokenList = new ArrayList<>();
         tokenList.add(accessToken);
@@ -56,7 +57,7 @@ public class JwtServiceImpl implements JwtService{
     /*
         토큰이 해당 사이트에서 발행한 토큰인지 만료되지 않았는지 점검
      */
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
         try {
             Jws<Claims> claims = Jwts.parser()
@@ -65,7 +66,7 @@ public class JwtServiceImpl implements JwtService{
                     .parseSignedClaims(token);
 
             return !claims.getPayload().getExpiration().before(new Date());
-        } catch (JwtException e){
+        } catch (JwtException e) {
             return false;
         }
     }
@@ -73,14 +74,14 @@ public class JwtServiceImpl implements JwtService{
     /*
         현재 .MySql DB에 저장된 토큰 정보와 일치여부 점검
      */
-    public boolean isRefreshTrue(int no, String token){
+    public boolean isRefreshTrue(int no, String token) {
         String tokenId = JWT_HEADER_R + no;
 
         String savedToken = jwtMapper.validateRefreshToken(tokenId);
 
         if (token.equals(savedToken)) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
@@ -88,7 +89,7 @@ public class JwtServiceImpl implements JwtService{
     /*
         인증된 토큰의 payload에서 userId를 추출해내는 Method
      */
-    public int userCheck(String token){
+    public int userCheck(String token) {
         SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
         Jws<Claims> claims = Jwts.parser()
                 .verifyWith(key)
@@ -110,7 +111,7 @@ public class JwtServiceImpl implements JwtService{
                 .signWith(key).compact();
     }
 
-    private String createRefreshToken(int memberNo){
+    private String createRefreshToken(int memberNo) {
         Date date = new Date();
         SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
 
