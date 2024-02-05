@@ -22,6 +22,21 @@ public class FileServiceImpl implements FileService{
 
     @Transactional
     @Override
+    public int saveFilesByFileListId(List<MultipartFile> files, int fileListId, int memberId) {
+        if (files.isEmpty()) return 0;
+
+        List<FileRequestDto> fileRequestDtoList = fileUtils.uploadFiles(files);
+        for (FileRequestDto fileRequestDto : fileRequestDtoList) {
+            fileRequestDto.setFileListId(fileListId);
+            fileRequestDto.setMemberId(memberId);
+        }
+        int retValue = fileMapper.saveAllFiles(fileRequestDtoList);
+        if (files.size() == retValue) return retValue;
+        else return 0;
+    }
+
+    @Transactional
+    @Override
     public int saveAllFiles(List<MultipartFile> files, int memberId) { // All or Nothing
         if (files.isEmpty()) return 0;
         FileListIdDto fileListIdDto = new FileListIdDto();

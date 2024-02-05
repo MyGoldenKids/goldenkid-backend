@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -17,6 +18,7 @@ public interface DiaryMapper {
     @Insert("INSERT INTO diary (member_id, child_id, diary_title, diary_content, diary_review)"
     + "values(#{memberId}, #{childId}, '', '', '')"
     )
+    @Options(useGeneratedKeys = true, keyProperty = "diaryId")
     int createDiary(DiaryCreateReqDto diaryCreateReqDto);
 
     @Update("UPDATE diary SET diary_title = #{diaryTitle}, diary_content = #{diaryContent}, "
