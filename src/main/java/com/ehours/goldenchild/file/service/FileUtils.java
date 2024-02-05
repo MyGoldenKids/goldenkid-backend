@@ -40,6 +40,10 @@ public class FileUtils {
 
         String saveFileName = generateSaveFileName(multipartFile.getOriginalFilename());
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
+        File dir = new File(getUploadPath(today));
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
         String uploadPath = getUploadPath(today) + File.separator + saveFileName;
         File uploadFile = new File(uploadPath);
         log.info(uploadPath);
