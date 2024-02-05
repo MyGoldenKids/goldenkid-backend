@@ -6,25 +6,55 @@ import com.ehours.goldenchild.member.dto.MemberLoginResDto;
 import com.ehours.goldenchild.member.dto.MemberModifyReqDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
+import com.ehours.goldenchild.sprint.service.SprintService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GoldenchildApplicationTests {
 	@Autowired
-	MemberService memberService;
-	private static final int testMemberNo = 50;
-	private static final String testMemberId = "test@daum.net";
-	private static final String testPassword = "1234";
+	private MemberService memberService;
 
-	@Test
-	void contextLoads() {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private SprintService sprintService;
+
+
+	private MemberLoginResDto login;
+	private String id = "test54321@kakao.com";
+	private String pw = "password1234";
+	@BeforeAll
+	public void setUp() {
+		MemberSignUpReqDto memberSignUpReqDto = MemberSignUpReqDto.builder()
+				.memberId(id)
+				.password(pw)
+				.nickname("카카오")
+				.phoneNumber("010-1234-5678")
+				.build();
+		memberService.signup(memberSignUpReqDto);
+		MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
+				.memberId(id)
+				.password(pw)
+				.build();
+		login = memberService.login(memberLoginReqDto);
+	}
+
+	@AfterAll
+	public void deleteSetup() {
+		jdbcTemplate.update("DELETE FROM member WHERE no = ?", login.getMemberNo());
 	}
 
 	@Test
@@ -44,34 +74,34 @@ class GoldenchildApplicationTests {
 	@Transactional
 	void login() {
 		MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
-				.memberId(testMemberId)
-				.password(testPassword)
+				.memberId(id)
+				.password(pw)
 				.build();
 		MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
 		log.info(memberLoginResDto.toString());
-		Assertions.assertThat(memberLoginResDto.getMemberNo()).isEqualTo(testMemberNo);
+		Assertions.assertThat(memberLoginResDto.getMemberNo()).isEqualTo(login.getMemberNo());
 	}
 
 	@Test
 	@Transactional
 	void idCheckTest() {
-		int resValue = memberService.idCheck(testMemberId);
+		int resValue = memberService.idCheck(id);
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 
 	@Test
 	@Transactional
 	void memberDetailTest() {
-		MemberDetailResDto resValue = memberService.memberDetail(testMemberNo);
-		Assertions.assertThat(resValue.getMemberId()).isEqualTo(testMemberId);
+		MemberDetailResDto resValue = memberService.memberDetail(login.getMemberNo());
+		Assertions.assertThat(resValue.getMemberId()).isEqualTo(id);
 	}
 
 	@Test
 	@Transactional
 	void memberModifyTest() {
 		MemberModifyReqDto memberModifyReqDto = MemberModifyReqDto.builder()
-				.memberNo(testMemberNo)
-				.password(testPassword)
+				.memberNo(login.getMemberNo())
+				.password(pw)
 				.newPassword("13232413")
 				.nickname("닉네임")
 				.phoneNumber("111122222")
@@ -83,7 +113,7 @@ class GoldenchildApplicationTests {
 	@Test
 	@Transactional
 	void memberSignOutTest() {
-		int resValue = memberService.memberSignOut(testMemberNo);
+		int resValue = memberService.memberSignOut(login.getMemberNo());
 		Assertions.assertThat(resValue).isEqualTo(1);
 	}
 }
