@@ -53,4 +53,9 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryMapper.listDiaryByDate(diaryDateReqDto);
     }
 
+    @Override
+    public List<DiaryDetailResDto> getDraftDiary(int memberId) {
+        return diaryMapper.getDraftDiary(memberId);
+    }
+
 }

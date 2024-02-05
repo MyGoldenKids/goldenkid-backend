@@ -18,4 +18,5 @@ public interface DiaryService {
     List<DiaryResDto> listDiary(int memberId);
     DiaryDetailResDto detailDiary(int diaryId);
     List<DiaryDetailResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto);
+    List<DiaryDetailResDto> getDraftDiary(int memberId);
 }

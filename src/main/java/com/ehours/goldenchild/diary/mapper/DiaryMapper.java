@@ -47,4 +47,9 @@ public interface DiaryMapper {
             + "from diary d join child c on  d.child_id = c.child_id "
             + "where d.member_id = #{memberId} and date_format(d.created_at, '%Y-%m-%d') = #{createdAt} and diary_status = 1")
     List<DiaryDetailResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto);
+
+    @Select("SELECT d.diary_title, d.diary_content, d.diary_review, d.file_list_id, d.created_at, c.child_name "
+            + "from diary d join child c on  d.child_id = c.child_id "
+            + "where d.member_id = #{memberId} and diary_status = 0")
+    List<DiaryDetailResDto> getDraftDiary(int memberId);
 }
