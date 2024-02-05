@@ -3,6 +3,7 @@ package com.ehours.goldenchild.diary;
 import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
 import com.ehours.goldenchild.child.service.ChildService;
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryDateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
 import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
@@ -147,6 +148,73 @@ public class DiaryTests {
         DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(diaryTest.getDiaryId());
         log.info(diaryDetailResDto.toString());
         Assertions.assertThat(diaryDetailResDto).isNotNull();
+    }
+
+    @Test
+    @Transactional
+    void listDiaryDate() {
+        DiaryCreateReqDto diaryTest1 = DiaryCreateReqDto.builder()
+                .memberId(login.getMemberNo())
+                .childId(childTest.getChildId())
+                .build();
+        diaryService.createDiary(diaryTest1);
+        DiarySubmitReqDto diarySubmitReqDto1 = DiarySubmitReqDto.builder()
+                .memberId(login.getMemberNo())
+                .diaryId(diaryTest1.getDiaryId())
+                .diaryTitle("응애응애")
+                .diaryContent("내용5")
+                .diaryReview("???")
+                .build();
+        diaryService.submitDiary(diarySubmitReqDto1);
+
+        DiaryCreateReqDto diaryTest2 = DiaryCreateReqDto.builder()
+                .memberId(login.getMemberNo())
+                .childId(childTest.getChildId())
+                .build();
+        diaryService.createDiary(diaryTest2);
+        DiarySubmitReqDto diarySubmitReqDto2 = DiarySubmitReqDto.builder()
+                .memberId(login.getMemberNo())
+                .diaryId(diaryTest2.getDiaryId())
+                .diaryTitle("아 몰랑")
+                .diaryContent("내용5")
+                .diaryReview("???")
+                .build();
+        diaryService.submitDiary(diarySubmitReqDto2);
+
+
+        log.info(diaryService.detailDiary(diarySubmitReqDto2.getDiaryId()).toString());
+        DiaryDateReqDto diaryDateReqDto = DiaryDateReqDto.builder()
+                .memberId(login.getMemberNo())
+                .createdAt("2024-02-05")
+                .build();
+
+
+        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
+        log.info(diaryDetailResDtoList.toString());
+    }
+
+    @Test
+    @Transactional
+    void draftDiary() {
+
+        DiarySubmitReqDto diarySubmitReqDto = DiarySubmitReqDto.builder()
+                .memberId(login.getMemberNo())
+                .diaryId(diaryTest.getDiaryId())
+                .diaryTitle("우리애기")
+                .diaryContent("내용5")
+                .diaryReview("???")
+                .build();
+        int retValue = diaryService.submitDiary(diarySubmitReqDto);
+
+        DiaryCreateReqDto diaryTest1 = DiaryCreateReqDto.builder()
+                .memberId(login.getMemberNo())
+                .childId(childTest.getChildId())
+                .build();
+        diaryService.createDiary(diaryTest1);
+
+
+        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.getDraftDiary(login.getMemberNo());
+        log.info(diaryDetailResDtoList.toString());
     }
 }
 
