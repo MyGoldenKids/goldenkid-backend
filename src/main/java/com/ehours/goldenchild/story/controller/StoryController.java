@@ -1,7 +1,7 @@
 package com.ehours.goldenchild.story.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
-import com.ehours.goldenchild.story.dto.StoryCreateReqDto;
+import com.ehours.goldenchild.story.dto.StoryRequestDto;
 import com.ehours.goldenchild.story.dto.StoryDetailResDto;
 import com.ehours.goldenchild.story.dto.StoryStatusReqDto;
 import com.ehours.goldenchild.story.service.StoryService;
@@ -21,17 +21,24 @@ public class StoryController {
     private final StoryService storyService;
 
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createStory(@RequestBody StoryCreateReqDto storyCreateReqDto) {
-        int retValue = storyService.createStory(storyCreateReqDto);
-        if(retValue == 1) return ResponseResource.handleSuccess(storyCreateReqDto.getStoryId(),"스토리 생성 성공");
+    public ResponseEntity<Map<String, Object>> createStory(@RequestBody StoryRequestDto storyRequestDto) {
+        int retValue = storyService.createStory(storyRequestDto);
+        if(retValue == 1) return ResponseResource.handleSuccess(storyRequestDto.getStoryId(),"스토리 생성 성공");
         else return ResponseResource.handleError("스토리 생성 실패");
     }
 
-    @PatchMapping("/modify/{storyId}")
+    @PatchMapping("/status/{storyId}")
     public ResponseEntity<Map<String, Object>> updateStoryStatus(@PathVariable int storyId, StoryStatusReqDto storyStatusReqDto) {
         int retValue = storyService.updateStoryStatus(storyId, storyStatusReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(retValue, "상태 수정 성공");
         else return ResponseResource.handleError("상태 수정 실패");
+    }
+
+    @PutMapping("/modify/{storyId}")
+    public ResponseEntity<Map<String, Object>> updateStory(@PathVariable int storyId, StoryRequestDto storyRequestDto) {
+        int retValue = storyService.updateStory(storyId, storyRequestDto);
+        if (retValue == 1) return ResponseResource.handleSuccess(storyId, "스토리 수정 성공");
+        else return ResponseResource.handleError("스토리 수정 실패");
     }
 
     @GetMapping("/detail/{storyId}/member/{memberId}")

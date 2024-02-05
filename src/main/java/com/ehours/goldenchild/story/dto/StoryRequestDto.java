@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class StoryCreateReqDto {
+public class StoryRequestDto {
     private int memberId;
     private String storyContent;
     private int storyPoint;
