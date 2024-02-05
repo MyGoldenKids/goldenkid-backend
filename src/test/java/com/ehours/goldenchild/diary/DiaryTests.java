@@ -1,32 +1,94 @@
 package com.ehours.goldenchild.diary;
 
+import com.ehours.goldenchild.child.dto.ChildRegisterReqDto;
+import com.ehours.goldenchild.child.service.ChildService;
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
 import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
 import com.ehours.goldenchild.diary.service.DiaryService;
+import com.ehours.goldenchild.member.dto.MemberLoginReqDto;
+import com.ehours.goldenchild.member.dto.MemberLoginResDto;
+import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
+import com.ehours.goldenchild.member.service.MemberService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DiaryTests {
+    @Autowired
+    private MemberService memberService;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     DiaryService diaryService;
+    @Autowired
+    ChildService childService;
+
+    private MemberLoginResDto login;
+    private String id = "test54321@kakao.com";
+    private String pw = "password1234";
+
+    private DiaryCreateReqDto diaryTest;
+    private ChildRegisterReqDto childTest;
+
+    @BeforeAll
+    public void setUp() {
+        MemberSignUpReqDto memberSignUpReqDto = MemberSignUpReqDto.builder()
+                .memberId(id)
+                .password(pw)
+                .nickname("카카오")
+                .phoneNumber("010-1234-5678")
+                .build();
+        memberService.signup(memberSignUpReqDto);
+        MemberLoginReqDto memberLoginReqDto = MemberLoginReqDto.builder()
+                .memberId(id)
+                .password(pw)
+                .build();
+        login = memberService.login(memberLoginReqDto);
+
+        childTest = ChildRegisterReqDto.builder()
+                .childName("금쪽이")
+                .childBirth("2022-10-01")
+                .childGender(false)
+                .memberId(login.getMemberNo())
+                .build();
+        int retValue = childService.registerChild(childTest);
+        Assertions.assertThat(retValue).isEqualTo(1);
+        log.info(childTest.toString());
+
+        diaryTest = DiaryCreateReqDto.builder()
+                .memberId(login.getMemberNo())
+                .childId(childTest.getChildId())
+                .build();
+        diaryService.createDiary(diaryTest);
+    }
+
+    @AfterAll
+    public void deleteSetup() {
+        jdbcTemplate.update("DELETE FROM member WHERE no = ?", login.getMemberNo());
+    }
 
     @Test
     @Transactional
     void createDiary() {
         DiaryCreateReqDto diaryCreateReqDto = DiaryCreateReqDto.builder()
-                .memberId(1)
-                .childId(1)
+                .memberId(login.getMemberNo())
+                .childId(childTest.getChildId())
                 .build();
         int retValue = diaryService.createDiary(diaryCreateReqDto);
         Assertions.assertThat(retValue).isEqualTo(1);
@@ -37,8 +99,8 @@ public class DiaryTests {
     @Transactional
     void submitDiary() {
         DiarySubmitReqDto diarySubmitReqDto = DiarySubmitReqDto.builder()
-                .memberId(1)
-                .diaryId(1)
+                .memberId(login.getMemberNo())
+                .diaryId(diaryTest.getDiaryId())
                 .diaryTitle("우리애기")
                 .diaryContent("내용5")
                 .diaryReview("???")
@@ -51,7 +113,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void deleteDiary() {
-        int retValue = diaryService.deleteDiary(1);
+        int retValue = diaryService.deleteDiary(diaryTest.getDiaryId());
         Assertions.assertThat(retValue).isEqualTo(1);
     }
 
@@ -62,9 +124,9 @@ public class DiaryTests {
                 .diaryTitle("우리 아이")
                 .diaryContent("이게 맞나여?")
                 .diaryReview("")
-                .memberId(57)
+                .memberId(login.getMemberNo())
                 .build();
-        diaryUpdateReqDto.setDiaryId(19);
+        diaryUpdateReqDto.setDiaryId(diaryTest.getDiaryId());
         log.info(diaryUpdateReqDto.toString());
         int retValue = diaryService.updateDiary(diaryUpdateReqDto);
         Assertions.assertThat(retValue).isEqualTo(1);
@@ -74,7 +136,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void listDiary() {
-        List<DiaryResDto> diaryListResDto = diaryService.listDiary(1);
+        List<DiaryResDto> diaryListResDto = diaryService.listDiary(diaryTest.getMemberId());
         log.info(diaryListResDto.toString());
         Assertions.assertThat(diaryListResDto).isNotNull();
     }
@@ -82,7 +144,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void detailDiary() {
-        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(1);
+        DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(diaryTest.getDiaryId());
         log.info(diaryDetailResDto.toString());
         Assertions.assertThat(diaryDetailResDto).isNotNull();
     }

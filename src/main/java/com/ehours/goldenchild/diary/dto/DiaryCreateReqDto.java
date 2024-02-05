@@ -10,4 +10,5 @@ import lombok.Data;
 public class DiaryCreateReqDto {
     private int memberId;
     private int childId;
+    private int diaryId;
 }

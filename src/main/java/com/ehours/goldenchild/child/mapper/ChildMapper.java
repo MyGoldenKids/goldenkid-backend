@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -15,6 +16,7 @@ public interface ChildMapper {
     @Insert("INSERT INTO child (child_name, child_birth, child_gender, member_id)"
             + "values (#{childName}, #{childBirth}, #{childGender}, #{memberId})"
     )
+    @Options(useGeneratedKeys = true, keyProperty = "childId")
     int registerChild(ChildRegisterReqDto childRegisterReqDto);
 
     @Select("SELECT child_id, child_name, date_format(child_birth, '%Y-%m-%d'), child_gender, file_id from child where child_id = #{childId}")
