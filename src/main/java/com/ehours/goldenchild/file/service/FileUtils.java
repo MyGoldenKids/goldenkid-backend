@@ -4,9 +4,12 @@ import com.ehours.goldenchild.file.dto.FileRequestDto;
 import com.ehours.goldenchild.file.dto.FileResponseDto;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,15 +43,12 @@ public class FileUtils {
 
         String saveFileName = generateSaveFileName(multipartFile.getOriginalFilename());
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
-        File dir = new File(getUploadPath(today));
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
         String uploadPath = getUploadPath(today) + File.separator + saveFileName;
-        File uploadFile = new File(uploadPath);
+        Path uploadFilePath = Paths.get(uploadPath);
         log.info(uploadPath);
-        try {
-            multipartFile.transferTo(uploadFile);
+        try (InputStream is = multipartFile.getInputStream()){
+            Files.createDirectories(uploadFilePath.getParent());
+            Files.copy(is, uploadFilePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
