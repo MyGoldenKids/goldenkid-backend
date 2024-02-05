@@ -37,7 +37,7 @@ public interface DiaryMapper {
     int updateDiary(DiaryUpdateReqDto diaryUpdateReqDto);
 
     @Select("SELECT diary_id, diary_title, created_at from diary "
-            + "where member_id = #{memberId} and diary_status = 1"
+            + "where member_id = #{memberId} and diary_status = 1 order by diary_id desc"
     )
     List<DiaryResDto> listDiary(int memberId);
 

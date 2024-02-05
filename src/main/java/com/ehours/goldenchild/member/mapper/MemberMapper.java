@@ -17,7 +17,7 @@ public interface MemberMapper {
     int signup(MemberSignUpReqDto memberSignUpReqDto);
 
     @Select("SELECT no, nickname from member "
-            + "WHERE member_id = #{memberId}"
+            + "WHERE member_id = #{memberId} and member_status = 1"
     )
     MemberLoginResDto login(MemberLoginReqDto memberLoginReqDto);
 

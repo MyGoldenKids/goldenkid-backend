@@ -29,42 +29,42 @@ public class DiaryController {
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createDiary(@RequestBody DiaryCreateReqDto diaryCreateReqDto) {
         int retValue = diaryService.createDiary(diaryCreateReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "일기 등록 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(diaryCreateReqDto.getDiaryId(), "일기 등록 성공");
         else return ResponseResource.handleError("일기 등록 실패");
     }
 
     @PutMapping("/submit")
     public ResponseEntity<Map<String, Object>> submitDiary(@RequestBody DiarySubmitReqDto diarySubmitReqDto) {
         int retValue = diaryService.submitDiary(diarySubmitReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "일기 제출 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(diarySubmitReqDto.getDiaryId(), "일기 제출 성공");
         else return ResponseResource.handleError("일기 제출 실패");
     }
 
     @DeleteMapping("/delete/{diaryId}")
     public ResponseEntity<Map<String, Object>> deleteDiary(@PathVariable int diaryId) {
         int retValue = diaryService.deleteDiary(diaryId);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "삭제 성공");
-        else return ResponseResource.handleError("삭제 실패");
+        if (retValue == 1) return ResponseResource.handleSuccess(diaryId, "일기 삭제 성공");
+        else return ResponseResource.handleError("일기 삭제 실패");
     }
 
     @PutMapping("/update/{diaryId}")
     public ResponseEntity<Map<String, Object>> updateDiary(@PathVariable int diaryId, @RequestBody DiaryUpdateReqDto diaryUpdateReqDto) {
         diaryUpdateReqDto.setDiaryId(diaryId);
         int retValue = diaryService.updateDiary(diaryUpdateReqDto);
-        if (retValue == 1) return ResponseResource.handleSuccess(retValue, "수정 성공");
+        if (retValue == 1) return ResponseResource.handleSuccess(diaryId, "수정 성공");
         else return ResponseResource.handleError("수정 실패");
     }
     @GetMapping("/list/{memberId}")
     public ResponseEntity<Map<String, Object>> listDiary(@PathVariable int memberId) {
         List<DiaryResDto> diaryListResDtos = diaryService.listDiary(memberId);
-        if (diaryListResDtos != null) return ResponseResource.handleSuccess(diaryListResDtos, "조회 성공");
-        else return ResponseResource.handleError("조회 실패");
+        if (diaryListResDtos != null) return ResponseResource.handleSuccess(diaryListResDtos, "일기 조회 성공");
+        else return ResponseResource.handleError("일기 조회 실패");
     }
 
     @GetMapping("/detail/{diaryId}")
     public ResponseEntity<Map<String, Object>> detailDiary(@PathVariable int diaryId) {
         DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(diaryId);
-        if (diaryDetailResDto != null) return ResponseResource.handleSuccess(diaryDetailResDto, "상세정보 조회 성공");
-        else return ResponseResource.handleError("상세정보 조회 실패");
+        if (diaryDetailResDto != null) return ResponseResource.handleSuccess(diaryDetailResDto, "일기 상세정보 조회 성공");
+        else return ResponseResource.handleError("일기 상세정보 조회 실패");
     }
 }
