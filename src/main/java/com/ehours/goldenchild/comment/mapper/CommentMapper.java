@@ -24,12 +24,12 @@ public interface CommentMapper {
     @Insert("INSERT INTO comment(article_id, member_id, content) " +
             "values(#{articleId}, #{commentRequestDto.memberId}, #{commentRequestDto.content})")
     @Options(useGeneratedKeys = true, keyProperty = "commentRequestDto.commentId")
-    int writeComment(@Param("articleId") int articleId, CommentRequestDto commentRequestDto);
+    int writeComment(int articleId, CommentRequestDto commentRequestDto);
 
     @Update("UPDATE comment set content = #{commentRequestDto.content}, modified_at = CURRENT_TIMESTAMP " +
             "where comment_id = #{commentId} and member_id = #{commentRequestDto.memberId}")
-    int updateComment(@Param("commentId") int commentId, CommentRequestDto commentRequestDto);
+    int updateComment(int commentId, CommentRequestDto commentRequestDto);
 
     @Delete("DELETE from comment where comment_id = #{commentId} and member_id = #{memberId}")
-    int deleteComment(@Param("commentId") int commentId, @Param("memberId") int memberId);
+    int deleteComment(int commentId, int memberId);
 }
