@@ -16,7 +16,7 @@ logging:
   level:
     root: debug
 app:
-  uploadPath: /home/ubuntu/filestorage
+  uploadPath: ~/filestorage
   JWT_HEADER_A: "Authorization"
   JWT_HEADER_R: "Refresh"
   JWT_KEY : "d1f33e03-f067-4315-af91-b03f91f4cb19"
