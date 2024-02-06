@@ -1,5 +1,6 @@
 package com.ehours.goldenchild.jwt.controller;
 
+import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.jwt.service.JwtService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class JwtController {
@@ -52,9 +53,6 @@ public class JwtController {
             int no = jwtService.userCheck(refreshToken);
 
             if(jwtService.isRefreshTrue(no, refreshToken)) {
-                refreshTokenCookie.setMaxAge(0);  // 원래 가지고 있던 쿠키는 삭제해주어야합니다.
-                response.addCookie(refreshTokenCookie);
-
                 // 새로운 refresh token 발급 과정
                 List<String> tokens = jwtService.generateToken(no);
 
