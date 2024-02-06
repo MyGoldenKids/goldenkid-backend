@@ -189,7 +189,7 @@ public class DiaryTests {
                 .build();
 
 
-        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
+        List<DiaryResDto> diaryDetailResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
         log.info(diaryDetailResDtoList.toString());
     }
 
@@ -213,7 +213,7 @@ public class DiaryTests {
         diaryService.createDiary(diaryTest1);
 
 
-        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.getDraftDiary(login.getMemberNo());
+        List<DiaryResDto> diaryDetailResDtoList = diaryService.getDraftDiary(login.getMemberNo());
         log.info(diaryDetailResDtoList.toString());
     }
 }

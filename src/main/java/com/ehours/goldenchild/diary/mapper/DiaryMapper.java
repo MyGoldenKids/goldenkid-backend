@@ -43,13 +43,12 @@ public interface DiaryMapper {
             + "where d.diary_id = #{diaryId}")
     DiaryDetailResDto detailDiary(int diary_id);
 
-    @Select("SELECT d.diary_title, d.diary_content, d.diary_review, d.file_list_id, d.created_at, c.child_name "
-            + "from diary d join child c on  d.child_id = c.child_id "
-            + "where d.member_id = #{memberId} and date_format(d.created_at, '%Y-%m-%d') = #{createdAt} and diary_status = 1")
-    List<DiaryDetailResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto);
+    @Select("SELECT diary_id, diary_title, created_at from diary "
+            + "where member_id = #{memberId} and date_format(created_at, '%Y-%m-%d') = #{createdAt} and diary_status = 1 " +
+            "order by diary_id desc")
+    List<DiaryResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto);
 
-    @Select("SELECT d.diary_title, d.diary_content, d.diary_review, d.file_list_id, d.created_at, c.child_name "
-            + "from diary d join child c on  d.child_id = c.child_id "
-            + "where d.member_id = #{memberId} and diary_status = 0")
-    List<DiaryDetailResDto> getDraftDiary(int memberId);
+    @Select("SELECT diary_id, diary_title, created_at from diary "
+            + "where member_id = #{memberId} and diary_status = 0 order by diary_id desc")
+    List<DiaryResDto> getDraftDiary(int memberId);
 }
