@@ -2,6 +2,7 @@ package com.ehours.goldenchild.diary.controller;
 
 import com.ehours.goldenchild.common.ResponseResource;
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryDateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
 import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
@@ -66,5 +67,17 @@ public class DiaryController {
         DiaryDetailResDto diaryDetailResDto = diaryService.detailDiary(diaryId);
         if (diaryDetailResDto != null) return ResponseResource.handleSuccess(diaryDetailResDto, "일기 상세정보 조회 성공");
         else return ResponseResource.handleError("일기 상세정보 조회 실패");
+    }
+
+    @GetMapping("/date")
+    public ResponseEntity<Map<String, Object>> listDiaryByDate(@RequestBody DiaryDateReqDto diaryDateReqDto) {
+        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
+        return ResponseResource.handleSuccess(diaryDetailResDtoList, "일기 날짜기준 조회 성공");
+    }
+
+    @GetMapping("/draft/{memberId}")
+    public ResponseEntity<Map<String, Object>> getDraftDiary(@PathVariable int memberId) {
+        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.getDraftDiary(memberId);
+        return ResponseResource.handleSuccess(diaryDetailResDtoList, "작성중인 일기 조회 성공");
     }
 }

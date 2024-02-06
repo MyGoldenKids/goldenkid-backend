@@ -8,11 +8,10 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class DiaryDetailResDto {
-
     private String diaryTitle;
     private String diaryContent;
     private String diaryReview;
     private Integer fileListId;
-    private String cratedAt;
+    private String createdAt;
     private String childName;
 }

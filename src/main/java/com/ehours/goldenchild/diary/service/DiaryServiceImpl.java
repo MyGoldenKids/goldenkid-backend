@@ -1,6 +1,7 @@
 package com.ehours.goldenchild.diary.service;
 
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
+import com.ehours.goldenchild.diary.dto.DiaryDateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
 import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
@@ -45,6 +46,16 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public DiaryDetailResDto detailDiary(int diaryId) {
         return diaryMapper.detailDiary(diaryId);
+    }
+
+    @Override
+    public List<DiaryDetailResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto) {
+        return diaryMapper.listDiaryByDate(diaryDateReqDto);
+    }
+
+    @Override
+    public List<DiaryDetailResDto> getDraftDiary(int memberId) {
+        return diaryMapper.getDraftDiary(memberId);
     }
 
 }
