@@ -71,13 +71,13 @@ public class DiaryController {
 
     @GetMapping("/date")
     public ResponseEntity<Map<String, Object>> listDiaryByDate(@RequestBody DiaryDateReqDto diaryDateReqDto) {
-        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
-        return ResponseResource.handleSuccess(diaryDetailResDtoList, "일기 날짜기준 조회 성공");
+        List<DiaryResDto> diaryResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
+        return ResponseResource.handleSuccess(diaryResDtoList, "일기 날짜기준 조회 성공");
     }
 
     @GetMapping("/draft/{memberId}")
     public ResponseEntity<Map<String, Object>> getDraftDiary(@PathVariable int memberId) {
-        List<DiaryDetailResDto> diaryDetailResDtoList = diaryService.getDraftDiary(memberId);
-        return ResponseResource.handleSuccess(diaryDetailResDtoList, "작성중인 일기 조회 성공");
+        List<DiaryResDto> diaryResDtoList = diaryService.getDraftDiary(memberId);
+        return ResponseResource.handleSuccess(diaryResDtoList, "작성중인 일기 조회 성공");
     }
 }

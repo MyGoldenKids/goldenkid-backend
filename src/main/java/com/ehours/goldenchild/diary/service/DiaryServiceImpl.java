@@ -49,12 +49,12 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public List<DiaryDetailResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto) {
+    public List<DiaryResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto) {
         return diaryMapper.listDiaryByDate(diaryDateReqDto);
     }
 
     @Override
-    public List<DiaryDetailResDto> getDraftDiary(int memberId) {
+    public List<DiaryResDto> getDraftDiary(int memberId) {
         return diaryMapper.getDraftDiary(memberId);
     }
 
