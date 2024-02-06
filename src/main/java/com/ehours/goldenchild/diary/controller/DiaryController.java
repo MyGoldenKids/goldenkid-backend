@@ -69,7 +69,7 @@ public class DiaryController {
         else return ResponseResource.handleError("일기 상세정보 조회 실패");
     }
 
-    @GetMapping("/date")
+    @PostMapping("/date")
     public ResponseEntity<Map<String, Object>> listDiaryByDate(@RequestBody DiaryDateReqDto diaryDateReqDto) {
         List<DiaryResDto> diaryResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
         return ResponseResource.handleSuccess(diaryResDtoList, "일기 날짜기준 조회 성공");
