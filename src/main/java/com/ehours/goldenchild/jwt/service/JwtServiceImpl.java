@@ -38,7 +38,6 @@ public class JwtServiceImpl implements JwtService {
 
         String tokenId = JWT_HEADER_R + no;
 
-
         RefreshTokenDto refreshTokenDto = new RefreshTokenDto(tokenId, refreshToken);
         // 이미 refreshToken이 저장되어있다면 업데이트
         if (jwtMapper.validateRefreshToken(tokenId) != null) {

@@ -23,10 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtController {
-    @Value("${app.JWT_PREFIX}")
-    public String JWT_PREFIX;
+    @Value("${app.JWT_HEADER_R}")
+    public String JWT_R;
+    @Value("${app.JWT_HEADER_A}")
+    public String JWT_A;
     @Value("${app.JWT_REFRESH_EXPIRATION}")
     public String JWT_REFRESH_EXPIRATION;
+    @Value("${app.JWT_ACCESS_EXPIRATION}")
+    public String JWT_ACCESS_EXPIRATION;
 
     private final JwtService jwtService;
 
@@ -41,7 +45,7 @@ public class JwtController {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (JWT_PREFIX.equals(cookie.getName())) {
+                if (JWT_R.equals(cookie.getName())) {
                     refreshToken = cookie.getValue(); // refreshToken 값을 가져옵니다.
                     refreshTokenCookie = cookie; // token의 쿠키 정보를 저장해놓습니다.
                     break;
@@ -56,16 +60,22 @@ public class JwtController {
                 // 새로운 refresh token 발급 과정
                 List<String> tokens = jwtService.generateToken(no);
 
-                Cookie cookie = new Cookie(JWT_PREFIX, tokens.get(1));
-                cookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
-                cookie.setHttpOnly(true);
-                cookie.setPath("/");
+                Cookie accessCookie = new Cookie(JWT_A, tokens.get(0));
+                accessCookie.setMaxAge(Integer.parseInt(JWT_ACCESS_EXPIRATION));
+                accessCookie.setHttpOnly(true);
+                accessCookie.setPath("/");
 
-                response.addCookie(cookie);
+                Cookie refreshCookie = new Cookie(JWT_R, tokens.get(1));
+                refreshCookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
+                refreshCookie.setHttpOnly(true);
+                refreshCookie.setPath("/");
+
+                response.addCookie(refreshCookie);
+                response.addCookie(accessCookie);
 
                 // access token 추가
                 Map<String, Object> map = new HashMap<>();
-                map.put("token", tokens.get(0));
+                map.put("message", "재발급 성공");
                 return ResponseEntity.status(HttpStatus.OK).body(map);
             } else{
                 log.info("modulated Token");
