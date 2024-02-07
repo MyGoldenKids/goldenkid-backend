@@ -27,8 +27,6 @@ public class JwtServiceImpl implements JwtService {
     public String JWT_COOKIE_A;
     @Value("${app.JWT_COOKIE_R}")
     public String JWT_COOKIE_R;
-    @Value("${app.JWT_PREFIX}")
-    public String JWT_PREFIX;
 
     private final JwtMapper jwtMapper;
 
