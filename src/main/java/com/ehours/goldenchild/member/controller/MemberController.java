@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
-    @Value("${app.JWT_PREFIX}")
-    public String JWT_PREFIX;
     @Value("${app.JWT_COOKIE_R}")
     public String JWT_R;
     @Value("${app.JWT_COOKIE_A}")
