@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtController {
-    @Value("${app.JWT_HEADER_R}")
+    @Value("${app.JWT_COOKIE_R}")
     public String JWT_R;
-    @Value("${app.JWT_HEADER_A}")
+    @Value("${app.JWT_COOKIE_A}")
     public String JWT_A;
     @Value("${app.JWT_REFRESH_EXPIRATION}")
     public String JWT_REFRESH_EXPIRATION;

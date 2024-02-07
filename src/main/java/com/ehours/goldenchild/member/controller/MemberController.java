@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     @Value("${app.JWT_PREFIX}")
     public String JWT_PREFIX;
-    @Value("${app.JWT_HEADER_R}")
+    @Value("${app.JWT_COOKIE_R}")
     public String JWT_R;
-    @Value("${app.JWT_HEADER_A}")
+    @Value("${app.JWT_COOKIE_A}")
     public String JWT_A;
     @Value("${app.JWT_REFRESH_EXPIRATION}")
     public String JWT_REFRESH_EXPIRATION;

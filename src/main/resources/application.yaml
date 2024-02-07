@@ -17,8 +17,8 @@ logging:
     root: debug
 app:
   uploadPath: /home/ubuntu/filestorage
-  JWT_HEADER_A: "Access"
-  JWT_HEADER_R: "Refresh"
+  JWT_COOKIE_A: "Access"
+  JWT_COOKIE_R: "Refresh"
   JWT_KEY : "d1f33e03-f067-4315-af91-b03f91f4cb19"
   JWT_PREFIX : "BEARER"
   JWT_REFRESH_EXPIRATION : "604800000"

@@ -23,10 +23,10 @@ import org.springframework.stereotype.Service;
 public class JwtServiceImpl implements JwtService {
     @Value("${app.JWT_KEY}")
     public String JWT_KEY;
-    @Value("${app.JWT_HEADER_A}")
-    public String JWT_HEADER_A;
-    @Value("${app.JWT_HEADER_R}")
-    public String JWT_HEADER_R;
+    @Value("${app.JWT_COOKIE_A}")
+    public String JWT_COOKIE_A;
+    @Value("${app.JWT_COOKIE_R}")
+    public String JWT_COOKIE_R;
     @Value("${app.JWT_PREFIX}")
     public String JWT_PREFIX;
 
@@ -36,7 +36,7 @@ public class JwtServiceImpl implements JwtService {
         String accessToken = createAccessToken(no);
         String refreshToken = createRefreshToken(no);
 
-        String tokenId = JWT_HEADER_R + no;
+        String tokenId = JWT_COOKIE_R + no;
 
         RefreshTokenDto refreshTokenDto = new RefreshTokenDto(tokenId, refreshToken);
         // 이미 refreshToken이 저장되어있다면 업데이트
@@ -74,7 +74,7 @@ public class JwtServiceImpl implements JwtService {
         현재 .MySql DB에 저장된 토큰 정보와 일치여부 점검
      */
     public boolean isRefreshTrue(int no, String token) {
-        String tokenId = JWT_HEADER_R + no;
+        String tokenId = JWT_COOKIE_R + no;
 
         String savedToken = jwtMapper.validateRefreshToken(tokenId);
 
