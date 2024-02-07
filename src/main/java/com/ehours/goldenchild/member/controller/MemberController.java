@@ -31,8 +31,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     @Value("${app.JWT_PREFIX}")
     public String JWT_PREFIX;
+    @Value("${app.JWT_COOKIE_R}")
+    public String JWT_R;
+    @Value("${app.JWT_COOKIE_A}")
+    public String JWT_A;
     @Value("${app.JWT_REFRESH_EXPIRATION}")
     public String JWT_REFRESH_EXPIRATION;
+    @Value("${app.JWT_ACCESS_EXPIRATION}")
+    public String JWT_ACCESS_EXPIRATION;
 
     private final JwtService jwtService;
     private final MemberService memberService;
@@ -50,19 +56,20 @@ public class MemberController {
         if (memberLoginResDto != null) {
             List<String> tokens = jwtService.generateToken(memberLoginResDto.getMemberNo());
 
-            Cookie cookie = new Cookie(JWT_PREFIX, tokens.get(1));
-            cookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
+            Cookie accessCookie = new Cookie(JWT_A, tokens.get(0));
+            accessCookie.setMaxAge(Integer.parseInt(JWT_ACCESS_EXPIRATION));
+            accessCookie.setHttpOnly(true);
+            accessCookie.setPath("/");
 
-            response.addCookie(cookie);
+            Cookie refreshCookie = new Cookie(JWT_R, tokens.get(1));
+            refreshCookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
+            refreshCookie.setHttpOnly(true);
+            refreshCookie.setPath("/");
 
+            response.addCookie(refreshCookie);
+            response.addCookie(accessCookie);
 
-            Map<String, Object> map = new HashMap<>();
-            map.put("data", memberLoginResDto);
-            map.put("token", tokens.get(0));
-            map.put("message", "로그인 성공!");
-            return ResponseEntity.status(HttpStatus.OK).body(map);
+            return ResponseResource.handleSuccess(memberLoginResDto, "로그인 성공");
         } else return ResponseResource.handleError("로그인 실패");
     }
 

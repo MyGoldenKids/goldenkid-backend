@@ -25,8 +25,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Value("${app.JWT_PREFIX}")
-    public String JWT_PREFIX;
+    @Value("${app.JWT_COOKIE_A}")
+    public String JWT_A;
+    @Value("${app.JWT_COOKIE_R}")
+    public String JWT_R;
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -53,10 +55,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     Access Token 유무를 확인하고 없다면 null return
      */
     private String extractAccessToken(HttpServletRequest request) throws IOException {
-        String header = request.getHeader("Authorization");
+        String accessToken = null;
 
-        if (null != header && header.length() > 1) {
-            return header;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (JWT_A.equals(cookie.getName())) {
+                    accessToken = cookie.getValue(); // accessToken 값을 가져옵니다.
+                    break;
+                }
+            }
+        }
+
+        if (null != accessToken && accessToken.length() > 1) {
+            return accessToken;
         } else {
             return null;
         }
@@ -71,7 +83,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (JWT_PREFIX.equals(cookie.getName())) {
+                if (JWT_R.equals(cookie.getName())) {
                     refreshToken = cookie.getValue(); // refreshToken 값을 가져옵니다.
                     break;
                 }
