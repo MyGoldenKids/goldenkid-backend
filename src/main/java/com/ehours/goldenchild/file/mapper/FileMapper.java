@@ -62,7 +62,7 @@ public interface FileMapper {
             "order by file_id")
     FileResponseDto findFileByFileId(int fileId);
 
-    @Update("update file_status=0 from file where file_id=#{fileId}")
+    @Update("update file set file_status = 0 where file_id = #{fileId}")
     int deleteFileByFileId(int fileId);
 
     @Insert({
