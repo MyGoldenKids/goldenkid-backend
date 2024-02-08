@@ -9,6 +9,8 @@ import com.ehours.goldenchild.common.ResponseResource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,23 +44,33 @@ public class ArticleController {
         else return ResponseResource.handleError("게시판 리스트 조회 실패..");
     }
 
-    @GetMapping("/search/{articleTitle}")
-    public ResponseEntity<Map<String, Object>> selectArticlesByTitle(@PathVariable String articleTitle) {
-        List<ArticleDetailDto> articleList = articleService.selectArticlesByTitle(articleTitle);
-        return ResponseResource.handleSuccess(articleList, "제목으로 조회 성공");
-    }
+    @GetMapping("/search")
+    public ResponseEntity<Map<String, Object>> searchArticles(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String content,
+            @RequestParam(required = false) String nickname) {
 
-    @GetMapping("/search/{articleContent}")
-    public ResponseEntity<Map<String, Object>> selectArticlesByContent(@PathVariable String articleContent) {
-        List<ArticleDetailDto> articleList = articleService.selectArticlesByTitle(articleContent);
-        return ResponseResource.handleSuccess(articleList, "내용으로 조회 성공");
-    }
+        List<ArticleDetailDto> articleList = null;
+        String message = null;
 
-    @PutMapping("/delete/{articleId}")
-    public ResponseEntity<Map<String, Object>> articleDeleteRequest(@PathVariable int articleId) {
-        int retValue = articleService.articleDeleteRequest(articleId);
-        if (retValue == 1) return ResponseResource.handleSuccess(articleId, "삭제 요청 성공!");
-        else return ResponseResource.handleError("삭제 요청 실패..");
+        if (Stream.of(title, content, nickname).filter(Objects::nonNull).count() > 1) {
+            return ResponseResource.handleError("하나의 검색 조건만 사용해주세요.");
+        }
+
+        if (title != null) {
+            articleList = articleService.selectArticlesByTitle(title);
+            message = "제목으로 조회 성공";
+        } else if (content != null) {
+            articleList = articleService.selectArticlesByContent(content);
+            message = "내용으로 조회 성공";
+        } else if (nickname != null) {
+            articleList = articleService.selectArticlesByNickname(nickname);
+            message = "닉네임으로 조회 성공";
+        } else {
+            return ResponseResource.handleError("검색 조건을 제공해주세요.");
+        }
+
+        return ResponseResource.handleSuccess(articleList, message);
     }
 
     @GetMapping("/detail/{articleId}")

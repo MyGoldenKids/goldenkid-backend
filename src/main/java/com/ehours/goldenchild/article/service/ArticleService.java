@@ -11,6 +11,7 @@ public interface ArticleService {
     List<ArticleDetailDto> getAllArticles();
     List<ArticleDetailDto> selectArticlesByTitle(String articleTitle);
     List<ArticleDetailDto> selectArticlesByContent(String articleContent);
+    List<ArticleDetailDto> selectArticlesByNickname(String nickname);
     int articleDeleteRequest(int articleId);
     ArticleDetailDto getArticleDetailById(int articleId);
     int updateArticle(ArticleUpdateDto articleUpdateDto);
