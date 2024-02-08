@@ -41,6 +41,13 @@ public interface ArticleMapper {
     @ResultMap("articleMap")
     @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_status = 1 order by a.article_id desc")
     List<ArticleDetailDto> getAllArticles();
+
+    @ResultMap("articleMap")
+    @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no " +
+            "where a.article_status = 1 and a.article_title LIKE CONCAT('%', #{articleTitle}, '%') order by a.article_id desc")
+    List<ArticleDetailDto> selectArticlesByTitle(String articleTitle);
+
+
     @Update("update article set article_status=0 where article_id=#{articleId}")
     int articleDeleteRequest(int articleId);
 

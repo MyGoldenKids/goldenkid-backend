@@ -42,6 +42,12 @@ public class ArticleController {
         else return ResponseResource.handleError("게시판 리스트 조회 실패..");
     }
 
+    @GetMapping("/search/{articleTitle}")
+    public ResponseEntity<Map<String, Object>> selectArticlesByTitle(@PathVariable String articleTitle) {
+        List<ArticleDetailDto> articleList = articleService.selectArticlesByTitle(articleTitle);
+        return ResponseResource.handleSuccess(articleList, "제목으로 조회 성공");
+    }
+
     @PutMapping("/delete/{articleId}")
     public ResponseEntity<Map<String, Object>> articleDeleteRequest(@PathVariable int articleId) {
         int retValue = articleService.articleDeleteRequest(articleId);

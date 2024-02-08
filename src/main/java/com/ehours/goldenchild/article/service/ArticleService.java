@@ -9,6 +9,7 @@ import java.util.List;
 public interface ArticleService {
     int writeArticle(ArticleReqDto articleReqDto);
     List<ArticleDetailDto> getAllArticles();
+    List<ArticleDetailDto> selectArticlesByTitle(String articleTitle);
     int articleDeleteRequest(int articleId);
     ArticleDetailDto getArticleDetailById(int articleId);
     int updateArticle(ArticleUpdateDto articleUpdateDto);

@@ -25,6 +25,11 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    public List<ArticleDetailDto> selectArticlesByTitle(String articleTitle) {
+        return articleMapper.selectArticlesByTitle(articleTitle);
+    }
+
+    @Override
     public int articleDeleteRequest(int articleId) {
         return articleMapper.articleDeleteRequest(articleId);
     }
