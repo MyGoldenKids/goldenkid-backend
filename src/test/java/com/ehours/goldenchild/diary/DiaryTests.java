@@ -137,7 +137,7 @@ public class DiaryTests {
     @Test
     @Transactional
     void listDiary() {
-        List<DiaryResDto> diaryListResDto = diaryService.listDiary(diaryTest.getMemberId());
+        List<DiaryResDto> diaryListResDto = diaryService.listDiary(login.getMemberNo(), 5, 0);
         log.info(diaryListResDto.toString());
         Assertions.assertThat(diaryListResDto).isNotNull();
     }

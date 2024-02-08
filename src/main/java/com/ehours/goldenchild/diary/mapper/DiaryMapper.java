@@ -35,8 +35,8 @@ public interface DiaryMapper {
     int updateDiary(DiaryUpdateReqDto diaryUpdateReqDto);
 
     @Select("SELECT diary_id, diary_title, created_at from diary "
-            + "where member_id = #{memberId} and diary_status = 1 order by diary_id desc")
-    List<DiaryResDto> listDiary(int memberId);
+            + "where member_id = #{memberId} and diary_status = 1 order by diary_id desc limit #{page} offset #{size}")
+    List<DiaryResDto> listDiary(int memberId, Integer page, Integer size);
 
     @Select("SELECT d.diary_title, d.diary_content, d.diary_review, d.file_list_id, d.created_at, c.child_name "
             + "from diary d join child c on d.child_id = c.child_id "

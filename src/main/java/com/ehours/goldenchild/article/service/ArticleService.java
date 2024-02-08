@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface ArticleService {
     int writeArticle(ArticleReqDto articleReqDto);
-    List<ArticleDetailDto> getAllArticles();
+    List<ArticleDetailDto> getAllArticles(Integer page, Integer size);
+    List<ArticleDetailDto> selectArticlesByTitle(String articleTitle);
+    List<ArticleDetailDto> selectArticlesByContent(String articleContent);
+    List<ArticleDetailDto> selectArticlesByNickname(String nickname);
     int articleDeleteRequest(int articleId);
     ArticleDetailDto getArticleDetailById(int articleId);
     int updateArticle(ArticleUpdateDto articleUpdateDto);
