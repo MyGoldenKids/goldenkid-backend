@@ -39,8 +39,8 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public List<DiaryResDto> listDiary(int memberId, Integer page, Integer size) {
-        return diaryMapper.listDiary(memberId, page, size);
+    public List<DiaryResDto> listDiary(int memberId, Integer size, Integer page) {
+        return diaryMapper.listDiary(memberId, size, page);
     }
 
     @Override

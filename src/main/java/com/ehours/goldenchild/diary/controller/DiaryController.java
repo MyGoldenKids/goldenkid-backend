@@ -58,9 +58,10 @@ public class DiaryController {
     }
     @GetMapping("/list/{memberId}")
     public ResponseEntity<Map<String, Object>> listDiary(
-            @PathVariable int memberId, @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "5") Integer size) {
-        List<DiaryResDto> diaryListResDtos = diaryService.listDiary(memberId, page, size);
+            @PathVariable int memberId,
+            @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        List<DiaryResDto> diaryListResDtos = diaryService.listDiary(memberId, size, page);
         if (diaryListResDtos != null) return ResponseResource.handleSuccess(diaryListResDtos, "일기 조회 성공");
         else return ResponseResource.handleError("일기 조회 실패");
     }

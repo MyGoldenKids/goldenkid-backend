@@ -20,8 +20,8 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<ArticleDetailDto> getAllArticles(Integer page, Integer size) {
-        return articleMapper.getAllArticles(page, size);
+    public List<ArticleDetailDto> getAllArticles(Integer size, Integer page) {
+        return articleMapper.getAllArticles(size, page);
     }
 
     @Override
