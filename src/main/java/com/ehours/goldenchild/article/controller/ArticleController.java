@@ -38,8 +38,10 @@ public class ArticleController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> getAllArticles() {
-        List<ArticleDetailDto> articleList = articleService.getAllArticles();
+    public ResponseEntity<Map<String, Object>> getAllArticles(
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
+        List<ArticleDetailDto> articleList = articleService.getAllArticles(page, size);
         if (articleList != null) return ResponseResource.handleSuccess(articleList, "게시판 리스트 조회 성공!");
         else return ResponseResource.handleError("게시판 리스트 조회 실패..");
     }

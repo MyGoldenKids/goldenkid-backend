@@ -39,8 +39,9 @@ public interface ArticleMapper {
     int writeArticle(ArticleReqDto articleReqDto);
 
     @ResultMap("articleMap")
-    @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_status = 1 order by a.article_id desc")
-    List<ArticleDetailDto> getAllArticles();
+    @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no " +
+            "where a.article_status = 1 order by a.article_id desc limit #{size} offset #{page}")
+    List<ArticleDetailDto> getAllArticles(Integer page, Integer size);
 
     @ResultMap("articleMap")
     @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no " +
