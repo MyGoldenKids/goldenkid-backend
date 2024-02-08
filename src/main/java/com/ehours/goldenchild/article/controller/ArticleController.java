@@ -39,9 +39,9 @@ public class ArticleController {
 
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> getAllArticles(
-            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        List<ArticleDetailDto> articleList = articleService.getAllArticles(page, size);
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        List<ArticleDetailDto> articleList = articleService.getAllArticles(size, page);
         if (articleList != null) return ResponseResource.handleSuccess(articleList, "게시판 리스트 조회 성공!");
         else return ResponseResource.handleError("게시판 리스트 조회 실패..");
     }
@@ -73,6 +73,13 @@ public class ArticleController {
         }
 
         return ResponseResource.handleSuccess(articleList, message);
+    }
+
+    @PutMapping("/delete/{articleId}")
+    public ResponseEntity<Map<String, Object>> articleDeleteRequest(@PathVariable int articleId) {
+        int retValue = articleService.articleDeleteRequest(articleId);
+        if (retValue == 1) return ResponseResource.handleSuccess(articleId, "삭제 요청 성공!");
+        else return ResponseResource.handleError("삭제 요청 실패..");
     }
 
     @GetMapping("/detail/{articleId}")
