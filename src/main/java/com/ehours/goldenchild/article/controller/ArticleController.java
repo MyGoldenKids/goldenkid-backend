@@ -48,6 +48,12 @@ public class ArticleController {
         return ResponseResource.handleSuccess(articleList, "제목으로 조회 성공");
     }
 
+    @GetMapping("/search/{articleContent}")
+    public ResponseEntity<Map<String, Object>> selectArticlesByContent(@PathVariable String articleContent) {
+        List<ArticleDetailDto> articleList = articleService.selectArticlesByTitle(articleContent);
+        return ResponseResource.handleSuccess(articleList, "내용으로 조회 성공");
+    }
+
     @PutMapping("/delete/{articleId}")
     public ResponseEntity<Map<String, Object>> articleDeleteRequest(@PathVariable int articleId) {
         int retValue = articleService.articleDeleteRequest(articleId);
