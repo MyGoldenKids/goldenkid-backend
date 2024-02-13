@@ -46,7 +46,7 @@ public class ArticleController {
         else return ResponseResource.handleError("게시판 리스트 조회 실패..");
     }
 
-    @GetMapping("/search")
+    @GetMapping("/list/search")
     public ResponseEntity<Map<String, Object>> searchArticles(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String content,
