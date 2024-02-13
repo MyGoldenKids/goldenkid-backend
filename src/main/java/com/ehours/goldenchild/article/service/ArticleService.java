@@ -1,9 +1,7 @@
 package com.ehours.goldenchild.article.service;
 
-import com.ehours.goldenchild.article.dto.ArticleDetailDto;
-import com.ehours.goldenchild.article.dto.ArticleDto;
-import com.ehours.goldenchild.article.dto.ArticleReqDto;
-import com.ehours.goldenchild.article.dto.ArticleUpdateDto;
+import com.ehours.goldenchild.article.dto.*;
+
 import java.util.List;
 
 public interface ArticleService {
@@ -15,4 +13,6 @@ public interface ArticleService {
     int articleDeleteRequest(int articleId);
     ArticleDetailDto getArticleDetailById(int articleId);
     int updateArticle(ArticleUpdateDto articleUpdateDto);
+    int recommendArticle(ArticleRecommendReqDto articleRecommendReqDto);
+    int checkRecommendArticle(int articleId, int memberId);
 }

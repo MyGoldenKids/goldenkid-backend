@@ -1,21 +1,10 @@
 package com.ehours.goldenchild.article.mapper;
 
-import com.ehours.goldenchild.article.dto.ArticleDetailDto;
-import com.ehours.goldenchild.article.dto.ArticleDto;
-import com.ehours.goldenchild.article.dto.ArticleReqDto;
-import com.ehours.goldenchild.article.dto.ArticleUpdateDto;
+import com.ehours.goldenchild.article.dto.*;
+
 import java.util.List;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface ArticleMapper {
@@ -63,4 +52,21 @@ public interface ArticleMapper {
 
     @UpdateProvider(type = ArticleUpdateProvider.class, method = "updateArticle")
     int updateArticle(ArticleUpdateDto articleUpdateDto);
+
+
+    @Select("select count(*) from recommendation where article_id = #{articleId} and member_id = #{memberId}")
+    int checkRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Delete("delete from recommendation where article_id = #{articleId} and member_id = #{memberId}")
+    int deleteRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Insert("insert into recommendation (article_id, member_id) " +
+            "values(#{articleId}, #{memberId})")
+    int insertRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Select("select count(*) from recommendation where article_id = #{articleId}")
+    int countRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Update("update article set recommend_count = #{count} where article_id = #{articleRecommendReqDto.articleId}")
+    int updateRecommendArticle(int count, ArticleRecommendReqDto articleRecommendReqDto);
 }
