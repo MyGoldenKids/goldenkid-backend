@@ -27,6 +27,10 @@ public class JwtServiceImpl implements JwtService {
     public String JWT_COOKIE_A;
     @Value("${app.JWT_COOKIE_R}")
     public String JWT_COOKIE_R;
+    @Value("${app.JWT_REFRESH_EXPIRATION}")
+    public String JWT_REFRESH_EXPIRE;
+    @Value("${app.JWT_ACCESS_EXPIRATION}")
+    public String JWT_ACCESS_EXPIRE;
 
     private final JwtMapper jwtMapper;
 
@@ -104,7 +108,7 @@ public class JwtServiceImpl implements JwtService {
                 .issuer("GoldZZok")
                 .claim("id", memberNo)
                 .issuedAt(date)
-                .expiration(new Date(date.getTime() + (1000 * 60 * 30)))  // 30분 설정
+                .expiration(new Date(date.getTime() + Integer.parseInt(JWT_ACCESS_EXPIRE)))  // 30분 설정
                 .signWith(key).compact();
     }
 
@@ -116,7 +120,7 @@ public class JwtServiceImpl implements JwtService {
                 .issuer("GoldZZok")
                 .claim("id", memberNo)
                 .issuedAt(date)
-                .expiration(new Date(date.getTime() + (1000 * 60 * 60 * 24 * 7)))  // 7일 설정
+                .expiration(new Date(date.getTime() + Integer.parseInt(JWT_REFRESH_EXPIRE)))  // 7일 설정
                 .signWith(key).compact();
     }
 }
