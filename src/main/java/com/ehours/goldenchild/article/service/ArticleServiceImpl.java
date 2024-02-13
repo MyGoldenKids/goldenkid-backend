@@ -41,9 +41,10 @@ public class ArticleServiceImpl implements ArticleService{
     public int articleDeleteRequest(int articleId) {
         return articleMapper.articleDeleteRequest(articleId);
     }
-
+    
     @Override
     public ArticleDetailDto getArticleDetailById(int articleId) {
+        articleMapper.increaseArticleHit(articleId);
         return articleMapper.getArticleDetailById(articleId);
     }
 

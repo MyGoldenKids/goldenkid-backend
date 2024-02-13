@@ -23,6 +23,10 @@ public interface ArticleMapper {
     })
     @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_id = #{articleId} and a.article_status = 1")
     ArticleDetailDto getArticleDetailById(int articleId);
+
+    @Update("update article set hit = hit + 1 where article_id = #{articleId}")
+    int increaseArticleHit(int article);
+
     @InsertProvider(type = ArticleWriteProvider.class, method = "writeArticle")
     @Options(useGeneratedKeys = true, keyProperty = "articleId")
     int writeArticle(ArticleReqDto articleReqDto);
