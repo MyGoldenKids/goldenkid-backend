@@ -20,8 +20,23 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<ArticleDetailDto> getAllArticles() {
-        return articleMapper.getAllArticles();
+    public List<ArticleDetailDto> getAllArticles(Integer size, Integer page) {
+        return articleMapper.getAllArticles(size, page);
+    }
+
+    @Override
+    public List<ArticleDetailDto> selectArticlesByTitle(String articleTitle) {
+        return articleMapper.selectArticlesByTitle(articleTitle);
+    }
+
+    @Override
+    public List<ArticleDetailDto> selectArticlesByContent(String articleContent) {
+        return articleMapper.selectArticlesByContent(articleContent);
+    }
+
+    @Override
+    public List<ArticleDetailDto> selectArticlesByNickname(String nickname) {
+        return articleMapper.selectArticlesByNickname(nickname);
     }
 
     @Override

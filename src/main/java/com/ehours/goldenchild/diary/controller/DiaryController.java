@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -56,8 +57,11 @@ public class DiaryController {
         else return ResponseResource.handleError("수정 실패");
     }
     @GetMapping("/list/{memberId}")
-    public ResponseEntity<Map<String, Object>> listDiary(@PathVariable int memberId) {
-        List<DiaryResDto> diaryListResDtos = diaryService.listDiary(memberId);
+    public ResponseEntity<Map<String, Object>> listDiary(
+            @PathVariable int memberId,
+            @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        List<DiaryResDto> diaryListResDtos = diaryService.listDiary(memberId, size, page);
         if (diaryListResDtos != null) return ResponseResource.handleSuccess(diaryListResDtos, "일기 조회 성공");
         else return ResponseResource.handleError("일기 조회 실패");
     }

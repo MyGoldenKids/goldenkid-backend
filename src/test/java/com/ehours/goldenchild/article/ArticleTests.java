@@ -100,8 +100,9 @@ public class ArticleTests {
                 .articleContent("테스트용 게시글 내용")
                 .build();
         articleService.writeArticle(articleReqDto);
-        List<ArticleDetailDto> list = articleService.getAllArticles();
+        List<ArticleDetailDto> list = articleService.getAllArticles(0, 10);
         log.debug(list.toString());
+        System.out.println(list.size());
         Assertions.assertThat(list).isNotNull();
     }
 
@@ -176,5 +177,25 @@ public class ArticleTests {
         Assertions.assertThat(articleUpdateDto.getArticleTitle()).isEqualTo("바뀐 제목");
         Assertions.assertThat(articleUpdateDto.getArticleContent()).isEqualTo("바뀐 내용");
         log.info(articleUpdateDto.toString());
+    }
+
+    @Test
+    @Transactional
+    void getByTitle() {
+        List<ArticleDetailDto> articleDetailDtos = articleService.selectArticlesByTitle("테스트");
+        log.info(articleDetailDtos.toString());
+    }
+
+    @Test
+    @Transactional
+    void getByContent() {
+        List<ArticleDetailDto> articleDetailDtos = articleService.selectArticlesByContent("1111111");
+        log.info(articleDetailDtos.toString());
+    }
+    @Test
+    @Transactional
+    void getByNickname() {
+        List<ArticleDetailDto> articleDetailDtos = articleService.selectArticlesByNickname("없");
+        log.info(articleDetailDtos.toString());
     }
 }

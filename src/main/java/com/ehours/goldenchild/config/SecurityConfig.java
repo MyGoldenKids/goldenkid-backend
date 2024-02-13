@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                         .requestMatchers("/member/login", "/member/signup", "/member/idcheck/**",
-                                "/article/list", "/article/detail/**", "comment/list/**",
+                                "/article/list/**", "/article/detail/**", "comment/list/**",
                                 "/file/detail/**",
                                 ("/auth/silent-refresh"))
                         .permitAll()
