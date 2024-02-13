@@ -56,11 +56,13 @@ public class MemberController {
 
             Cookie accessCookie = new Cookie(JWT_A, tokens.get(0));
             accessCookie.setMaxAge(Integer.parseInt(JWT_ACCESS_EXPIRATION));
+            accessCookie.setSecure(true);
             accessCookie.setHttpOnly(true);
             accessCookie.setPath("/");
 
             Cookie refreshCookie = new Cookie(JWT_R, tokens.get(1));
             refreshCookie.setMaxAge(Integer.parseInt(JWT_REFRESH_EXPIRATION));
+            refreshCookie.setSecure(true);
             refreshCookie.setHttpOnly(true);
             refreshCookie.setPath("/");
 
