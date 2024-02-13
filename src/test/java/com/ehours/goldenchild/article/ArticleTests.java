@@ -1,9 +1,6 @@
 package com.ehours.goldenchild.article;
 
-import com.ehours.goldenchild.article.dto.ArticleDetailDto;
-import com.ehours.goldenchild.article.dto.ArticleDto;
-import com.ehours.goldenchild.article.dto.ArticleReqDto;
-import com.ehours.goldenchild.article.dto.ArticleUpdateDto;
+import com.ehours.goldenchild.article.dto.*;
 import com.ehours.goldenchild.article.service.ArticleService;
 import com.ehours.goldenchild.file.dto.FileListIdDto;
 import com.ehours.goldenchild.file.mapper.FileMapper;
@@ -198,4 +195,34 @@ public class ArticleTests {
         List<ArticleDetailDto> articleDetailDtos = articleService.selectArticlesByNickname("없");
         log.info(articleDetailDtos.toString());
     }
+
+    @Test
+    @Transactional
+    void voteArticle() {
+        ArticleReqDto articleReqDto = ArticleReqDto.builder()
+                .memberId(login.getMemberNo())
+                .fileListId(fileListIdDto.getFileListId())
+                .articleTitle("테스트용 게시글 제목")
+                .articleContent("테스트용 게시글 내용")
+                .build();
+        articleService.writeArticle(articleReqDto);
+        ArticleRecommendReqDto articleRecommendReqDto = ArticleRecommendReqDto.builder()
+                .articleId(articleReqDto.getArticleId())
+                .memberId(login.getMemberNo())
+                .build();
+
+        // 추천
+        int retValue = articleService.recommendArticle(articleRecommendReqDto);
+        ArticleDetailDto articleDetailDto = articleService.getArticleDetailById(articleReqDto.getArticleId());
+        Assertions.assertThat(articleDetailDto.getRecommendCount()).isEqualTo(1);
+        Assertions.assertThat(retValue).isEqualTo(0);
+
+
+        // 추천 취소
+        retValue = articleService.recommendArticle(articleRecommendReqDto);
+        articleDetailDto = articleService.getArticleDetailById(articleReqDto.getArticleId());
+        Assertions.assertThat(articleDetailDto.getRecommendCount()).isEqualTo(0);
+        Assertions.assertThat(retValue).isEqualTo(1);
+    }
+
 }
