@@ -48,4 +48,8 @@ public interface DiaryMapper {
     @Select("SELECT diary_id, diary_title, created_at from diary "
             + "where member_id = #{memberId} and diary_status = 0 order by diary_id desc")
     List<DiaryResDto> getDraftDiary(int memberId);
+
+    @Select("SELECT distinct date_format(created_at, '%Y-%m-%d') from diary " +
+            "where member_id = #{memberId} and date_format(created_at, '%Y-%m') = #{period} and diary_status = 1")
+    List<String> getCalendar(int memberId, String period);
 }

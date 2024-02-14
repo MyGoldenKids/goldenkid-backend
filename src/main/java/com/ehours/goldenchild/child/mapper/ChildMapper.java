@@ -31,6 +31,6 @@ public interface ChildMapper {
     int deleteChild(int childId);
 
     @Select("SELECT child_id, child_name, date_format(child_birth, '%Y-%m-%d'), child_gender, file_id from child " +
-            "where member_id = #{memberId} order by child_id desc")
+            "where member_id = #{memberId}")
     List<ChildDetailResDto> getMyChild(int memberId);
 }

@@ -8,6 +8,8 @@ import com.ehours.goldenchild.diary.dto.DiaryResDto;
 import com.ehours.goldenchild.diary.dto.DiarySubmitReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryUpdateReqDto;
 import com.ehours.goldenchild.diary.service.DiaryService;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +79,19 @@ public class DiaryController {
     public ResponseEntity<Map<String, Object>> listDiaryByDate(@RequestBody DiaryDateReqDto diaryDateReqDto) {
         List<DiaryResDto> diaryResDtoList = diaryService.listDiaryByDate(diaryDateReqDto);
         return ResponseResource.handleSuccess(diaryResDtoList, "일기 날짜기준 조회 성공");
+    }
+
+    @GetMapping("/calendar/{memberId}")
+    public ResponseEntity<Map<String, Object>> getCalendar(
+            @PathVariable int memberId,
+            @RequestParam(value = "period", required = false) String period) {
+        if (period == null) {
+            Date now = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
+            period = simpleDateFormat.format(now);
+        }
+        List<String> dateList = diaryService.getCalendar(memberId, period);
+        return ResponseResource.handleSuccess(dateList, "달력 조회 성공");
     }
 
     @GetMapping("/draft/{memberId}")
