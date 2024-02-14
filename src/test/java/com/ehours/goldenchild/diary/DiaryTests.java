@@ -13,6 +13,8 @@ import com.ehours.goldenchild.member.dto.MemberLoginReqDto;
 import com.ehours.goldenchild.member.dto.MemberLoginResDto;
 import com.ehours.goldenchild.member.dto.MemberSignUpReqDto;
 import com.ehours.goldenchild.member.service.MemberService;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -215,6 +217,36 @@ public class DiaryTests {
 
         List<DiaryResDto> diaryDetailResDtoList = diaryService.getDraftDiary(login.getMemberNo());
         log.info(diaryDetailResDtoList.toString());
+    }
+
+    @Test
+    @Transactional
+    void getCalendar() {
+        DiarySubmitReqDto diarySubmitReqDto = DiarySubmitReqDto.builder()
+                .memberId(login.getMemberNo())
+                .diaryId(diaryTest.getDiaryId())
+                .diaryTitle("우리애기")
+                .diaryContent("내용5")
+                .diaryReview("???")
+                .build();
+        int retValue = diaryService.submitDiary(diarySubmitReqDto);
+
+        DiaryCreateReqDto diaryTest1 = DiaryCreateReqDto.builder()
+                .memberId(login.getMemberNo())
+                .childId(childTest.getChildId())
+                .build();
+        diaryService.createDiary(diaryTest1);
+        diaryService.createDiary(diaryTest1);
+        diaryService.createDiary(diaryTest1);
+        String period = null;
+        if (period == null) {
+            Date now = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
+            period = simpleDateFormat.format(now);
+        }
+
+        List<String> periodList = diaryService.getCalendar(login.getMemberNo(), period);
+        log.info(periodList.toString());
     }
 }
 
