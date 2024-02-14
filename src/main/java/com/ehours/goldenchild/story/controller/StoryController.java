@@ -28,14 +28,14 @@ public class StoryController {
     }
 
     @PatchMapping("/status/{storyId}")
-    public ResponseEntity<Map<String, Object>> updateStoryStatus(@PathVariable int storyId, StoryStatusReqDto storyStatusReqDto) {
+    public ResponseEntity<Map<String, Object>> updateStoryStatus(@PathVariable int storyId, @RequestBody StoryStatusReqDto storyStatusReqDto) {
         int retValue = storyService.updateStoryStatus(storyId, storyStatusReqDto);
         if (retValue == 1) return ResponseResource.handleSuccess(storyId, "상태 수정 성공");
         else return ResponseResource.handleError("상태 수정 실패");
     }
 
     @PutMapping("/modify/{storyId}")
-    public ResponseEntity<Map<String, Object>> updateStory(@PathVariable int storyId, StoryRequestDto storyRequestDto) {
+    public ResponseEntity<Map<String, Object>> updateStory(@PathVariable int storyId, @RequestBody StoryRequestDto storyRequestDto) {
         int retValue = storyService.updateStory(storyId, storyRequestDto);
         if (retValue == 1) return ResponseResource.handleSuccess(storyId, "스토리 수정 성공");
         else return ResponseResource.handleError("스토리 수정 실패");
