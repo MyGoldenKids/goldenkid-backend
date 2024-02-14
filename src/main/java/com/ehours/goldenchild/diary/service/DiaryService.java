@@ -19,4 +19,5 @@ public interface DiaryService {
     DiaryDetailResDto detailDiary(int diaryId);
     List<DiaryResDto> listDiaryByDate(DiaryDateReqDto diaryDateReqDto);
     List<DiaryResDto> getDraftDiary(int memberId);
+    List<String> getCalendar(int memberId, String period);
 }
