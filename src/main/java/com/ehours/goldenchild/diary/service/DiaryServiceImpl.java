@@ -59,7 +59,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public List<String> getCalendar(int memberId, String period) {
-        return diaryMapper.getCalendar(memberId, period);
+    public List<String> getCalendar(int memberId) {
+        return diaryMapper.getCalendar(memberId);
     }
 }
