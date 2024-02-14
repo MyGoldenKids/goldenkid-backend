@@ -1,21 +1,10 @@
 package com.ehours.goldenchild.article.mapper;
 
-import com.ehours.goldenchild.article.dto.ArticleDetailDto;
-import com.ehours.goldenchild.article.dto.ArticleDto;
-import com.ehours.goldenchild.article.dto.ArticleReqDto;
-import com.ehours.goldenchild.article.dto.ArticleUpdateDto;
+import com.ehours.goldenchild.article.dto.*;
+
 import java.util.List;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface ArticleMapper {
@@ -34,6 +23,10 @@ public interface ArticleMapper {
     })
     @Select("select a.*, m.nickname from article a join member m on a.member_id = m.no where a.article_id = #{articleId} and a.article_status = 1")
     ArticleDetailDto getArticleDetailById(int articleId);
+
+    @Update("update article set hit = hit + 1 where article_id = #{articleId}")
+    int increaseArticleHit(int article);
+
     @InsertProvider(type = ArticleWriteProvider.class, method = "writeArticle")
     @Options(useGeneratedKeys = true, keyProperty = "articleId")
     int writeArticle(ArticleReqDto articleReqDto);
@@ -63,4 +56,21 @@ public interface ArticleMapper {
 
     @UpdateProvider(type = ArticleUpdateProvider.class, method = "updateArticle")
     int updateArticle(ArticleUpdateDto articleUpdateDto);
+
+
+    @Select("select count(*) from recommendation where article_id = #{articleId} and member_id = #{memberId}")
+    int checkRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Delete("delete from recommendation where article_id = #{articleId} and member_id = #{memberId}")
+    int deleteRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Insert("insert into recommendation (article_id, member_id) " +
+            "values(#{articleId}, #{memberId})")
+    int insertRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Select("select count(*) from recommendation where article_id = #{articleId}")
+    int countRecommend(ArticleRecommendReqDto articleRecommendReqDto);
+
+    @Update("update article set recommend_count = #{count} where article_id = #{articleRecommendReqDto.articleId}")
+    int updateRecommendArticle(int count, ArticleRecommendReqDto articleRecommendReqDto);
 }
