@@ -31,9 +31,15 @@ public class ArticleController {
     public ResponseEntity<Map<String, Object>> getAllArticles(
             @RequestParam(value = "size", required = false, defaultValue = "10000") Integer size,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        List<ArticleDetailDto> articleList = articleService.getAllArticles(size, page);
+        List<ArticleDetailDto> articleList = articleService.getAllArticles(size, (page - 1) * size);
         if (articleList != null) return ResponseResource.handleSuccess(articleList, "게시판 리스트 조회 성공!");
         else return ResponseResource.handleError("게시판 리스트 조회 실패..");
+    }
+
+    @GetMapping("/size")
+    public ResponseEntity<Map<String, Object>> getAllArticleSize() {
+        int listSize = articleService.getAllArticleSize();
+        return ResponseResource.handleSuccess(listSize, "게시판 리스트 크기 조회 성공!");
     }
 
     @GetMapping("/list/search")

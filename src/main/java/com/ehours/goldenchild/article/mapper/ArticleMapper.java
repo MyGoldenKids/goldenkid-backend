@@ -71,6 +71,9 @@ public interface ArticleMapper {
     @Select("select count(*) from recommendation where article_id = #{articleId}")
     int countRecommend(ArticleRecommendReqDto articleRecommendReqDto);
 
+    @Select("select count(*) from article")
+    int getAllArticleSize();
+
     @Update("update article set recommend_count = #{count} where article_id = #{articleRecommendReqDto.articleId}")
     int updateRecommendArticle(int count, ArticleRecommendReqDto articleRecommendReqDto);
 }
