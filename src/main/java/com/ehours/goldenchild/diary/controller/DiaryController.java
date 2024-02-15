@@ -61,7 +61,7 @@ public class DiaryController {
     @GetMapping("/list/{memberId}")
     public ResponseEntity<Map<String, Object>> listDiary(
             @PathVariable int memberId,
-            @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
+            @RequestParam(value = "size", required = false, defaultValue = "10000") Integer size,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
         List<DiaryResDto> diaryListResDtos = diaryService.listDiary(memberId, size, page);
         if (diaryListResDtos != null) return ResponseResource.handleSuccess(diaryListResDtos, "일기 조회 성공");
