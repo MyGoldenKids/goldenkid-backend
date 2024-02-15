@@ -1,6 +1,5 @@
 package com.ehours.goldenchild.diary.mapper;
 
-import com.ehours.goldenchild.article.dto.ArticleDetailDto;
 import com.ehours.goldenchild.diary.dto.DiaryCreateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDateReqDto;
 import com.ehours.goldenchild.diary.dto.DiaryDetailResDto;
@@ -50,6 +49,6 @@ public interface DiaryMapper {
     List<DiaryResDto> getDraftDiary(int memberId);
 
     @Select("SELECT distinct date_format(created_at, '%Y-%m-%d') from diary " +
-            "where member_id = #{memberId} and date_format(created_at, '%Y-%m') = #{period} and diary_status = 1")
-    List<String> getCalendar(int memberId, String period);
+            "where member_id = #{memberId} and diary_status = 1")
+    List<String> getCalendar(int memberId);
 }

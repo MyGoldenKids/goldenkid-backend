@@ -29,7 +29,7 @@ public class ArticleController {
 
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> getAllArticles(
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "size", required = false, defaultValue = "10000") Integer size,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
         List<ArticleDetailDto> articleList = articleService.getAllArticles(size, page);
         if (articleList != null) return ResponseResource.handleSuccess(articleList, "게시판 리스트 조회 성공!");

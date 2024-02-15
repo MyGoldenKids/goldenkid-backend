@@ -83,14 +83,8 @@ public class DiaryController {
 
     @GetMapping("/calendar/{memberId}")
     public ResponseEntity<Map<String, Object>> getCalendar(
-            @PathVariable int memberId,
-            @RequestParam(value = "period", required = false) String period) {
-        if (period == null) {
-            Date now = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
-            period = simpleDateFormat.format(now);
-        }
-        List<String> dateList = diaryService.getCalendar(memberId, period);
+            @PathVariable int memberId) {
+        List<String> dateList = diaryService.getCalendar(memberId);
         return ResponseResource.handleSuccess(dateList, "달력 조회 성공");
     }
 

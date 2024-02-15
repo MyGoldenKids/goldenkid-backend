@@ -238,14 +238,8 @@ public class DiaryTests {
         diaryService.createDiary(diaryTest1);
         diaryService.createDiary(diaryTest1);
         diaryService.createDiary(diaryTest1);
-        String period = null;
-        if (period == null) {
-            Date now = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
-            period = simpleDateFormat.format(now);
-        }
 
-        List<String> periodList = diaryService.getCalendar(login.getMemberNo(), period);
+        List<String> periodList = diaryService.getCalendar(login.getMemberNo());
         log.info(periodList.toString());
     }
 }
