@@ -15,4 +15,5 @@ public interface ArticleService {
     int updateArticle(ArticleUpdateDto articleUpdateDto);
     int recommendArticle(ArticleRecommendReqDto articleRecommendReqDto);
     int checkRecommendArticle(int articleId, int memberId);
+    int getAllArticleSize();
 }

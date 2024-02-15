@@ -77,4 +77,9 @@ public class ArticleServiceImpl implements ArticleService{
                 .build();
         return articleMapper.checkRecommend(articleRecommendReqDto);
     }
+
+    @Override
+    public int getAllArticleSize() {
+        return articleMapper.getAllArticleSize();
+    }
 }
